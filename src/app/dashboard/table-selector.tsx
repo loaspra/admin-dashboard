@@ -9,8 +9,7 @@ import {
 } from '@/app/components/ui/dropdown-menu';
 import { Button } from '@/app/components/ui/button';
 import { ChevronDown } from 'lucide-react';
-import { getTableNames } from '@/app/lib/supabase';
-import { toast } from 'sonner';
+import { getTableNames } from '@/app/lib/api';import { toast } from 'sonner';
 
 interface TableSelectorProps {
   onSelectTable: (tableName: string) => void;

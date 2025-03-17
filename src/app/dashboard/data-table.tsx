@@ -22,7 +22,7 @@ import { Input } from '@/app/components/ui/input';
 import { Checkbox } from '@/app/components/ui/checkbox';
 import { Trash2, Pencil, Save, X } from 'lucide-react';
 import { toast } from 'sonner';
-import { deleteRow, updateRow } from '@/app/lib/api';
+import { updateRow, deleteRow } from '@/app/lib/api';
 
 interface DataTableProps {
   readonly tableName: string;

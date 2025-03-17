@@ -1,66 +1,85 @@
-// Client-side API functions
+import { createClient } from '@supabase/supabase-js';
 
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Function to get the authenticated client with access token
+async function getAdminClient() {
+  const { data } = await supabase.auth.getSession();
+  if (!data.session) {
+    throw new Error('No authenticated session');
+  }
+  
+  return createClient(supabaseUrl, supabaseKey, {
+    global: {
+      headers: {
+        Authorization: `Bearer ${data.session.access_token}`
+      }
+    }
+  });
+}
+
+// Get table names using RPC
 export async function getTableNames() {
-  const response = await fetch('/api/tables');
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'Failed to fetch table names');
+  const adminClient = await getAdminClient();
+  const { data, error } = await adminClient.rpc('get_user_tables');
+  
+  if (error) {
+    console.error('Error getting tables:', error);
+    throw error;
   }
-  return await response.json();
+  
+  return data || [];
 }
 
+// Get table data
 export async function getTableData(tableName: string) {
-  const response = await fetch(`/api/tables/${tableName}`);
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || `Failed to fetch data from ${tableName}`);
-  }
-  return await response.json();
-}
-
-export async function createRow(tableName: string, data: any) {
-  const response = await fetch(`/api/tables/${tableName}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
+  const adminClient = await getAdminClient();
+  const { data, error } = await adminClient.rpc('get_table_data', { table_name: tableName });
   
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || `Failed to create record in ${tableName}`);
+  if (error) {
+    console.error('Error getting data:', error);
+    throw error;
   }
   
-  return await response.json();
+  return data || [];
 }
 
+// Update row using RPC
 export async function updateRow(tableName: string, id: string, data: any) {
-  const response = await fetch(`/api/tables/${tableName}/${id}`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
+  const adminClient = await getAdminClient();
+  const { id: _, ...dataWithoutId } = data;
+  
+  console.log('Updating row with:', { tableName, id, data: dataWithoutId });
+  
+  const { data: result, error } = await adminClient.rpc('update_any_row', {
+    table_name: tableName, 
+    row_id: id,
+    updated_data: dataWithoutId
   });
   
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || `Failed to update record in ${tableName}`);
+  if (error) {
+    console.error('Error updating row:', error);
+    throw error;
   }
   
-  return await response.json();
+  return result;
 }
 
+// Delete row using RPC
 export async function deleteRow(tableName: string, id: string) {
-  const response = await fetch(`/api/tables/${tableName}/${id}`, {
-    method: 'DELETE',
+  const adminClient = await getAdminClient();
+  
+  const { data: result, error } = await adminClient.rpc('delete_any_row', {
+    table_name: tableName, 
+    row_id: id
   });
   
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || `Failed to delete record from ${tableName}`);
+  if (error) {
+    console.error('Error deleting row:', error);
+    throw error;
   }
   
-  return true;
+  return result;
 }
