@@ -20,7 +20,7 @@ import {
   DialogTitle 
 } from '@/app/components/ui/dialog';
 import { PlusCircle } from 'lucide-react';
-import { createRow, getTableData } from '@/app/lib/supabase';
+import { createRow, getTableData } from '@/app/lib/api';
 import { toast } from 'sonner';
 
 interface CreationCardsProps {

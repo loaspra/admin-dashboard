@@ -5,8 +5,9 @@ import { useAuth } from '@/contexts/auth-context';
 import { TableSelector } from './table-selector';
 import { DataTable } from './data-table';
 import { CreationCards } from './creation-cards';
+import { ImageUpload } from './image-upload';
 import { Button } from '@/app/components/ui/button';
-import { toast } from 'sonner'
+import { toast } from 'sonner';
 import { getTableData } from '@/app/lib/supabase';
 import { LogOut } from 'lucide-react';
 
@@ -90,10 +91,17 @@ export default function Dashboard() {
           )}
           
           {!selectedTable && (
-            <div className="text-center py-12">
-              <h2 className="text-xl font-medium text-gray-600">
-                Select a table to get started
-              </h2>
+            <div className="space-y-12">
+              <div className="text-center py-12">
+                <h2 className="text-xl font-medium text-gray-600">
+                  Select a table to get started
+                </h2>
+              </div>
+              
+              <div>
+                <h2 className="text-xl font-semibold mb-4">Batch Image Upload</h2>
+                <ImageUpload />
+              </div>
             </div>
           )}
         </div>

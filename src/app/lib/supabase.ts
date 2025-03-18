@@ -88,3 +88,41 @@ export async function createRow(tableName: string, data: any) {
   if (error) throw error;
   return true;
 }
+
+// Storage helper functions
+export async function initializeStorage() {
+  const adminClient = await getAdminClient();
+  
+  try {
+    // Check if 'images' bucket exists
+    const { data: buckets } = await adminClient.storage.listBuckets();
+    const imagesBucket = buckets?.find(b => b.name === 'images');
+    
+    if (!imagesBucket) {
+      // Create the bucket if it doesn't exist
+      const { data, error } = await adminClient.storage.createBucket('images', {
+        public: true,
+        allowedMimeTypes: ['image/jpeg', 'image/png'],
+        fileSizeLimit: 5242880, // 5MB
+      });
+      
+      if (error) throw error;
+      
+      // Set up public bucket policy
+      const { error: policyError } = await adminClient.storage.from('images')
+        .createSignedUrl('dummy.txt', 1); // This creates default policies
+      
+      if (policyError && !policyError.message.includes('does not exist')) {
+        throw policyError;
+      }
+    }
+    
+    return true;
+  } catch (error) {
+    console.error('Error initializing storage:', error);
+    throw error;
+  }
+}
+
+// Initialize storage on module load
+initializeStorage().catch(console.error);
