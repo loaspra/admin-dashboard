@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import sharp from 'sharp';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { prisma } from './prisma';
+// import { supabase, supabaseAdmin } from './supabase';
 
 interface UploadedFile {
   buffer: Buffer;
@@ -56,8 +57,12 @@ export class ImageService {
           data: base64Image
         }
       }]);
+
       
       const response = await result.response;
+
+      console.log('Gemini response:', response.text());
+
       const jsonResponse = JSON.parse(response.text());
       
       return jsonResponse as ImageMetadata;

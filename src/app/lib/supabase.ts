@@ -6,6 +6,10 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
 // Export the base client for unauthenticated operations
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
+// Define a new admin client with service role key
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY as string;
+export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+
 // Create an admin function that uses the authenticated session
 export async function getAdminClient() {
   const { data } = await supabase.auth.getSession();
@@ -91,17 +95,22 @@ export async function createRow(tableName: string, data: any) {
 
 // Storage helper functions
 export async function initializeStorage() {
-  const adminClient = await getAdminClient();
-  
   try {
-    // Check if 'images' bucket exists
-    const { data: buckets } = await adminClient.storage.listBuckets();
+    // Check if 'images' bucket exists using admin client
+    const { data: buckets, error: listError } = await supabaseAdmin.storage.listBuckets();
+    
+    if (listError) {
+      console.error('Error listing buckets:', listError);
+      throw listError;
+    }
+    
     console.log('Buckets:', buckets);
+    
     const imagesBucket = buckets?.find(b => b.name === 'images');
     
     if (!imagesBucket) {
       // Create the bucket if it doesn't exist
-      const { data, error } = await adminClient.storage.createBucket('images', {
+      const { data, error } = await supabaseAdmin.storage.createBucket('images', {
         public: true,
         allowedMimeTypes: ['image/jpeg', 'image/png'],
         fileSizeLimit: 5242880, // 5MB
@@ -109,13 +118,7 @@ export async function initializeStorage() {
       
       if (error) throw error;
       
-      // Set up public bucket policy
-      const { error: policyError } = await adminClient.storage.from('images')
-        .createSignedUrl('dummy.txt', 1); // This creates default policies
-      
-      if (policyError && !policyError.message.includes('does not exist')) {
-        throw policyError;
-      }
+      console.log('Created images bucket:', data);
     }
     
     return true;
