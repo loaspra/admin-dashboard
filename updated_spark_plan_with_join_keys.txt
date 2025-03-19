@@ -1,0 +1,193 @@
++- AdaptiveSparkPlan (33)
+   +- == Final Plan ==
+      LocalTableScan (1)
+   +- == Initial Plan ==
+      Coalesce (32)
+      +- HashAggregate (31)
+         +- HashAggregate (30)
+            +- Coalesce (29)
+               +- Project (28)
+                  +- SortMergeJoin Inner (27)
+                     :- Project (21)
+                     :  +- SortMergeJoin Inner (20)
+                     :     :- Sort (15)
+                     :     :  +- Exchange (14)
+                     :     :     +- Project (13)
+                     :     :        +- SortMergeJoin Inner (12)
+                     :     :           :- Sort (6)
+                     :     :           :  +- Exchange (5)
+                     :     :           :     +- Project (4)
+                     :     :           :        +- Filter (3)
+                     :     :           :           +- Scan parquet  (PPKNH_C_20250317_KNDTEXE.parquet)
+                     :     :           +- Sort (11)
+                     :     :              +- Exchange (10)
+                     :     :                 +- Project (9)
+                     :     :                    +- Filter (8)
+                     :     :                       +- Scan parquet  (PPPEH_C_20250317_PEDT008.parquet)
+                     :     +- Sort (19)
+                     :        +- Exchange (18)
+                     :           +- Filter (17)
+                     :              +- Scan parquet  (PPPEH_C_20250317_PEDT001.parquet)
+                     +- Sort (26)
+                        +- Exchange (25)
+                           +- Project (24)
+                              +- Filter (23)
+                                 +- Scan parquet  (PPKNH_C_20250317_KNDTACC.parquet)
+
+
+(1) LocalTableScan
+Output [5]: [CLIENTE #798, NOMBRE EMPRESA                          #811, NUMERO CUENTA OPE   #824, DIV#837, PAI#850]
+Arguments: <empty>, [CLIENTE #798, NOMBRE EMPRESA                          #811, NUMERO CUENTA OPE   #824, DIV#837, PAI#850]
+
+(2) Scan parquet 
+Output [6]: [TEXE_CNCCLIPU#0, TEXE_CNUSERID#1, TEXE_CNASUPRO#3, TEXE_CNFUNCID#4, TEXE_CNCNLIDA#5, TEXE_CNDIVISA#15]
+Batched: true
+Location: InMemoryFileIndex [s3a://bts-work-02-pe-bc/aus/pknh/PPKNH_C_20250317_KNDTEXE.parquet]
+PushedFilters: [IsNotNull(TEXE_CNCNLIDA), IsNotNull(TEXE_CNUSERID), IsNotNull(TEXE_CNFUNCID), EqualTo(TEXE_CNCNLIDA,MCUG), EqualTo(TEXE_CNUSERID,ADMINF), EqualTo(TEXE_CNFUNCID,0612), IsNotNull(TEXE_CNASUPRO)]
+ReadSchema: struct<TEXE_CNCCLIPU:string,TEXE_CNUSERID:string,TEXE_CNASUPRO:string,TEXE_CNFUNCID:string,TEXE_CNCNLIDA:string,TEXE_CNDIVISA:string>
+
+(3) Filter
+Input [6]: [TEXE_CNCCLIPU#0, TEXE_CNUSERID#1, TEXE_CNASUPRO#3, TEXE_CNFUNCID#4, TEXE_CNCNLIDA#5, TEXE_CNDIVISA#15]
+Condition : ((((((isnotnull(TEXE_CNCNLIDA#5) AND isnotnull(TEXE_CNUSERID#1)) AND isnotnull(TEXE_CNFUNCID#4)) AND (TEXE_CNCNLIDA#5 = MCUG)) AND (TEXE_CNUSERID#1 = ADMINF)) AND (TEXE_CNFUNCID#4 = 0612)) AND isnotnull(TEXE_CNASUPRO#3))
+
+(4) Project
+Output [3]: [TEXE_CNCCLIPU#0, TEXE_CNASUPRO#3, TEXE_CNDIVISA#15]
+Input [6]: [TEXE_CNCCLIPU#0, TEXE_CNUSERID#1, TEXE_CNASUPRO#3, TEXE_CNFUNCID#4, TEXE_CNCNLIDA#5, TEXE_CNDIVISA#15]
+
+(5) Exchange
+Input [3]: [TEXE_CNCCLIPU#0, TEXE_CNASUPRO#3, TEXE_CNDIVISA#15]
+Arguments: hashpartitioning(substring(TEXE_CNASUPRO#3, 1, 4), substring(TEXE_CNASUPRO#3, 5, 4), substring(TEXE_CNASUPRO#3, 11, 2), substring(TEXE_CNASUPRO#3, 13, 8), 200), ENSURE_REQUIREMENTS, [plan_id=292]
+
+(6) Sort
+Input [3]: [TEXE_CNCCLIPU#0, TEXE_CNASUPRO#3, TEXE_CNDIVISA#15]
+Arguments: [substring(TEXE_CNASUPRO#3, 1, 4) ASC NULLS FIRST, substring(TEXE_CNASUPRO#3, 5, 4) ASC NULLS FIRST, substring(TEXE_CNASUPRO#3, 11, 2) ASC NULLS FIRST, substring(TEXE_CNASUPRO#3, 13, 8) ASC NULLS FIRST], false, 0
+
+(7) Scan parquet 
+Output [8]: [NUMCLIEN#210, PECENTID#211, OFIAPE#212, CODISER#213, NUMECTA#214, CLAINTER#215, SECINTER#216, PEYESTAT#220]
+Batched: true
+Location: InMemoryFileIndex [s3a://bts-work-02-pe-if/aus/ppeh/PPPEH_C_20250317_PEDT008.parquet]
+PushedFilters: [IsNotNull(CLAINTER), IsNotNull(SECINTER), IsNotNull(PEYESTAT), EqualTo(CLAINTER,T), EqualTo(SECINTER,01), Not(EqualTo(PEYESTAT,C)), IsNotNull(PECENTID), IsNotNull(OFIAPE), IsNotNull(CODISER), IsNotNull(NUMECTA), IsNotNull(NUMCLIEN)]
+ReadSchema: struct<NUMCLIEN:string,PECENTID:string,OFIAPE:string,CODISER:string,NUMECTA:string,CLAINTER:string,SECINTER:string,PEYESTAT:string>
+
+(8) Filter
+Input [8]: [NUMCLIEN#210, PECENTID#211, OFIAPE#212, CODISER#213, NUMECTA#214, CLAINTER#215, SECINTER#216, PEYESTAT#220]
+Condition : ((((((((((isnotnull(CLAINTER#215) AND isnotnull(SECINTER#216)) AND isnotnull(PEYESTAT#220)) AND (CLAINTER#215 = T)) AND (SECINTER#216 = 01)) AND NOT (PEYESTAT#220 = C)) AND isnotnull(PECENTID#211)) AND isnotnull(OFIAPE#212)) AND isnotnull(CODISER#213)) AND isnotnull(NUMECTA#214)) AND isnotnull(NUMCLIEN#210))
+
+(9) Project
+Output [5]: [NUMCLIEN#210, PECENTID#211, OFIAPE#212, CODISER#213, NUMECTA#214]
+Input [8]: [NUMCLIEN#210, PECENTID#211, OFIAPE#212, CODISER#213, NUMECTA#214, CLAINTER#215, SECINTER#216, PEYESTAT#220]
+
+(10) Exchange
+Input [5]: [NUMCLIEN#210, PECENTID#211, OFIAPE#212, CODISER#213, NUMECTA#214]
+Arguments: hashpartitioning(PECENTID#211, OFIAPE#212, CODISER#213, NUMECTA#214, 200), ENSURE_REQUIREMENTS, [plan_id=293]
+
+(11) Sort
+Input [5]: [NUMCLIEN#210, PECENTID#211, OFIAPE#212, CODISER#213, NUMECTA#214]
+Arguments: [PECENTID#211 ASC NULLS FIRST, OFIAPE#212 ASC NULLS FIRST, CODISER#213 ASC NULLS FIRST, NUMECTA#214 ASC NULLS FIRST], false, 0
+
+(12) SortMergeJoin
+Left keys [4]: [substring(TEXE_CNASUPRO#3, 1, 4), substring(TEXE_CNASUPRO#3, 5, 4), substring(TEXE_CNASUPRO#3, 11, 2), substring(TEXE_CNASUPRO#3, 13, 8)]
+Right keys [4]: [PECENTID#211, OFIAPE#212, CODISER#213, NUMECTA#214]
+Join condition: None
+
+(13) Project
+Output [4]: [TEXE_CNCCLIPU#0, TEXE_CNASUPRO#3, TEXE_CNDIVISA#15, NUMCLIEN#210]
+Input [8]: [TEXE_CNCCLIPU#0, TEXE_CNASUPRO#3, TEXE_CNDIVISA#15, NUMCLIEN#210, PECENTID#211, OFIAPE#212, CODISER#213, NUMECTA#214]
+
+(14) Exchange
+Input [4]: [TEXE_CNCCLIPU#0, TEXE_CNASUPRO#3, TEXE_CNDIVISA#15, NUMCLIEN#210]
+Arguments: hashpartitioning(NUMCLIEN#210, 200), ENSURE_REQUIREMENTS, [plan_id=300]
+
+(15) Sort
+Input [4]: [TEXE_CNCCLIPU#0, TEXE_CNASUPRO#3, TEXE_CNDIVISA#15, NUMCLIEN#210]
+Arguments: [NUMCLIEN#210 ASC NULLS FIRST], false, 0
+
+(16) Scan parquet 
+Output [5]: [NUMCLIEN#58, NOMBRE#76, DIREC1#84, DIREC3#88, POBLACI#90]
+Batched: true
+Location: InMemoryFileIndex [s3a://bts-work-02-pe-if/aus/ppeh/PPPEH_C_20250317_PEDT001.parquet]
+PushedFilters: [IsNotNull(NUMCLIEN)]
+ReadSchema: struct<NUMCLIEN:string,NOMBRE:string,DIREC1:string,DIREC3:string,POBLACI:string>
+
+(17) Filter
+Input [5]: [NUMCLIEN#58, NOMBRE#76, DIREC1#84, DIREC3#88, POBLACI#90]
+Condition : isnotnull(NUMCLIEN#58)
+
+(18) Exchange
+Input [5]: [NUMCLIEN#58, NOMBRE#76, DIREC1#84, DIREC3#88, POBLACI#90]
+Arguments: hashpartitioning(NUMCLIEN#58, 200), ENSURE_REQUIREMENTS, [plan_id=301]
+
+(19) Sort
+Input [5]: [NUMCLIEN#58, NOMBRE#76, DIREC1#84, DIREC3#88, POBLACI#90]
+Arguments: [NUMCLIEN#58 ASC NULLS FIRST], false, 0
+
+(20) SortMergeJoin
+Left keys [1]: [NUMCLIEN#210]
+Right keys [1]: [NUMCLIEN#58]
+Join condition: None
+
+(21) Project
+Output [8]: [TEXE_CNCCLIPU#0, TEXE_CNASUPRO#3, TEXE_CNDIVISA#15, NUMCLIEN#58, NOMBRE#76, DIREC1#84, DIREC3#88, POBLACI#90]
+Input [9]: [TEXE_CNCCLIPU#0, TEXE_CNASUPRO#3, TEXE_CNDIVISA#15, NUMCLIEN#210, NUMCLIEN#58, NOMBRE#76, DIREC1#84, DIREC3#88, POBLACI#90]
+
+(22) Scan parquet 
+Output [2]: [TACC_CNCCLIPU#41, TACC_CNESTADO#47]
+Batched: true
+Location: InMemoryFileIndex [s3a://bts-work-02-pe-bc/aus/pknh/PPKNH_C_20250317_KNDTACC.parquet]
+PushedFilters: [IsNotNull(TACC_CNESTADO), EqualTo(TACC_CNESTADO,A1), IsNotNull(TACC_CNCCLIPU)]
+ReadSchema: struct<TACC_CNCCLIPU:string,TACC_CNESTADO:string>
+
+(23) Filter
+Input [2]: [TACC_CNCCLIPU#41, TACC_CNESTADO#47]
+Condition : ((isnotnull(TACC_CNESTADO#47) AND (TACC_CNESTADO#47 = A1)) AND isnotnull(TACC_CNCCLIPU#41))
+
+(24) Project
+Output [1]: [TACC_CNCCLIPU#41]
+Input [2]: [TACC_CNCCLIPU#41, TACC_CNESTADO#47]
+
+(25) Exchange
+Input [1]: [TACC_CNCCLIPU#41]
+Arguments: hashpartitioning(TACC_CNCCLIPU#41, 200), ENSURE_REQUIREMENTS, [plan_id=308]
+
+(26) Sort
+Input [1]: [TACC_CNCCLIPU#41]
+Arguments: [TACC_CNCCLIPU#41 ASC NULLS FIRST], false, 0
+
+(27) SortMergeJoin
+Left keys [1]: [NUMCLIEN#58]
+Right keys [1]: [TACC_CNCCLIPU#41]
+Join condition: None
+
+(28) Project
+Output [5]: [TEXE_CNCCLIPU#0 AS CLIENTE #772, NOMBRE#76 AS NOMBRE EMPRESA                          #773, TEXE_CNASUPRO#3 AS NUMERO CUENTA OPE   #774, DIV#775, concat(coalesce(POBLACI#90, ),  , coalesce(DIREC1#84, ),  , coalesce(DIREC3#88, )) AS DIRECCION EMPRESA                                                               #777]
+Input [9]: [TEXE_CNCCLIPU#0, TEXE_CNASUPRO#3, TEXE_CNDIVISA#15, NUMCLIEN#58, NOMBRE#76, DIREC1#84, DIREC3#88, POBLACI#90, TACC_CNCCLIPU#41]
+
+(29) Coalesce
+Input [5]: [CLIENTE #772, NOMBRE EMPRESA                          #773, NUMERO CUENTA OPE   #774, DIV#775, DIRECCION EMPRESA                                                               #777]
+Arguments: 1
+
+(30) HashAggregate
+Input [5]: [CLIENTE #772, NOMBRE EMPRESA                          #773, NUMERO CUENTA OPE   #774, DIV#775, DIRECCION EMPRESA                                                               #777]
+Keys [6]: [PERU AS PERU#863, DIV#775, CLIENTE #772, NOMBRE EMPRESA                          #773, NUMERO CUENTA OPE   #774, DIRECCION EMPRESA                                                               #777]
+Functions: []
+Aggregate Attributes: []
+Results [6]: [PERU#863, DIV#775, CLIENTE #772, NOMBRE EMPRESA                          #773, NUMERO CUENTA OPE   #774, DIRECCION EMPRESA                                                               #777]
+
+(31) HashAggregate
+Input [6]: [PERU#863, DIV#775, CLIENTE #772, NOMBRE EMPRESA                          #773, NUMERO CUENTA OPE   #774, DIV#775, DIRECCION EMPRESA                                                               #777]
+Keys [6]: [PERU#863, DIV#775, CLIENTE #772, NOMBRE EMPRESA                          #773, NUMERO CUENTA OPE   #774, DIV#775, DIRECCION EMPRESA                                                               #777]
+Functions: []
+Aggregate Attributes: []
+Results [5]: [rpad(CASE WHEN isnull(CLIENTE #772) THEN  ELSE CLIENTE #772 END, 8,  ) AS CLIENTE #798, rpad(CASE WHEN isnull(NOMBRE EMPRESA                          #773) THEN  ELSE NOMBRE EMPRESA                          #773 END, 40,  ) AS NOMBRE EMPRESA                          #811, rpad(CASE WHEN isnull(NUMERO CUENTA OPE   #774) THEN  ELSE NUMERO CUENTA OPE   #774 END, 20,  ) AS NUMERO CUENTA OPE   #824, rpad(CASE WHEN isnull(DIV#775) THEN  ELSE DIV#775 END, 3,  ) AS DIV#837, PER AS PAI#850]
+
+(32) Coalesce
+Input [5]: [CLIENTE #798, NOMBRE EMPRESA                          #811, NUMERO CUENTA OPE   #824, DIV#837, PAI#850]
+Arguments: 1
+
+(33) AdaptiveSparkPlan
+Output [5]: [CLIENTE #798, NOMBRE EMPRESA                          #811, NUMERO CUENTA OPE   #824, DIV#837, PAI#850]
+Arguments: isFinalPlan=true
+
+(34) Execute InsertIntoHadoopFsRelationCommand
+Input [5]: [CLIENTE #798, NOMBRE EMPRESA                          #811, NUMERO CUENTA OPE   #824, DIV#837, PAI]
+Arguments: s3a://bts-work-02-pe-ia/aus/pmol/b0da69c0-2cfd-48c0-9282-ac562bd6e55b.tmp, false, CSV, [path=s3a://bts-work-02-pe-ia/aus/pmol/b0da69c0-2cfd-48c0-9282-ac562bd6e55b.tmp, ignoreLeadingWhiteSpace=false, ignoreTrailingWhiteSpace=false, header=true, delimiter=;], Overwrite, [CLIENTE , NOMBRE EMPRESA                          , NUMERO CUENTA OPE   , DIV, PAI]
