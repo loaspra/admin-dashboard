@@ -6,9 +6,10 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
 // Export the base client for unauthenticated operations
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
-// Define a new admin client with service role key
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY as string;
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+// Only create the admin client when on the server side
+export const supabaseAdmin = typeof window === 'undefined' 
+  ? createClient(supabaseUrl, process.env.SUPABASE_SERVICE_ROLE_KEY as string)
+  : null; // Return null when on the client side
 
 // Create an admin function that uses the authenticated session
 export async function getAdminClient() {
@@ -93,8 +94,14 @@ export async function createRow(tableName: string, data: any) {
   return true;
 }
 
-// Storage helper functions
+// Storage helper functions - make this server-only
 export async function initializeStorage() {
+  // This function should only be called from server components or API routes
+  if (typeof window !== 'undefined' || !supabaseAdmin) {
+    console.error('initializeStorage should only be called from server-side code');
+    return false;
+  }
+
   try {
     // Check if 'images' bucket exists using admin client
     const { data: buckets, error: listError } = await supabaseAdmin.storage.listBuckets();
@@ -128,5 +135,7 @@ export async function initializeStorage() {
   }
 }
 
-// Initialize storage on module load
-initializeStorage().catch(console.error);
+// Only initialize storage when on the server side
+if (typeof window === 'undefined' && supabaseAdmin) {
+  initializeStorage().catch(console.error);
+}

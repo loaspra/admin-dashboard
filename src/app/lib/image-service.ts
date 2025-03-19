@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import sharp from 'sharp';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { prisma } from './prisma';
-// import { supabase, supabaseAdmin } from './supabase';
+import { uploadImage } from '../actions/storage-actions';
 
 interface UploadedFile {
   buffer: Buffer;
@@ -15,7 +15,7 @@ interface UploadedFile {
 // Initialize Supabase client
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
 // Initialize Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!);
@@ -81,21 +81,8 @@ export class ImageService {
     const filePath = `personalizacion/${uniqueFileName}`;
 
     try {
-      const { data, error } = await supabase.storage
-        .from('images')
-        .upload(filePath, imageBuffer, {
-          contentType: `image/${fileExt}`,
-          cacheControl: '3600'
-        });
-
-      if (error) throw error;
-
-      // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('images')
-        .getPublicUrl(filePath);
-
-      return publicUrl;
+      // Call server action
+      return await uploadImage(imageBuffer, fileName, filePath);
     } catch (error) {
       console.error('Error uploading to Supabase:', error);
       throw error;
