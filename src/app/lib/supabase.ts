@@ -96,6 +96,7 @@ export async function initializeStorage() {
   try {
     // Check if 'images' bucket exists
     const { data: buckets } = await adminClient.storage.listBuckets();
+    console.log('Buckets:', buckets);
     const imagesBucket = buckets?.find(b => b.name === 'images');
     
     if (!imagesBucket) {
