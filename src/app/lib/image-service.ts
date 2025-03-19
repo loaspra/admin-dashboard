@@ -58,17 +58,61 @@ export class ImageService {
         }
       }]);
 
+
+      
+      
       
       const response = await result.response;
-
-      console.log('Gemini response:', response.text());
-
-      const jsonResponse = JSON.parse(response.text());
+      const responseText = response.text();
       
-      return jsonResponse as ImageMetadata;
+      console.log('Gemini response:', responseText);
+      
+      // Clean the response to handle markdown formatting
+      let jsonString = responseText;
+      
+      // Remove markdown code blocks if present
+      if (jsonString.includes('```')) {
+        // Extract content between triple backticks
+        const match = jsonString.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+        if (match && match[1]) {
+          jsonString = match[1].trim();
+        } else {
+          // If we can't extract properly, try to remove backticks
+          jsonString = jsonString.replace(/```json|```/g, '').trim();
+        }
+      }
+      
+      try {
+        const jsonResponse = JSON.parse(jsonString);
+        console.log("returning: " + jsonResponse);
+        return jsonResponse as ImageMetadata;
+      } catch (jsonError) {
+        console.error('Error parsing JSON from Gemini response:', jsonError);
+        
+        // Fallback to default values if parsing fails
+        return {
+          nombre: "Unknown Image",
+          categoria: "objetos",
+          tags: ["unknown"],
+          color: "unknown",
+          estilo: "realista",
+          orientacion: "horizontal",
+          premium: false
+        };
+      }
     } catch (error) {
       console.error('Error processing image with Gemini:', error);
-      throw error;
+      
+      // Return default values if Gemini processing fails
+      return {
+        nombre: "Unprocessed Image",
+        categoria: "objetos",
+        tags: ["unprocessed"],
+        color: "unknown",
+        estilo: "realista",
+        orientacion: "horizontal",
+        premium: false
+      };
     }
   }
 
