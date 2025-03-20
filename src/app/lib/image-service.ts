@@ -34,7 +34,18 @@ interface ImageMetadata {
 }
 
 export class ImageService {
-  private static async processImageWithGemini(imageBytes: Buffer): Promise<ImageMetadata> {
+  private static async fetchCollections(): Promise<string[]> {
+    const collections = await prisma.imagenPersonalizacion.findMany({
+      select: {
+        coleccion: true,
+      },
+      distinct: ['coleccion'],
+    });
+    
+    return collections.map(collection => collection.coleccion).filter(Boolean) as string[];
+  }
+
+  private static async processImageWithGemini(imageBytes: Buffer, collections: string[]): Promise<ImageMetadata> {
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
     
     const prompt = `Analyze this image and provide the following information in JSON format:
@@ -45,7 +56,10 @@ export class ImageService {
     - estilo: one of [cartoon, realista, minimalista, abstracto]
     - orientacion: one of [horizontal, vertical, cuadrada]
     - premium: boolean indicating if this should be a premium image
+    - coleccion: a collection related with the image, should be one of: ${JSON.stringify(collections)}
     Please respond only with the JSON object, no additional text.`;
+
+    console.log("Sending prompt to Gemini:", prompt);
 
     // Convert image to base64
     const base64Image = imageBytes.toString('base64');
@@ -58,10 +72,6 @@ export class ImageService {
         }
       }]);
 
-
-      
-      
-      
       const response = await result.response;
       const responseText = response.text();
       
@@ -165,10 +175,12 @@ export class ImageService {
       
       // Process with Gemini and upload to Supabase in parallel
       const [metadata, publicUrl] = await Promise.all([
-        this.processImageWithGemini(optimizedBuffer),
+        this.processImageWithGemini(optimizedBuffer, await this.fetchCollections()),
         this.uploadImageToSupabase(optimizedBuffer, fileName)
       ]);
-
+      
+      console.log("Metadata: " + JSON.stringify(metadata, null, 2));
+      
       // Get image dimensions
       const dimensions = await sharp(optimizedBuffer).metadata();
 

@@ -37,7 +37,7 @@ export async function getTableNames() {
 export async function getTableData(tableName: string) {
   const adminClient = await getAdminClient();
   const { data, error } = await adminClient.rpc('get_table_data', { 
-    table_name: tableName  // Changed from p_table_name to table_name
+    table_name: tableName
   });
   
   if (error) {
@@ -55,8 +55,8 @@ export async function createRow(tableName: string, data: any) {
   console.log('Creating row with:', { tableName, data });
   
   const { data: result, error } = await adminClient.rpc('create_any_row', {
-    p_table_name: tableName,  // CHANGED: Added p_ prefix to match SQL function
-    p_row_data: data          // CHANGED: Added p_ prefix to match SQL function
+    p_table_name: tableName,
+    p_row_data: data
   });
   
   if (error) {
@@ -75,9 +75,9 @@ export async function updateRow(tableName: string, id: string, data: any) {
   console.log('Updating row with:', { tableName, id, data: dataWithoutId });
   
   const { data: result, error } = await adminClient.rpc('update_any_row', {
-    p_table_name: tableName,      // CHANGED: Added p_ prefix
-    p_row_id: id,                 // CHANGED: Added p_ prefix
-    p_updated_data: dataWithoutId // CHANGED: Added p_ prefix
+    p_table_name: tableName,
+    p_row_id: id,
+    p_updated_data: dataWithoutId
   });
   
   if (error) {

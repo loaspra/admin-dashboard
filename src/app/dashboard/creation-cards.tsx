@@ -52,11 +52,7 @@ export function CreationCards({ tableName, onItemCreated }: CreationCardsProps) 
           
           setNewItem(initialForm);
         } else {
-          // If no data exists, we can't infer structure
-          toast.warning(
-                        "No data available",
-            {description: "Cannot determine table structure from empty table.",
-          });
+          toast.warning("No data available",);
         }
       } catch (error) {
         toast.error("Error", {

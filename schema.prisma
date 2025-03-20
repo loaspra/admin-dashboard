@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,247 +7,186 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Modelo base para todos los productos
 model Producto {
-  id            String   @id @default(uuid())
-  nombre        String
-  descripcion   String
-  precio        Float
-  imagenes      String[]
-  stock         Int
-  categoria     String   // 'gorra', 'polo', 'polera', 'sticker', 'termo'
-  fechaCreacion DateTime @default(now())
-  destacado     Boolean  @default(false)
-  
-  // Tipo de producto: 'personalizable' o 'pre-diseñado'
-  tipoProducto  String   @default("personalizable")
-  
-  // Relación con diseñador (solo para productos pre-diseñados)
-  disenadorId   String?
-  disenador     Disenador? @relation(fields: [disenadorId], references: [id], onDelete: SetNull)
-  
-  // Relaciones con detalles específicos
-  detalleGorra    DetalleGorra?
-  detallePolo     DetallePolo?
-  detallePolera   DetallePolera?
-  detalleSticker  DetalleSticker?
-  detalleTermo    DetalleTermo?
-  
-  // Relaciones con carrito y pedidos
-  itemsCarrito    ItemCarrito[]
-  itemsPedido     ItemPedido[]
-}
-
-// Modelo para diseñadores/creadores
-model Disenador {
-  id           String     @id @default(uuid())
-  nombre       String
-  descripcion  String?
-  foto         String?
-  pais         String     @default("Perú")
-  fechaRegistro DateTime  @default(now())
-  
-  // Relación con productos
-  productos    Producto[]
-}
-
-// Modelo para diseños disponibles para personalización
-model Diseno {
-  id           String     @id @default(uuid())
-  nombre       String
-  imagen       String
-  categoria    String     // 'predefinido' o 'usuario'
-  tags         String[]
-  fechaCreacion DateTime  @default(now())
-  
-  // Si es un diseño subido por un usuario
-  usuarioId    String?
-  usuario      Usuario?   @relation(fields: [usuarioId], references: [id], onDelete: SetNull)
-  
-  // Relación con personalizaciones (para tracking)
-  personalizaciones PersonalizacionDiseno[]
-}
-
-// Modelo para seguimiento de personalizaciones
-model PersonalizacionDiseno {
-  id           String     @id @default(uuid())
-  disenoId     String
-  diseno       Diseno     @relation(fields: [disenoId], references: [id], onDelete: Cascade)
-  
-  // Datos de la personalización (posición, tamaño, etc.)
-  posicionX    Float      @default(0)
-  posicionY    Float      @default(0)
-  ancho        Float
-  alto         Float
-  rotacion     Float      @default(0)
-  
-  // Relación con carrito para seguimiento
-  itemCarritoId String?
-  itemCarrito   ItemCarrito? @relation(fields: [itemCarritoId], references: [id], onDelete: SetNull)
-}
-
-// Detalles específicos para Gorras
-model DetalleGorra {
-  id                 String   @id @default(uuid())
-  tamanos            String[] // ["S", "M", "L", "XL"]
-  colores            String[] // ["rojo", "azul", "negro", etc.]
-  areaPersonalizacion Json    // { "frente": { "width": 10, "height": 5 }, "derecha": {...}, "izquierda": {...} }
-
-  // Relación con producto
-  productoId         String   @unique
-  producto           Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
-}
-
-// Detalles específicos para Polos
-model DetallePolo {
-  id                 String   @id @default(uuid())
-  tamanos            String[] // ["S", "M", "L", "XL", "XXL"]
-  colores            String[] // ["rojo", "azul", "negro", etc.]
-  material           String   // "algodón", "poliéster", etc.
-  areasPersonalizacion Json   // { "frente": {...}, "espalda": {...}, "mangas": {...} }
-
-  // Relación con producto
-  productoId         String   @unique
-  producto           Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
-}
-
-// Detalles específicos para Poleras
-model DetallePolera {
-  id                 String   @id @default(uuid())
-  tamanos            String[] // ["S", "M", "L", "XL", "XXL"]
-  colores            String[] // ["rojo", "azul", "negro", etc.]
-  material           String   // "algodón", "polar", etc.
-  conCapucha         Boolean  @default(false)
-  areasPersonalizacion Json   // { "frente": {...}, "espalda": {...}, "mangas": {...} }
-
-  // Relación con producto
-  productoId         String   @unique
-  producto           Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
-}
-
-// Detalles específicos para Stickers
-model DetalleSticker {
-  id                 String   @id @default(uuid())
-  dimensiones        Json     // { "ancho": 10, "alto": 5 }
-  tipoAdhesivo       String   // "removible", "permanente", etc.
-  resistenciaAgua    Boolean  @default(false)
-  formaPersonalizable Boolean  @default(true)
-
-  // Relación con producto
-  productoId         String   @unique
-  producto           Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
-}
-
-// Detalles específicos para Termos
-model DetalleTermo {
-  id                 String   @id @default(uuid())
-  capacidad          Int      // en ml
-  colores            String[] // ["rojo", "azul", "negro", etc.]
-  material           String   // "acero inoxidable", "plástico", etc.
-  areaPersonalizacion Json    // { "frente": { "width": 10, "height": 5 }, "costados": {...} }
-
-  // Relación con producto
-  productoId         String   @unique
-  producto           Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
-}
-
-// Modelo para usuarios
-model Usuario {
-  id             String    @id @default(uuid())
-  email          String    @unique
+  id             String          @id @default(uuid())
   nombre         String
-  apellidos      String
-  direccion      String?
-  telefono       String?
-  fechaCreacion  DateTime  @default(now())
-  
-  // Relaciones
-  carritos       Carrito[]
-  pedidos        Pedido[]
-  disenos         Diseno[]
+  descripcion    String
+  precio         Float
+  imagenes       String[]
+  stock          Int
+  categoria      String
+  fechaCreacion  DateTime        @default(now())
+  destacado      Boolean         @default(false)
+  tipoProducto   String          @default("personalizable")
+  disenadorId    String?
+  detalleGorra   DetalleGorra?
+  detallePolera  DetallePolera?
+  detallePolo    DetallePolo?
+  detalleSticker DetalleSticker?
+  detalleTermo   DetalleTermo?
+  itemsCarrito   ItemCarrito[]
+  itemsPedido    ItemPedido[]
+  disenador      Disenador?      @relation(fields: [disenadorId], references: [id])
 }
 
-// Modelo para carritos de compra
-model Carrito {
-  id             String        @id @default(uuid())
-  fechaCreacion  DateTime      @default(now())
-  
-  // Relaciones
-  items          ItemCarrito[]
-  usuarioId      String
-  usuario        Usuario       @relation(fields: [usuarioId], references: [id])
+model Disenador {
+  id            String     @id @default(uuid())
+  nombre        String
+  descripcion   String?
+  foto          String?
+  pais          String     @default("Perú")
+  fechaRegistro DateTime   @default(now())
+  productos     Producto[]
 }
 
-// Modelo para items en el carrito
-model ItemCarrito {
-  id             String        @id @default(uuid())
-  cantidad       Int
-  personalizacion Json?        // Detalles de personalización (imágenes, texto, etc.)
-  
-  // Relaciones
-  carritoId      String
-  carrito        Carrito       @relation(fields: [carritoId], references: [id], onDelete: Cascade)
-  productoId     String
-  producto       Producto      @relation(fields: [productoId], references: [id])
-  
-  // Relación con diseños personalizados
+model Diseno {
+  id                String                  @id @default(uuid())
+  nombre            String
+  imagen            String
+  categoria         String
+  tags              String[]
+  fechaCreacion     DateTime                @default(now())
+  usuarioId         String?
+  usuario           Usuario?                @relation(fields: [usuarioId], references: [id])
   personalizaciones PersonalizacionDiseno[]
 }
 
-// Modelo para pedidos
+model PersonalizacionDiseno {
+  id            String       @id @default(uuid())
+  disenoId      String
+  posicionX     Float        @default(0)
+  posicionY     Float        @default(0)
+  ancho         Float
+  alto          Float
+  rotacion      Float        @default(0)
+  itemCarritoId String?
+  diseno        Diseno       @relation(fields: [disenoId], references: [id], onDelete: Cascade)
+  itemCarrito   ItemCarrito? @relation(fields: [itemCarritoId], references: [id])
+}
+
+model DetalleGorra {
+  id                  String   @id @default(uuid())
+  tamanos             String[]
+  colores             String[]
+  areaPersonalizacion Json
+  productoId          String   @unique
+  producto            Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+}
+
+model DetallePolo {
+  id                   String   @id @default(uuid())
+  tamanos              String[]
+  colores              String[]
+  material             String
+  areasPersonalizacion Json
+  productoId           String   @unique
+  producto             Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+}
+
+model DetallePolera {
+  id                   String   @id @default(uuid())
+  tamanos              String[]
+  colores              String[]
+  material             String
+  conCapucha           Boolean  @default(false)
+  areasPersonalizacion Json
+  productoId           String   @unique
+  producto             Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+}
+
+model DetalleSticker {
+  id                  String   @id @default(uuid())
+  dimensiones         Json
+  tipoAdhesivo        String
+  resistenciaAgua     Boolean  @default(false)
+  formaPersonalizable Boolean  @default(true)
+  productoId          String   @unique
+  producto            Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+}
+
+model DetalleTermo {
+  id                  String   @id @default(uuid())
+  capacidad           Int
+  colores             String[]
+  material            String
+  areaPersonalizacion Json
+  productoId          String   @unique
+  producto            Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+}
+
+model Usuario {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  nombre        String
+  apellidos     String
+  direccion     String?
+  telefono      String?
+  fechaCreacion DateTime  @default(now())
+  carritos      Carrito[]
+  disenos       Diseno[]
+  pedidos       Pedido[]
+}
+
+model Carrito {
+  id            String        @id @default(uuid())
+  fechaCreacion DateTime      @default(now())
+  usuarioId     String
+  usuario       Usuario       @relation(fields: [usuarioId], references: [id])
+  items         ItemCarrito[]
+}
+
+model ItemCarrito {
+  id                String                  @id @default(uuid())
+  cantidad          Int
+  personalizacion   Json?
+  carritoId         String
+  productoId        String
+  carrito           Carrito                 @relation(fields: [carritoId], references: [id], onDelete: Cascade)
+  producto          Producto                @relation(fields: [productoId], references: [id])
+  personalizaciones PersonalizacionDiseno[]
+}
+
 model Pedido {
-  id             String        @id @default(uuid())
-  estado         String        // "pendiente", "pagado", "enviado", "entregado", "cancelado"
+  id             String       @id @default(uuid())
+  estado         String
   totalPagado    Float
   direccionEnvio String
-  fechaPedido    DateTime      @default(now())
+  fechaPedido    DateTime     @default(now())
   fechaEntrega   DateTime?
-  
-  // Relaciones
-  items          ItemPedido[]
   usuarioId      String
-  usuario        Usuario       @relation(fields: [usuarioId], references: [id])
+  items          ItemPedido[]
+  usuario        Usuario      @relation(fields: [usuarioId], references: [id])
 }
 
-// Modelo para items en un pedido
 model ItemPedido {
-  id             String        @id @default(uuid())
-  cantidad       Int
-  precioUnitario Float
-  personalizacion Json?        // Detalles de personalización (imágenes, texto, etc.)
-  
-  // Relaciones
-  pedidoId       String
-  pedido         Pedido        @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
-  productoId     String
-  producto       Producto      @relation(fields: [productoId], references: [id])
+  id              String   @id @default(uuid())
+  cantidad        Int
+  precioUnitario  Float
+  personalizacion Json?
+  pedidoId        String
+  productoId      String
+  pedido          Pedido   @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
+  producto        Producto @relation(fields: [productoId], references: [id])
 }
 
-// Modelo para imágenes de personalización
 model ImagenPersonalizacion {
-  id               String   @id @default(uuid())
-  nombre           String
-  ruta             String
-  categoria        String   // 'animes', 'personajes', 'objetos', etc.
-  tags             String[]
-  color            String?
-  estilo           String?  // 'cartoon', 'realista', 'minimalista', etc.
-  orientacion      String?  // 'horizontal', 'vertical', 'cuadrada'
-  favoritos        Int      @default(0)
-  
-  // Metadatos
-  ancho            Int      // Ancho en píxeles
-  alto             Int      // Alto en píxeles
-  fechaCreacion    DateTime @default(now())
-  fechaActualizacion DateTime @updatedAt
-  
-  // Atributos para organización
-  coleccion        String?  // Para agrupar imágenes relacionadas
-  autor            String?  // Creador/diseñador de la imagen
-  licencia         String?  // Tipo de licencia (gratuito, premium, etc.)
-  premium          Boolean  @default(false)
-  
-  // Metadatos de uso
-  vecesUsado       Int      @default(0)
-  ultimoUso        DateTime?
+  id                 String    @id @default(uuid())
+  nombre             String
+  ruta               String
+  categoria          String
+  tags               String[]
+  color              String?
+  estilo             String?
+  orientacion        String?
+  favoritos          Int       @default(0)
+  ancho              Int
+  alto               Int
+  fechaCreacion      DateTime  @default(now())
+  fechaActualizacion DateTime  @updatedAt
+  coleccion          String?
+  autor              String?
+  licencia           String?
+  premium            Boolean   @default(false)
+  vecesUsado         Int       @default(0)
+  ultimoUso          DateTime?
 }
