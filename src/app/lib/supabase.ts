@@ -1,3 +1,5 @@
+import { prisma } from './prisma';
+
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
@@ -37,60 +39,87 @@ export async function getAdminClient() {
   );
 }
 
-// Update your table functions to use the admin client
+// Update your table functions to use Prisma client
 export async function getTableNames() {
-  const adminClient = await getAdminClient();
-  
-  // Use a PostgreSQL function to get tables instead of directly querying information_schema
-  const { data, error } = await adminClient.rpc('get_user_tables');
-  
-  if (error) throw error;
-  return data;
+  // Use Prisma to get table names instead of Supabase RPC
+  const tables = await prisma.$queryRaw`SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'`;
+  return (tables as { table_name: string }[]).map((table) => table.table_name);
 }
 
 // Helper function to get table data
 export async function getTableData(tableName: string) {
-  const adminClient = await getAdminClient();
-  const { data, error } = await adminClient
-    .from(tableName)
-    .select('*');
-  
-  if (error) throw error;
-  return data;
+  if (!(tableName in prisma)) {
+    throw new Error(`Table ${tableName} does not exist in Prisma schema`);
+  }
+  const data = await (prisma as any)[tableName].findMany();
+  return data || [];
+}
+
+// New function to fetch product data based on type
+export async function getProductData(type: string) {
+  let detailTable = '';
+
+  // Determine the detail table name based on the product type
+  switch (type) {
+    case 'Gorra':
+      detailTable = 'DetalleGorra';
+      break;
+    case 'Polera':
+      detailTable = 'DetallePolera';
+      break;
+    case 'Polo':
+      detailTable = 'DetallePolo';
+      break;
+    case 'Termo':
+      detailTable = 'DetalleTermo';
+      break;
+    default:
+      throw new Error('Invalid product type');
+  }
+
+  const data = await prisma.producto.findMany({
+    where: { categoria: type.toLowerCase() },
+    include: { [detailTable]: true }
+  });
+
+  return data || [];
+}
+
+// New function to create a product and its details
+export async function createRowProduct(productData: any, detailData: any) {
+  await prisma.producto.create({ data: productData });
+  await (prisma[detailData.tipoProducto] as any).create({ data: detailData });
+  return true;
+}
+
+// New function to update a product and its details
+export async function updateRowProduct(productId: string, productData: any, detailData: any) {
+  await prisma.producto.update({
+    where: { id: productId },
+    data: productData
+  });
+  await (prisma[detailData.tipoProducto] as any).update({
+    where: { productoId: productId },
+    data: detailData
+  });
+  return true;
 }
 
 // Helper function to delete a row
 export async function deleteRow(tableName: string, id: string) {
-  const adminClient = await getAdminClient();
-  const { error } = await adminClient
-    .from(tableName)
-    .delete()
-    .eq('id', id);
-  
-  if (error) throw error;
+  await (prisma[(tableName as any)] as any).delete({ where: { id } });
   return true;
 }
 
 // Helper function to update a row
 export async function updateRow(tableName: string, id: string, data: any) {
-  const adminClient = await getAdminClient();
-  const { error } = await adminClient
-    .from(tableName)
-    .update(data)
-    .eq('id', id);
-  
-  if (error) throw error;
+  await (prisma[(tableName as any)] as any).update({ where: { id }, data });
   return true;
 }
 
 // Helper function to create a row
 export async function createRow(tableName: string, data: any) {
-  const adminClient = await getAdminClient();
-  const { error } = await adminClient
-    .from(tableName)
-    .insert(data);
-  
-  if (error) throw error;
+  await (prisma[(tableName as any)] as any).create({ data });
   return true;
 }
 
@@ -105,16 +134,16 @@ export async function initializeStorage() {
   try {
     // Check if 'images' bucket exists using admin client
     const { data: buckets, error: listError } = await supabaseAdmin.storage.listBuckets();
-    
+
     if (listError) {
       console.error('Error listing buckets:', listError);
       throw listError;
     }
-    
+
     console.log('Buckets:', buckets);
-    
+
     const imagesBucket = buckets?.find(b => b.name === 'images');
-    
+
     if (!imagesBucket) {
       // Create the bucket if it doesn't exist
       const { data, error } = await supabaseAdmin.storage.createBucket('images', {
@@ -122,20 +151,15 @@ export async function initializeStorage() {
         allowedMimeTypes: ['image/jpeg', 'image/png'],
         fileSizeLimit: 5242880, // 5MB
       });
-      
+
       if (error) throw error;
-      
+
       console.log('Created images bucket:', data);
     }
-    
+
     return true;
   } catch (error) {
     console.error('Error initializing storage:', error);
     throw error;
   }
-}
-
-// Only initialize storage when on the server side
-if (typeof window === 'undefined' && supabaseAdmin) {
-  initializeStorage().catch(console.error);
 }

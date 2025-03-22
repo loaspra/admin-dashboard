@@ -185,8 +185,8 @@ model ImagenPersonalizacion {
   fechaActualizacion DateTime  @updatedAt
   coleccion          String?
   autor              String?
-  licencia           String?
-  premium            Boolean   @default(false)
+  licencia           String? // to delete
+  premium            Boolean   @default(false) // also to delete
   vecesUsado         Int       @default(0)
   ultimoUso          DateTime?
 }
