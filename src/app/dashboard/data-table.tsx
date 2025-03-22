@@ -22,6 +22,120 @@ interface DataTableProps {
   readonly onDataChange: () => void
 }
 
+const JsonObjectEditor = ({ data, onChange }: { data: any; onChange: (data: any) => void }) => {
+  // Don't use useEffect with onChange to avoid infinite loops
+
+  if (!data || typeof data !== "object") {
+    return <Input value={String(data || "")} onChange={(e) => onChange(e.target.value)} className="w-full" />
+  }
+
+  // Handle array case
+  if (Array.isArray(data)) {
+    return (
+      <div className="space-y-2 p-2 border rounded-md">
+        {data.map((item, index) => (
+          <div key={index} className="flex items-center gap-2">
+            <div className="flex-grow">
+              {typeof item === "object" && item !== null ? (
+                <JsonObjectEditor
+                  data={item}
+                  onChange={(updatedItem) => {
+                    const newArray = [...data]
+                    newArray[index] = updatedItem
+                    onChange(newArray)
+                  }}
+                />
+              ) : (
+                <Input
+                  value={String(item || "")}
+                  onChange={(e) => {
+                    const newArray = [...data]
+                    newArray[index] = e.target.value
+                    onChange(newArray)
+                  }}
+                  className="w-full"
+                />
+              )}
+            </div>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => {
+                const newArray = [...data]
+                newArray.splice(index, 1)
+                onChange(newArray)
+              }}
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        ))}
+        <Button variant="outline" size="sm" onClick={() => onChange([...data, ""])}>
+          Add Item
+        </Button>
+      </div>
+    )
+  }
+
+  // Handle object case
+  return (
+    <div className="space-y-2 p-2 border rounded-md">
+      {Object.entries(data).map(([key, value]) => (
+        <div key={key} className="grid grid-cols-[1fr,2fr] gap-2">
+          <Input
+            value={key}
+            onChange={(e) => {
+              const newKey = e.target.value
+              if (newKey === key) return
+
+              const { [key]: oldValue, ...rest } = data
+              onChange({
+                ...rest,
+                [newKey]: oldValue,
+              })
+            }}
+            className="w-full"
+          />
+          {typeof value === "object" && value !== null ? (
+            <JsonObjectEditor
+              data={value}
+              onChange={(updatedValue) => {
+                onChange({
+                  ...data,
+                  [key]: updatedValue,
+                })
+              }}
+            />
+          ) : (
+            <Input
+              value={String(value || "")}
+              onChange={(e) => {
+                onChange({
+                  ...data,
+                  [key]: e.target.value,
+                })
+              }}
+              className="w-full"
+            />
+          )}
+        </div>
+      ))}
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() =>
+          onChange({
+            ...data,
+            "": "",
+          })
+        }
+      >
+        Add Property
+      </Button>
+    </div>
+  )
+}
+
 const NestedTable = ({ data }: { data: any }) => {
   if (!data || typeof data !== "object") {
     return <div>No nested data available</div>
@@ -148,13 +262,18 @@ export function DataTable({ tableName, data, onDataChange }: DataTableProps) {
 
   const handleSaveEdit = async () => {
     try {
+      // Create a deep copy of the edit data to avoid reference issues
+      const editDataCopy = JSON.parse(JSON.stringify(editData))
+
+      // Extract detail data
       const detailData =
-        editData.DetalleGorra || editData.DetallePolera || editData.DetallePolo || editData.DetalleTermo // Adjust based on selected type
+        editDataCopy.DetalleGorra || editDataCopy.DetallePolera || editDataCopy.DetallePolo || editDataCopy.DetalleTermo
+
       // After extracting detailData, remove it from the editData object
-      delete editData.DetalleGorra
-      delete editData.DetallePolera
-      delete editData.DetallePolo
-      delete editData.DetalleTermo
+      delete editDataCopy.DetalleGorra
+      delete editDataCopy.DetallePolera
+      delete editDataCopy.DetallePolo
+      delete editDataCopy.DetalleTermo
 
       const response = await fetch(`/api/products`, {
         method: "PUT",
@@ -162,8 +281,8 @@ export function DataTable({ tableName, data, onDataChange }: DataTableProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          productId: editData.id,
-          productData: editData,
+          productId: editDataCopy.id,
+          productData: editDataCopy,
           detailData: detailData,
         }),
       })
@@ -245,10 +364,22 @@ export function DataTable({ tableName, data, onDataChange }: DataTableProps) {
   }
 
   const handleEditField = (field: string, value: any) => {
-    setEditData((prev: any) => ({
-      ...prev,
-      [field]: value,
-    }))
+    // If the field contains a dot notation, it's a nested property
+    if (field.includes(".")) {
+      const [parentField, childField] = field.split(".")
+      setEditData((prev: any) => ({
+        ...prev,
+        [parentField]: {
+          ...prev[parentField],
+          [childField]: value,
+        },
+      }))
+    } else {
+      setEditData((prev: any) => ({
+        ...prev,
+        [field]: value,
+      }))
+    }
   }
 
   return (
@@ -276,6 +407,14 @@ export function DataTable({ tableName, data, onDataChange }: DataTableProps) {
                   <TableCell key={column}>
                     {(() => {
                       if (editingRow === row.id) {
+                        if (typeof row[column] === "object" && row[column] !== null) {
+                          return (
+                            <JsonObjectEditor
+                              data={editData[column] || {}}
+                              onChange={(updatedData) => handleEditField(column, updatedData)}
+                            />
+                          )
+                        }
                         return (
                           <Input
                             value={editData[column] || ""}
