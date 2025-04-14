@@ -7,186 +7,213 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Producto {
-  id             String          @id @default(uuid())
-  nombre         String
-  descripcion    String
-  precio         Float
-  imagenes       String[]
-  stock          Int
-  categoria      String
-  fechaCreacion  DateTime        @default(now())
-  destacado      Boolean         @default(false)
-  tipoProducto   String          @default("personalizable")
-  disenadorId    String?
-  detalleGorra   DetalleGorra?
-  detallePolera  DetallePolera?
-  detallePolo    DetallePolo?
-  detalleSticker DetalleSticker?
-  detalleTermo   DetalleTermo?
-  itemsCarrito   ItemCarrito[]
-  itemsPedido    ItemPedido[]
-  disenador      Disenador?      @relation(fields: [disenadorId], references: [id])
+model CapDetails {
+  id                String   @id
+  sizes             String[]
+  colors            String[]
+  material          String?
+  adjustable        Boolean  @default(true)
+  style             String?
+  customizationArea Json
+  productId         String   @unique
+  Product           Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
-model Disenador {
-  id            String     @id @default(uuid())
-  nombre        String
-  descripcion   String?
-  foto          String?
-  pais          String     @default("Perú")
-  fechaRegistro DateTime   @default(now())
-  productos     Producto[]
+model Category {
+  id          String       @id
+  name        String       @unique
+  description String?
+  image       String?
+  createdAt   DateTime     @default(now())
+  Collection  Collection[]
+  Product     Product[]
 }
 
-model Diseno {
-  id                String                  @id @default(uuid())
-  nombre            String
-  imagen            String
-  categoria         String
-  tags              String[]
-  fechaCreacion     DateTime                @default(now())
-  usuarioId         String?
-  usuario           Usuario?                @relation(fields: [usuarioId], references: [id])
-  personalizaciones PersonalizacionDiseno[]
+model Collection {
+  id          String    @id
+  name        String
+  description String?
+  image       String?
+  createdAt   DateTime  @default(now())
+  categoryId  String
+  Category    Category  @relation(fields: [categoryId], references: [id])
+  Product     Product[]
+
+  @@unique([categoryId, name])
 }
 
-model PersonalizacionDiseno {
-  id            String       @id @default(uuid())
-  disenoId      String
-  posicionX     Float        @default(0)
-  posicionY     Float        @default(0)
-  ancho         Float
-  alto          Float
-  rotacion      Float        @default(0)
-  itemCarritoId String?
-  diseno        Diseno       @relation(fields: [disenoId], references: [id], onDelete: Cascade)
-  itemCarrito   ItemCarrito? @relation(fields: [itemCarritoId], references: [id])
+model Design {
+  id                  String                @id
+  name                String
+  image               String
+  category            String
+  tags                String[]
+  createdAt           DateTime              @default(now())
+  userId              String?
+  User                User?                 @relation(fields: [userId], references: [id])
+  DesignCustomization DesignCustomization[]
 }
 
-model DetalleGorra {
-  id                  String   @id @default(uuid())
-  tamanos             String[]
-  colores             String[]
-  areaPersonalizacion Json
-  productoId          String   @unique
-  producto            Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+model DesignCustomization {
+  id          String     @id
+  designId    String
+  positionX   Float      @default(0)
+  positionY   Float      @default(0)
+  width       Float
+  height      Float
+  rotation    Float      @default(0)
+  orderItemId String?
+  Design      Design     @relation(fields: [designId], references: [id], onDelete: Cascade)
+  OrderItem   OrderItem? @relation(fields: [orderItemId], references: [id])
 }
 
-model DetallePolo {
-  id                   String   @id @default(uuid())
-  tamanos              String[]
-  colores              String[]
-  material             String
-  areasPersonalizacion Json
-  productoId           String   @unique
-  producto             Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+model Designer {
+  id          String    @id
+  name        String
+  description String?
+  photo       String?
+  country     String    @default("Peru")
+  createdAt   DateTime  @default(now())
+  Product     Product[]
 }
 
-model DetallePolera {
-  id                   String   @id @default(uuid())
-  tamanos              String[]
-  colores              String[]
-  material             String
-  conCapucha           Boolean  @default(false)
-  areasPersonalizacion Json
-  productoId           String   @unique
-  producto             Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+model Order {
+  id              String      @id
+  status          String
+  totalAmount     Float
+  shippingAddress String
+  orderDate       DateTime    @default(now())
+  deliveryDate    DateTime?
+  userId          String
+  User            User        @relation(fields: [userId], references: [id])
+  OrderItem       OrderItem[]
 }
 
-model DetalleSticker {
-  id                  String   @id @default(uuid())
-  dimensiones         Json
-  tipoAdhesivo        String
-  resistenciaAgua     Boolean  @default(false)
-  formaPersonalizable Boolean  @default(true)
-  productoId          String   @unique
-  producto            Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+model OrderItem {
+  id                  String                @id
+  quantity            Int
+  unitPrice           Float
+  customization       Json?
+  orderId             String
+  productId           String
+  DesignCustomization DesignCustomization[]
+  Order               Order                 @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  Product             Product               @relation(fields: [productId], references: [id])
 }
 
-model DetalleTermo {
-  id                  String   @id @default(uuid())
-  capacidad           Int
-  colores             String[]
-  material            String
-  areaPersonalizacion Json
-  productoId          String   @unique
-  producto            Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+model PoloShirtDetails {
+  id                 String   @id
+  sizes              String[]
+  colors             String[]
+  material           String
+  sleeveType         String?
+  customizationAreas Json
+  collar             Boolean  @default(true)
+  fit                String?
+  productId          String   @unique
+  Product            Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
-model Usuario {
-  id            String    @id @default(uuid())
-  email         String    @unique
-  nombre        String
-  apellidos     String
-  direccion     String?
-  telefono      String?
-  fechaCreacion DateTime  @default(now())
-  carritos      Carrito[]
-  disenos       Diseno[]
-  pedidos       Pedido[]
+model Product {
+  id                  String               @id
+  name                String
+  description         String
+  price               Float
+  images              String[]
+  stock               Int
+  tags                String[]
+  productType         String
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime
+  featured            Boolean              @default(false)
+  isCustomizable      Boolean              @default(true)
+  categoryId          String
+  collectionId        String?
+  designerId          String?
+  CapDetails          CapDetails?
+  OrderItem           OrderItem[]
+  PoloShirtDetails    PoloShirtDetails?
+  Category            Category             @relation(fields: [categoryId], references: [id])
+  Collection          Collection?          @relation(fields: [collectionId], references: [id])
+  Designer            Designer?            @relation(fields: [designerId], references: [id])
+  ProductFavorite     ProductFavorite[]
+  StickerDetails      StickerDetails?
+  StickerSheetDetails StickerSheetDetails?
+  SweatshirtDetails   SweatshirtDetails?
+  ThermosDetails      ThermosDetails?
 }
 
-model Carrito {
-  id            String        @id @default(uuid())
-  fechaCreacion DateTime      @default(now())
-  usuarioId     String
-  usuario       Usuario       @relation(fields: [usuarioId], references: [id])
-  items         ItemCarrito[]
+model ProductFavorite {
+  id        String   @id
+  userId    String
+  productId String
+  addedAt   DateTime @default(now())
+  Product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
 }
 
-model ItemCarrito {
-  id                String                  @id @default(uuid())
-  cantidad          Int
-  personalizacion   Json?
-  carritoId         String
-  productoId        String
-  carrito           Carrito                 @relation(fields: [carritoId], references: [id], onDelete: Cascade)
-  producto          Producto                @relation(fields: [productoId], references: [id])
-  personalizaciones PersonalizacionDiseno[]
+model StickerDetails {
+  id           String  @id
+  dimensions   Json
+  adhesiveType String
+  material     String
+  waterproof   Boolean @default(false)
+  customShape  Boolean @default(true)
+  shape        String?
+  finishType   String?
+  productId    String  @unique
+  Product      Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
-model Pedido {
-  id             String       @id @default(uuid())
-  estado         String
-  totalPagado    Float
-  direccionEnvio String
-  fechaPedido    DateTime     @default(now())
-  fechaEntrega   DateTime?
-  usuarioId      String
-  items          ItemPedido[]
-  usuario        Usuario      @relation(fields: [usuarioId], references: [id])
+model StickerSheetDetails {
+  id              String  @id
+  sheetDimensions Json
+  stickerCount    Int
+  individualSizes Json?
+  adhesiveType    String
+  material        String
+  waterproof      Boolean @default(false)
+  productId       String  @unique
+  Product         Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
-model ItemPedido {
-  id              String   @id @default(uuid())
-  cantidad        Int
-  precioUnitario  Float
-  personalizacion Json?
-  pedidoId        String
-  productoId      String
-  pedido          Pedido   @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
-  producto        Producto @relation(fields: [productoId], references: [id])
+model SweatshirtDetails {
+  id                 String   @id
+  sizes              String[]
+  colors             String[]
+  material           String
+  hasHood            Boolean  @default(false)
+  pockets            Boolean  @default(true)
+  customizationAreas Json
+  thickness          String?
+  productId          String   @unique
+  Product            Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
-model ImagenPersonalizacion {
-  id                 String    @id @default(uuid())
-  nombre             String
-  ruta               String
-  categoria          String
-  tags               String[]
-  color              String?
-  estilo             String?
-  orientacion        String?
-  favoritos          Int       @default(0)
-  ancho              Int
-  alto               Int
-  fechaCreacion      DateTime  @default(now())
-  fechaActualizacion DateTime  @updatedAt
-  coleccion          String?
-  autor              String?
-  licencia           String? // to delete
-  premium            Boolean   @default(false) // also to delete
-  vecesUsado         Int       @default(0)
-  ultimoUso          DateTime?
+model ThermosDetails {
+  id                String   @id
+  capacity          Int
+  colors            String[]
+  material          String
+  insulated         Boolean  @default(true)
+  customizationArea Json
+  lidType           String?
+  productId         String   @unique
+  Product           Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id              String            @id
+  email           String            @unique
+  firstName       String
+  lastName        String
+  address         String?
+  phone           String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime
+  Design          Design[]
+  Order           Order[]
+  ProductFavorite ProductFavorite[]
 }

@@ -18,7 +18,8 @@ export function ImageUpload() {
     onDrop,
     accept: {
       'image/jpeg': ['.jpg', '.jpeg'],
-      'image/png': ['.png']
+      'image/png': ['.png'],
+      'application/json': ['.json'],
     }
   });
 
@@ -30,9 +31,26 @@ export function ImageUpload() {
 
     setUploading(true);
     const formData = new FormData();
-    files.forEach(file => {
-      formData.append('files', file);
-    });
+
+    for (const file of files) {
+      if (file.type === 'application/json') {
+        // Read the JSON file and parse it
+        const text = await file.text();
+        let jsonData;
+        try {
+          jsonData = JSON.parse(text);
+        } catch (error) {
+          toast.error('Invalid JSON file. Please check the format.');
+          setUploading(false);
+          return;
+        }
+        jsonData.forEach((image: any) => {
+          formData.append('files', new Blob([JSON.stringify(image)], { type: 'application/json' }));
+        });
+      } else {
+        formData.append('files', file);
+      }
+    }
 
     try {
       const response = await fetch('/api/images', {
@@ -71,10 +89,10 @@ export function ImageUpload() {
           {isDragActive ? (
             <p>Drop the files here ...</p>
           ) : (
-            <p>Drag & drop image files here, or click to select files</p>
+            <p>Drag & drop image files or JSON here, or click to select files</p>
           )}
           <p className="text-sm text-gray-500 mt-2">
-            Supported formats: JPG, PNG
+            Supported formats: JPG, PNG, JSON
           </p>
         </div>
 

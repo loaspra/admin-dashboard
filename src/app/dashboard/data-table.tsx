@@ -262,18 +262,25 @@ export function DataTable({ tableName, data, onDataChange }: DataTableProps) {
 
   const handleSaveEdit = async () => {
     try {
+      console.log('edit data' + JSON.stringify(editData));
       // Create a deep copy of the edit data to avoid reference issues
       const editDataCopy = JSON.parse(JSON.stringify(editData))
 
       // Extract detail data
       const detailData =
-        editDataCopy.DetalleGorra || editDataCopy.DetallePolera || editDataCopy.DetallePolo || editDataCopy.DetalleTermo
+        editDataCopy.detalleGorra || editDataCopy.detallePolera || editDataCopy.detallePolo || editDataCopy.detalleTermo
 
       // After extracting detailData, remove it from the editData object
-      delete editDataCopy.DetalleGorra
-      delete editDataCopy.DetallePolera
-      delete editDataCopy.DetallePolo
-      delete editDataCopy.DetalleTermo
+      delete editDataCopy.detalleGorra
+      delete editDataCopy.detallePolera
+      delete editDataCopy.detallePolo
+      delete editDataCopy.detalleTermo
+
+      // also extract the id and remove it from the object
+      const id = editDataCopy.id
+      delete editDataCopy.id
+
+      console.log(editDataCopy.id, " | ", editDataCopy, " | ", detailData);
 
       const response = await fetch(`/api/products`, {
         method: "PUT",
@@ -281,7 +288,7 @@ export function DataTable({ tableName, data, onDataChange }: DataTableProps) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          productId: editDataCopy.id,
+          productId: id,
           productData: editDataCopy,
           detailData: detailData,
         }),
