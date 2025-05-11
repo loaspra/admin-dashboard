@@ -1,0 +1,21 @@
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Function to get the authenticated client with access token
+async function getAdminClient() {
+  const { data } = await supabase.auth.getSession();
+  if (!data.session) {
+    throw new Error('No authenticated session');
+  }
+  
+  return createClient(supabaseUrl, supabaseKey, {
+    global: {
+      headers: {
+        Authorization: `Bearer ${data.session.access_token}`
+      }
+    }
+  });
+}

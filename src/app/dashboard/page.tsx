@@ -22,7 +22,23 @@ export default function Dashboard() {
   const [modalType, setModalType] = useState<'edit' | 'create' | null>(null);
   const [selectedProductType, setSelectedProductType] = useState<string>('');
   const [productData, setProductData] = useState<any[]>([]); // State for product data
+  const [pagination, setPagination] = useState({ 
+    page: 0, 
+    pageSize: 10, 
+    total: 0, 
+    pageCount: 0 
+  });
   const [newProductData, setNewProductData] = useState<any>({}); // State for new product data
+
+  // Define product types based on schema
+  const productTypes = [
+    'gorra',
+    'polera',
+    'polo',
+    'termo',
+    'sticker',
+    'stickerSheet'
+  ];
 
   const fetchRecentOrders = async () => {
     setIsLoading(true);
@@ -41,16 +57,17 @@ export default function Dashboard() {
     }
   };
 
-const fetchProductData = async (type: string) => {
+const fetchProductData = async (type: string, page = 0, pageSize = 10) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/products?type=${type}`); // Fetch data for the selected product type
+      const response = await fetch(`/api/products?type=${type}&page=${page}&pageSize=${pageSize}`);
       if (!response.ok) {
         throw new Error('Failed to fetch product data');
       }
-      const data = await response.json(); // array of products
-
-      setProductData(data);
+      const result = await response.json();
+      
+      setProductData(result.data);
+      setPagination(result.pagination);
     } catch (error) {
       toast.error("Failed to load product data");
       console.error(error);
@@ -65,7 +82,15 @@ const fetchProductData = async (type: string) => {
 
 
   const handleDataChange = () => {
-    fetchProductData(selectedProductType);
+    fetchProductData(selectedProductType, pagination.page, pagination.pageSize);
+  };
+
+  const handlePageChange = (newPage: number) => {
+    fetchProductData(selectedProductType, newPage, pagination.pageSize);
+  };
+  
+  const handlePageSizeChange = (newPageSize: number) => {
+    fetchProductData(selectedProductType, 0, newPageSize);
   };
 
   const openModal = (type: 'edit' | 'create') => {
@@ -168,40 +193,61 @@ const fetchProductData = async (type: string) => {
 
       {/* Modal for Product Management */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent>
+        <DialogContent className="max-w-6xl w-[95vw] max-h-[90vh] h-[90vh]">
           <DialogHeader>
             <DialogTitle>{modalType === 'edit' ? 'Edit/Delete Product' : 'Create New Product'}</DialogTitle>
           </DialogHeader>
-          <DialogContent>
-            <p>Select Product Type:</p>
-            {/* Dropdown for selecting product type */}
-            <select onChange={(e) => handleProductTypeChange(e.target.value)}>
-              <option value="">Select a type</option>
-              <option value="Gorra">Gorra</option>
-              <option value="Polera">Polera</option>
-              <option value="Polo">Polo</option>
-              <option value="Termo">Termo</option>
-              {/* Add other product types as needed */}
-            </select>
+          <div className="overflow-y-auto pr-2 h-full">
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-1">Select Product Type:</label>
+              {/* Dropdown for selecting product type */}
+              <select 
+                className="w-full p-2 border rounded"
+                onChange={(e) => handleProductTypeChange(e.target.value)}
+                value={selectedProductType}
+              >
+                <option value="">Select a type</option>
+                {productTypes.map(type => (
+                  <option key={type} value={type}>
+                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                  </option>
+                ))}
+              </select>
+            </div>
+            
+            {/* Loading indicator */}
+            {isLoading && (
+              <div className="flex justify-center my-8">
+                <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-gray-900"></div>
+              </div>
+            )}
+            
             {/* Conditional rendering for DataTable or Form based on modalType */}
-            {modalType === 'edit' ? (
-              <DataTable 
-                tableName={selectedProductType} 
-                data={productData} 
-                onDataChange={handleDataChange} 
-              />
-            ) : (
+            {!isLoading && modalType === 'edit' && selectedProductType && (
+              <div className="mt-4">
+                <DataTable 
+                  tableName={selectedProductType} 
+                  data={productData} 
+                  onDataChange={handleDataChange}
+                  pagination={pagination}
+                  onPageChange={handlePageChange}
+                  onPageSizeChange={handlePageSizeChange}
+                />
+              </div>
+            )}
+            
+            {!isLoading && modalType === 'create' && (
               <form onSubmit={handleCreateProduct}>
                 {/* Form fields for creating a new product */}
                 <Input placeholder="Product Name" required />
-                <Input placeholder="Description" />
+                <Input placeholder="Description" className="mt-2" />
                 {/* Add other fields as necessary */}
-                <Button type="submit">Create Product</Button>
+                <Button type="submit" className="mt-4">Create Product</Button>
               </form>
             )}
-          </DialogContent>
+          </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsModalOpen(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setIsModalOpen(false)}>Close</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

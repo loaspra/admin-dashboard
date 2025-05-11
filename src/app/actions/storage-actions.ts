@@ -8,9 +8,14 @@ export async function uploadImage(imageBuffer: Buffer, fileName: string, path: s
   }
   
   try {
+    // Ensure the path is in the products/sticker subdirectory
+    const storagePath = path.startsWith('products/sticker') 
+      ? path 
+      : `products/sticker/${path.split('/').pop() || path}`;
+    
     const { data, error } = await supabaseAdmin.storage
       .from('images')
-      .upload(path, imageBuffer, {
+      .upload(storagePath, imageBuffer, {
         contentType: `image/${fileName.split('.').pop()}`,
         cacheControl: '3600'
       });
@@ -19,7 +24,7 @@ export async function uploadImage(imageBuffer: Buffer, fileName: string, path: s
 
     const { data: { publicUrl } } = supabaseAdmin.storage
       .from('images')
-      .getPublicUrl(path);
+      .getPublicUrl(storagePath);
 
     return publicUrl;
   } catch (error) {
@@ -27,5 +32,3 @@ export async function uploadImage(imageBuffer: Buffer, fileName: string, path: s
     throw error;
   }
 }
-
-// Add other storage operations as needed 

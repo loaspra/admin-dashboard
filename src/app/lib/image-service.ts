@@ -11,6 +11,30 @@ interface UploadedFile {
   mimetype: string
   size: number
 }
+
+// Add ProductType definition based on schema relation fields
+type ProductType = 
+  | 'CapDetails' 
+  | 'PoloShirtDetails' 
+  | 'StickerDetails' 
+  | 'StickerSheetDetails' 
+  | 'SweatshirtDetails' 
+  | 'ThermosDetails';
+
+// Function to map ProductType string to the actual Prisma model name
+// We might not need this if we just use the string directly in the Product model
+// but it's good for validation or potential future use.
+function isValidProductType(type: string): type is ProductType {
+  return [
+    'CapDetails', 
+    'PoloShirtDetails', 
+    'StickerDetails', 
+    'StickerSheetDetails', 
+    'SweatshirtDetails', 
+    'ThermosDetails'
+  ].includes(type);
+}
+
 // Initialize Supabase client
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -211,7 +235,7 @@ export class ImageService {
       }
       const prompt = `Analiza esta imagen y proporciona la siguiente información en formato JSON:
   - nombre: un nombre descriptivo para la imagen
-  - tags: arreglo de palabras clave relevantes (máximo 5)
+  - tags: arreglo de palabras clave relevantes (máximo 5), debes incluir los colores predominantes de la imagen
   - color: color dominante o esquema de colores
   - estilo: uno de [cartoon, realista, minimalista, abstracto]
   - orientacion: uno de [horizontal, vertical, cuadrada]
@@ -223,7 +247,9 @@ export class ImageService {
   A continuación, se muestran las categorías disponibles, cada una tiene una lista de colecciones asociadas:
   ${JSON.stringify(Object.keys(categorias))}
   `}
-  Por favor, responde solo con el objeto JSON, sin texto adicional.`
+  Por favor, responde solo con el objeto JSON, sin texto adicional.
+  
+  Mas contexto: las imagenes son planchas de stickers, pueden tener diferentes tematicas y colores. `
       const base64Image = imageBytes.toString("base64")
 
       try {
@@ -296,7 +322,7 @@ export class ImageService {
     const fileExt = fileName.split(".").pop()
     const uniqueFileName = `${uuidv4()}.${fileExt}`
     // Use a flat structure with a descriptive prefix instead of nested folders
-    const filePath = `sticker_product_${uniqueFileName}`
+    const filePath = `products/sticker/${uniqueFileName}`
 
     try {
       // Call server action
@@ -338,15 +364,23 @@ export class ImageService {
     }
   }
 
-  static async processAndUploadImage(imageBuffer: Buffer, fileName: string): Promise<string> {
+  static async processAndUploadImageWithType(
+    imageBuffer: Buffer, 
+    fileName: string, 
+    productType: string // Now accepts productType string
+  ): Promise<string> {
+    if (!isValidProductType(productType)) {
+        throw new Error(`Invalid product type provided: ${productType}`);
+    }
+
     try {
       // Optimize image
       const optimizedBuffer = await this.optimizeImage(imageBuffer)
 
       // Process with Gemini and upload to Supabase in parallel
       const [metadata, publicUrl] = await Promise.all([
-        this.processImageWithGemini(optimizedBuffer, false),
-        this.uploadImageToSupabase(optimizedBuffer, fileName),
+        this.processImageWithGemini(optimizedBuffer, false), // false because it's not from JSON
+        this.uploadImageToSupabase(optimizedBuffer, fileName), // Still uploads to a generic path, maybe refine later?
       ])
 
       console.log("Metadata: " + JSON.stringify(metadata, null, 2))
@@ -357,48 +391,117 @@ export class ImageService {
       // Generate ID for product
       const productId = uuidv4();
       
-      // Create product entry with ID
+      // Convert full URL to storage path for DB consistency
+      const urlObj = new URL(publicUrl);
+      const pathParts = urlObj.pathname.split('/');
+      // Adjust index based on expected URL structure (e.g., /storage/v1/object/public/bucket/path/to/file)
+      const bucketNameIndex = pathParts.findIndex(part => part === 'public') + 1; 
+      const storagePath = urlObj.pathname.substring(urlObj.pathname.indexOf('/', bucketNameIndex + 1)); // Get path after bucket name
+
+      // Create product entry with ID and the correct productType
       const product = await prisma.product.create({
         data: {
           id: productId,
           name: metadata.nombre || 'Untitled Image',
           description: metadata.tags?.join(', ') || 'No description',
-          price: metadata.premium ? 9.99 : 4.99,
-          images: [publicUrl],
-          stock: 999,
+          price: metadata.premium ? 9.99 : 4.99, // Default pricing, adjust as needed
+          images: [storagePath], // Store relative path
+          stock: 999, // Default stock
           tags: metadata.tags || [],
-          productType: 'sticker',
+          productType: productType, // Use the provided productType
           createdAt: new Date(),
           updatedAt: new Date(),
           featured: metadata.premium,
-          isCustomizable: true,
-          categoryId: await this.getOrCreateCategoryId(metadata.categoria),
+          isCustomizable: true, // Default, adjust as needed per product type
+          categoryId: await this.getOrCreateCategoryId(metadata.categoria), // Category from Gemini
+          // Collection might also come from Gemini or be null
+          collectionId: metadata.coleccion ? await this.getOrCreateCollectionId(metadata.categoria, metadata.coleccion) : null, 
         },
       })
 
-      // Create StickerDetails with reference to the product
-      await prisma.stickerDetails.create({
-        data: {
-          id: uuidv4(),
-          dimensions: {
-            width: dimensions.width || 0,
-            height: dimensions.height || 0
-          },
-          adhesiveType: 'Standard',
-          material: 'Vinyl',
-          waterproof: true,
-          customShape: true,
-          shape: 'Custom',
-          finishType: 'Glossy',
-          productId: product.id
-        }
-      })
+      // Create the corresponding details entry based on productType
+      // Note: Default values are used here. You might want to infer these from Gemini too,
+      // or provide UI options for them during upload.
+      switch (productType) {
+        case 'CapDetails':
+          await prisma.capDetails.create({
+            data: {
+              id: uuidv4(),
+              sizes: ['Adult Unisex'], colors: [metadata.color || 'various'], material: 'Cotton Blend', adjustable: true, style: metadata.estilo,
+              customizationArea: { front: true, back: false, side: false }, // Example JSON
+              productId: product.id,
+            }
+          });
+          break;
+        case 'PoloShirtDetails':
+          await prisma.poloShirtDetails.create({
+            data: {
+              id: uuidv4(),
+              sizes: ['S', 'M', 'L', 'XL'], colors: [metadata.color || 'various'], material: 'Pique Cotton', sleeveType: 'Short',
+              customizationAreas: { front_chest: true, back: true, sleeve: false }, collar: true, fit: 'Regular',
+              productId: product.id,
+            }
+          });
+          break;
+        case 'StickerDetails': // Assuming single stickers might be uploaded this way too
+           await prisma.stickerDetails.create({
+            data: {
+              id: uuidv4(),
+              dimensions: { width: dimensions.width || 100, height: dimensions.height || 100 }, // Use dimensions from image
+              adhesiveType: 'Standard', material: 'Vinyl', waterproof: true, customShape: true, shape: 'Custom', finishType: 'Glossy',
+              productId: product.id
+            }
+           });
+           break;
+        case 'StickerSheetDetails': // If the uploaded image is a sheet
+           await prisma.stickerSheetDetails.create({
+             data: {
+               id: uuidv4(),
+               sheetDimensions: { width: dimensions.width || 210, height: dimensions.height || 297 }, // A4-ish default?
+               stickerCount: metadata.tags?.length || 5, // Guess based on tags? Needs better logic
+               // individualSizes: [{w:50, h:50}, ...], // Needs inference or input
+               adhesiveType: 'Standard', material: 'Vinyl', waterproof: true,
+               productId: product.id,
+             }
+           });
+           break;
+        case 'SweatshirtDetails':
+           await prisma.sweatshirtDetails.create({
+            data: {
+              id: uuidv4(),
+              sizes: ['S', 'M', 'L', 'XL'], colors: [metadata.color || 'various'], material: 'Fleece Blend', hasHood: true, pockets: true,
+              customizationAreas: { front: true, back: true, sleeve: true }, thickness: 'Medium',
+              productId: product.id,
+            }
+           });
+           break;
+        case 'ThermosDetails':
+           await prisma.thermosDetails.create({
+            data: {
+              id: uuidv4(),
+              capacity: 500, colors: [metadata.color || 'various'], material: 'Stainless Steel', insulated: true,
+              customizationArea: { wrap: true }, lidType: 'Screw-on',
+              productId: product.id,
+            }
+           });
+           break;
+        default:
+          // Optionally handle unknown type, though validation should prevent this
+          console.warn(`Product details not created for unknown type: ${productType}`);
+      }
 
-      return publicUrl
+
+      return publicUrl // Return the public URL for potential frontend use
     } catch (error) {
-      console.error("Error in processAndUploadImage:", error)
-      throw error
+      console.error(`Error in processAndUploadImageWithType for ${fileName}:`, error)
+      throw error // Re-throw the error to be caught by the batch processor
     }
+  }
+
+  static async processAndUploadImage(imageBuffer: Buffer, fileName: string): Promise<string> {
+     console.warn("Calling deprecated processAndUploadImage. Use processAndUploadImageWithType or processJsonImages.");
+     // Defaulting to 'StickerSheetDetails' for backward compatibility or specific use cases
+     return this.processAndUploadImageWithType(imageBuffer, fileName, 'StickerSheetDetails');
   }
 
   private static async getOrCreateCategoryId(categoryName: string): Promise<string> {
@@ -433,15 +536,20 @@ export class ImageService {
     return newCategory.id;
   }
 
-  static async processBatchImages(files: UploadedFile[]): Promise<string[]> {
+  static async processBatchImagesWithType(files: UploadedFile[], productType: string): Promise<string[]> {
+    if (!isValidProductType(productType)) {
+        // Maybe return an error response instead of throwing?
+        throw new Error(`Invalid product type provided for batch processing: ${productType}`);
+    }
     const results: string[] = []
 
     for (const file of files) {
       try {
-        const url = await this.processAndUploadImage(file.buffer, file.originalname)
+        // Call the type-aware processing function
+        const url = await this.processAndUploadImageWithType(file.buffer, file.originalname, productType)
         results.push(url)
       } catch (error) {
-        console.error(`Error processing ${file.originalname}:`, error)
+        console.error(`Error processing ${file.originalname} for type ${productType}:`, error)
         // Continue with next file even if one fails
       }
     }
@@ -449,18 +557,33 @@ export class ImageService {
     return results
   }
 
+  // Keep the old batch processor, maybe rename it or mark as deprecated?
+  // It seems tied to the old direct image upload logic which defaults to StickerSheet
+  static async processBatchImages(files: UploadedFile[]): Promise<string[]> {
+     console.warn("Calling deprecated processBatchImages. Use processBatchImagesWithType.");
+     // Defaulting to 'StickerSheetDetails'
+     return this.processBatchImagesWithType(files, 'StickerSheetDetails');
+  }
+
   static async processJsonImages(jsonImages: JsonImage[]): Promise<string[]> {
     const results: string[] = [];
 
     for (const image of jsonImages) {
       try {
-        const metadata = await this.processImageWithGemini(image.buffer, true);
+        // Gemini still processes based on the image content + context
+        const metadata = await this.processImageWithGemini(image.buffer, true); // true because it's from JSON
 
         // Optimize image
         const optimizedBuffer = await this.optimizeImage(image.buffer)
 
         // Upload image to Supabase
-        const publicUrl = await this.uploadImageToSupabase(optimizedBuffer, image.originalname)
+        const fullPublicUrl = await this.uploadImageToSupabase(optimizedBuffer, image.originalname)
+        
+        // Convert full URL to storage path
+        const urlObj = new URL(fullPublicUrl);
+        const pathParts = urlObj.pathname.split('/');
+         const bucketNameIndex = pathParts.findIndex(part => part === 'public') + 1; 
+         const storagePath = urlObj.pathname.substring(urlObj.pathname.indexOf('/', bucketNameIndex + 1));
 
         // Get image dimensions
         const dimensions = await sharp(optimizedBuffer).metadata()
@@ -468,6 +591,10 @@ export class ImageService {
         // Generate ID for product
         const productId = uuidv4();
         
+        // Determine productType - JSON implies single stickers or sheets? Defaulting to 'StickerDetails'
+        // This might need refinement based on JSON structure or conventions
+        const productTypeForJson: ProductType = 'StickerDetails'; 
+
         // Create product entry with ID
         const product = await prisma.product.create({
           data: {
@@ -475,20 +602,20 @@ export class ImageService {
             name: metadata.nombre || 'Untitled Image',
             description: metadata.tags?.join(', ') || 'No description',
             price: metadata.premium ? 9.99 : 4.99,
-            images: [publicUrl],
+            images: [storagePath],
             stock: 999,
             tags: metadata.tags || [],
-            productType: 'sticker',
+            productType: productTypeForJson, // Set determined type
             createdAt: new Date(),
             updatedAt: new Date(),
             featured: metadata.premium,
             isCustomizable: true,
-            categoryId: await this.getOrCreateCategoryId(image.categoria),
-            collectionId: await this.getOrCreateCollectionId(image.categoria, image.coleccion),
+            categoryId: await this.getOrCreateCategoryId(image.categoria), // Use category from JSON input
+            collectionId: await this.getOrCreateCollectionId(image.categoria, image.coleccion), // Use collection from JSON input
           },
         });
 
-        // Create StickerDetails with reference to the product
+        // Create StickerDetails (as decided above for JSON uploads)
         await prisma.stickerDetails.create({
           data: {
             id: uuidv4(),
@@ -506,7 +633,7 @@ export class ImageService {
           }
         });
 
-        results.push(publicUrl);
+        results.push(storagePath);
       } catch (error) {
         console.error(`Error processing image from JSON:`, error);
         // Continue with next image even if one fails
