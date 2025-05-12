@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import OrderCard from './order-card';
 import { Skeleton } from '@/app/components/ui/skeleton';
 import { Button } from '@/app/components/ui/button';
-import { EnhancedGlassCard } from '@/app/components/ui/enhanced-glass-card';
+import { EnhancedGlassCard } from '@/components/ui/enhanced-glass-card';
 
 export default function RecentOrders() {
   const [orders, setOrders] = useState<any[]>([]);
@@ -58,74 +58,76 @@ export default function RecentOrders() {
   };
 
   return (
-    <EnhancedGlassCard className="p-4 backdrop-blur-xl">
+    <EnhancedGlassCard className="p-4 backdrop-blur-xl max-h-[calc(100vh-12rem)] flex flex-col overflow-hidden">
       <div className="flex justify-between items-center mb-4">
         <div className="text-white flex items-center gap-2">
           <span className="text-sm">{pagination.total > 0 ? `${pagination.total} ${pagination.total === 1 ? 'order' : 'orders'}` : ''}</span>
         </div>
       </div>
 
-      {loading ? (
-        // Loading skeletons
-        Array.from({ length: 3 }).map((_, i) => (
-          <div key={i} className="mb-4 space-y-2">
-            <Skeleton className="h-10 w-full rounded-md bg-white/5" />
-            <Skeleton className="h-24 w-full rounded-md bg-white/5" />
-          </div>
-        ))
-      ) : error ? (
-        // Error state
-        <div className="text-center py-10">
-          <p className="text-red-400 mb-4">{error}</p>
-          <Button 
-            variant="outline" 
-            onClick={() => fetchOrders()}
-            className="border-white/10 bg-white/5 hover:bg-white/10 text-white"
-          >
-            Try Again
-          </Button>
-        </div>
-      ) : orders.length === 0 ? (
-        // Empty state
-        <div className="text-center py-10">
-          <p className="text-white/60">No orders found</p>
-        </div>
-      ) : (
-        // Orders list
-        <>
-          <div className="space-y-2">
-            {orders.map((order) => (
-              <OrderCard key={order.id} order={order} />
-            ))}
-          </div>
-          
-          {/* Pagination controls */}
-          {pagination.pageCount > 1 && (
-            <div className="flex justify-between mt-4">
+      <div className="flex-1 overflow-y-auto flex flex-col items-center">
+        <div className="w-full max-w-[90%]">
+          {loading ? (
+            // Loading skeletons
+            Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className="mb-4 space-y-2">
+                <Skeleton className="h-10 w-full rounded-md bg-white/5" />
+                <Skeleton className="h-24 w-full rounded-md bg-white/5" />
+              </div>
+            ))
+          ) : error ? (
+            // Error state
+            <div className="text-center py-10">
+              <p className="text-red-400 mb-4">{error}</p>
               <Button 
                 variant="outline" 
-                size="sm"
-                onClick={handlePrevPage} 
-                disabled={pagination.page === 0}
-                className="bg-white/5 hover:bg-white/10 text-white border-white/10"
+                onClick={() => fetchOrders()}
+                className="border-white/10 bg-white/5 hover:bg-white/10 text-white"
               >
-                Previous
-              </Button>
-              <span className="text-sm text-white/60 flex items-center">
-                Page {pagination.page + 1} of {pagination.pageCount}
-              </span>
-              <Button 
-                variant="outline" 
-                size="sm"
-                onClick={handleNextPage} 
-                disabled={pagination.page >= pagination.pageCount - 1}
-                className="bg-white/5 hover:bg-white/10 text-white border-white/10"
-              >
-                Next
+                Try Again
               </Button>
             </div>
+          ) : orders.length === 0 ? (
+            // Empty state
+            <div className="text-center py-10">
+              <p className="text-white/60">No orders found</p>
+            </div>
+          ) : (
+            // Orders list
+            <div className="space-y-4 w-full">
+              {orders.map((order) => (
+                <OrderCard key={order.id} order={order} />
+              ))}
+            </div>
           )}
-        </>
+        </div>
+      </div>
+      
+      {/* Pagination controls */}
+      {!loading && !error && orders.length > 0 && pagination.pageCount > 1 && (
+        <div className="flex justify-between mt-4 pt-2 border-t border-white/10">
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={handlePrevPage} 
+            disabled={pagination.page === 0}
+            className="bg-white/5 hover:bg-white/10 text-white border-white/10"
+          >
+            Previous
+          </Button>
+          <span className="text-sm text-white/60 flex items-center">
+            Page {pagination.page + 1} of {pagination.pageCount}
+          </span>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={handleNextPage} 
+            disabled={pagination.page >= pagination.pageCount - 1}
+            className="bg-white/5 hover:bg-white/10 text-white border-white/10"
+          >
+            Next
+          </Button>
+        </div>
       )}
     </EnhancedGlassCard>
   );

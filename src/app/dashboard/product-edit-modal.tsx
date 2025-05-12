@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/app/components/ui/dialog";
 import { DataTable } from './data-table';
-import { GlowEffect } from '@/app/components/ui/glow-effect';
+import { GlowEffect } from '@/components/ui/glow-effect';
 import { motion } from 'framer-motion';
 import { Edit, Loader2 } from 'lucide-react';
 import { cn } from '@/app/lib/utils';

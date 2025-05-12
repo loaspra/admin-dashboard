@@ -19,7 +19,8 @@ import { Button } from "@/app/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { EnhancedGlassCard } from './enhanced-glass-card';
+import { EnhancedGlassCard } from '@/components/ui/enhanced-glass-card';
+import { Portal } from '@/components/ui/portal';
 import { motion } from 'framer-motion';
 import { cn } from '@/app/lib/utils';
 import { ShoppingBag, User, MapPin, Calendar, Instagram } from 'lucide-react';
@@ -157,12 +158,12 @@ export default function OrderCard({ order }: OrderCardProps) {
   return (
     <>
       <EnhancedGlassCard 
-        className="mb-4 hover:shadow-md transition-shadow duration-300"
+        className="mb-4 hover:shadow-md transition-shadow duration-300 w-full"
         colorMode="static"
         blur="soft"
         glowColors={['#3B82F6', '#60A5FA', '#3B82F6', '#2563EB']}
       >
-        <div className="p-3">
+        <div className="p-4">
           <div className="flex justify-between items-start">
             <motion.div
               initial={{ opacity: 0, x: -10 }}
@@ -207,7 +208,7 @@ export default function OrderCard({ order }: OrderCardProps) {
           </div>
           
           <div className="mt-4">
-            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <Dialog>
               <DialogTrigger asChild>
                 <Button 
                   variant="outline" 
@@ -218,124 +219,128 @@ export default function OrderCard({ order }: OrderCardProps) {
                   <span className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </Button>
               </DialogTrigger>
-              
-              <DialogContent className="max-w-md max-h-[80vh] overflow-y-auto bg-black/80 backdrop-blur-xl border border-white/10 text-white">
-                <DialogHeader>
-                  <DialogTitle className="text-xl font-semibold text-white flex items-center gap-2">
-                    <ShoppingBag className="h-5 w-5 text-primary" />
-                    Orden #{order.id.substring(0, 8)}
-                  </DialogTitle>
-                  <DialogDescription className="text-gray-400">
-                    {new Date(order.orderDate).toLocaleDateString('es-PE', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })}
-                  </DialogDescription>
-                </DialogHeader>
-                
-                <div className="space-y-4 mt-4">
-                  {/* Status */}
-                  <div className="flex justify-between items-center">
-                    <span className="font-semibold text-white">Estado:</span>
-                    <Badge className={getStatusColor(order.status)}>
-                      {order.status}
-                    </Badge>
-                  </div>
+            </Dialog>
+            
+            <Dialog open={isOpen} onOpenChange={setIsOpen}>
+              <Portal>
+                <DialogContent className="max-w-md max-h-[80vh] overflow-y-auto bg-black/80 backdrop-blur-xl border border-white/10 text-white z-[1000] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <DialogHeader>
+                    <DialogTitle className="text-xl font-semibold text-white flex items-center gap-2">
+                      <ShoppingBag className="h-5 w-5 text-primary" />
+                      Orden #{order.id.substring(0, 8)}
+                    </DialogTitle>
+                    <DialogDescription className="text-gray-400">
+                      {new Date(order.orderDate).toLocaleDateString('es-PE', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </DialogDescription>
+                  </DialogHeader>
                   
-                  {/* Customer Info */}
-                  <EnhancedGlassCard className="p-4" colorMode="pulse" blur="soft">
-                    <h4 className="font-semibold text-white flex items-center gap-2 mb-3">
-                      <User className="h-4 w-4 text-primary" />
-                      Información del cliente
-                    </h4>
-                    <div className="grid grid-cols-2 gap-2 text-sm">
-                      <span className="text-gray-400">Nombre:</span>
-                      <span className="text-white">{userFullName}</span>
-                      
-                      <span className="text-gray-400">Email:</span>
-                      <span className="text-white">{userEmail}</span>
-                      
-                      {instagramUser && (
-                        <>
-                          <span className="text-gray-400">Instagram:</span>
-                          <span className="text-white">@{instagramUser}</span>
-                        </>
-                      )}
-                      
-                      <span className="text-gray-400">Teléfono:</span>
-                      <span className="text-white">{userPhone}</span>
-                      
-                      <span className="text-gray-400">Dirección:</span>
-                      <span className="text-white">{userAddress}</span>
+                  <div className="space-y-4 mt-4">
+                    {/* Status */}
+                    <div className="flex justify-between items-center">
+                      <span className="font-semibold text-white">Estado:</span>
+                      <Badge className={getStatusColor(order.status)}>
+                        {order.status}
+                      </Badge>
                     </div>
-                  </EnhancedGlassCard>
-                  
-                  {/* Order Items */}
-                  <EnhancedGlassCard className="p-4" colorMode="static" blur="soft">
-                    <h4 className="font-semibold text-white flex items-center gap-2 mb-3">
-                      <ShoppingBag className="h-4 w-4 text-primary" />
-                      Productos
-                    </h4>
-                    <div className="space-y-3">
-                      {order.OrderItem && order.OrderItem.map((item: any) => (
-                        <div key={item.id} className="flex justify-between items-center text-sm border-b border-white/10 pb-2">
-                          <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-lg bg-black/40 overflow-hidden border border-white/10">
-                              <img 
-                                src={getOrderItemImage(item)} 
-                                alt={item.Product?.name || 'Producto personalizado'}
-                                className="w-full h-full object-cover"
-                              />
-                            </div>
-                            <div>
-                              <p className="font-medium text-white">
-                                {item.productId === 'template-sticker-product' 
-                                  ? 'Sticker personalizado' 
-                                  : (item.Product?.name || 'Producto')}
-                              </p>
-                              <p className="text-xs text-gray-400">Cant: {item.quantity}</p>
-                              {item.customization && (
-                                <p className="text-xs text-gray-400 mt-1">
-                                  {typeof item.customization === 'string'
-                                    ? JSON.parse(item.customization).details || 'Personalizado'
-                                    : item.customization.details || 'Personalizado'}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                          <span className="text-white">{formatCurrency(item.unitPrice * item.quantity)}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </EnhancedGlassCard>
-                  
-                  {/* Order Summary */}
-                  <div className="border-t border-white/10 pt-3">
-                    <div className="flex justify-between font-semibold text-lg">
-                      <span className="text-white">Total:</span>
-                      <span className="text-white">{formatCurrency(order.totalAmount)}</span>
-                    </div>
-                    {order.deliveryDate && (
-                      <div className="flex justify-between text-sm mt-2">
-                        <span className="text-gray-400">Fecha de entrega estimada:</span>
-                        <span className="text-white">{new Date(order.deliveryDate).toLocaleDateString('es-PE')}</span>
+                    
+                    {/* Customer Info */}
+                    <EnhancedGlassCard className="p-4" colorMode="pulse" blur="soft">
+                      <h4 className="font-semibold text-white flex items-center gap-2 mb-3">
+                        <User className="h-4 w-4 text-primary" />
+                        Información del cliente
+                      </h4>
+                      <div className="grid grid-cols-2 gap-2 text-sm">
+                        <span className="text-gray-400">Nombre:</span>
+                        <span className="text-white">{userFullName}</span>
+                        
+                        <span className="text-gray-400">Email:</span>
+                        <span className="text-white">{userEmail}</span>
+                        
+                        {instagramUser && (
+                          <>
+                            <span className="text-gray-400">Instagram:</span>
+                            <span className="text-white">@{instagramUser}</span>
+                          </>
+                        )}
+                        
+                        <span className="text-gray-400">Teléfono:</span>
+                        <span className="text-white">{userPhone}</span>
+                        
+                        <span className="text-gray-400">Dirección:</span>
+                        <span className="text-white">{userAddress}</span>
                       </div>
-                    )}
+                    </EnhancedGlassCard>
+                    
+                    {/* Order Items */}
+                    <EnhancedGlassCard className="p-4" colorMode="static" blur="soft">
+                      <h4 className="font-semibold text-white flex items-center gap-2 mb-3">
+                        <ShoppingBag className="h-4 w-4 text-primary" />
+                        Productos
+                      </h4>
+                      <div className="space-y-3">
+                        {order.OrderItem && order.OrderItem.map((item: any) => (
+                          <div key={item.id} className="flex justify-between items-center text-sm border-b border-white/10 pb-2">
+                            <div className="flex items-center gap-3">
+                              <div className="w-12 h-12 rounded-lg bg-black/40 overflow-hidden border border-white/10">
+                                <img 
+                                  src={getOrderItemImage(item)} 
+                                  alt={item.Product?.name || 'Producto personalizado'}
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div>
+                                <p className="font-medium text-white">
+                                  {item.productId === 'template-sticker-product' 
+                                    ? 'Sticker personalizado' 
+                                    : (item.Product?.name || 'Producto')}
+                                </p>
+                                <p className="text-xs text-gray-400">Cant: {item.quantity}</p>
+                                {item.customization && (
+                                  <p className="text-xs text-gray-400 mt-1">
+                                    {typeof item.customization === 'string'
+                                      ? JSON.parse(item.customization).details || 'Personalizado'
+                                      : item.customization.details || 'Personalizado'}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                            <span className="text-white">{formatCurrency(item.unitPrice * item.quantity)}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </EnhancedGlassCard>
+                    
+                    {/* Order Summary */}
+                    <div className="border-t border-white/10 pt-3">
+                      <div className="flex justify-between font-semibold text-lg">
+                        <span className="text-white">Total:</span>
+                        <span className="text-white">{formatCurrency(order.totalAmount)}</span>
+                      </div>
+                      {order.deliveryDate && (
+                        <div className="flex justify-between text-sm mt-2">
+                          <span className="text-gray-400">Fecha de entrega estimada:</span>
+                          <span className="text-white">{new Date(order.deliveryDate).toLocaleDateString('es-PE')}</span>
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Shipping Address */}
+                    <EnhancedGlassCard className="p-4" colorMode="static" blur="soft">
+                      <h4 className="font-semibold text-white flex items-center gap-2 mb-2">
+                        <MapPin className="h-4 w-4 text-primary" />
+                        Dirección de envío
+                      </h4>
+                      <p className="text-sm text-white">{order.shippingAddress}</p>
+                    </EnhancedGlassCard>
                   </div>
-                  
-                  {/* Shipping Address */}
-                  <EnhancedGlassCard className="p-4" colorMode="static" blur="soft">
-                    <h4 className="font-semibold text-white flex items-center gap-2 mb-2">
-                      <MapPin className="h-4 w-4 text-primary" />
-                      Dirección de envío
-                    </h4>
-                    <p className="text-sm text-white">{order.shippingAddress}</p>
-                  </EnhancedGlassCard>
-                </div>
-              </DialogContent>
+                </DialogContent>
+              </Portal>
             </Dialog>
           </div>
         </div>

@@ -1,7 +1,14 @@
 "use client"
 
 import { useState } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/app/components/ui/table"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 import {
   Dialog,
   DialogContent,
@@ -11,7 +18,7 @@ import {
   DialogTitle,
 } from "@/app/components/ui/dialog"
 import { Button } from "@/app/components/ui/button"
-import { Input } from "@/app/components/ui/input"
+import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/app/components/ui/checkbox"
 import { Trash2, Pencil, Save, X, Search, Filter } from "lucide-react"
 import { toast } from "sonner"

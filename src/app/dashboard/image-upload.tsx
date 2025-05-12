@@ -20,10 +20,10 @@ import { toast } from 'sonner';
 
 // Define product types based on schema
 const productTypes = [
-  'cap',
-  'sweatshirt', // polera
-  'poloShirt', // polo
-  'thermos', // termo
+  'gorra',
+  'polera',
+  'polo',
+  'termo',
   'sticker',
   'stickerSheet'
 ];
@@ -193,7 +193,9 @@ export function ImageUpload({ showConfirmation, onSuccess }: ImageUploadProps) {
 
     // Check if category and collection are empty
     if (!category && !customCategory && !collection && !customCollection) {
+      console.log("No category/collection selected, should show AI confirmation");
       if (showConfirmation) {
+        console.log("Showing AI confirmation dialog");
         showConfirmation(
           'Use AI for Categorization',
           'No category or collection was selected. The system will use AI to infer categories and collections from existing ones. Continue?',
@@ -205,6 +207,7 @@ export function ImageUpload({ showConfirmation, onSuccess }: ImageUploadProps) {
 
     // Check if custom category or collection was entered
     if ((customCategory || customCollection) && showConfirmation) {
+      console.log("Custom category/collection entered:", { customCategory, customCollection });
       showConfirmation(
         'Create New Category/Collection',
         `You've entered ${customCategory ? `a new category "${customCategory}"` : ''}${customCategory && customCollection ? ' and ' : ''}${customCollection ? `a new collection "${customCollection}"` : ''}. Do you want to create ${customCategory && customCollection ? 'them' : 'it'}?`,
@@ -359,12 +362,12 @@ export function ImageUpload({ showConfirmation, onSuccess }: ImageUploadProps) {
             <div>
               <Label htmlFor="product-type" className="text-lg font-semibold">Product Type</Label>
               <Select value={productType} onValueChange={setProductType}>
-                <SelectTrigger id="product-type" className="w-full mt-2">
+                <SelectTrigger id="product-type" className="w-full mt-2 bg-white/10 border-white/20 text-white">
                   <SelectValue placeholder="Select product type..." />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-gray-800 text-white border-white/20">
                   {productTypes.map((type) => (
-                    <SelectItem key={type} value={type}>
+                    <SelectItem key={type} value={type} className="hover:bg-white/10 focus:bg-white/20">
                       {type === 'cap' ? 'Gorra' :
                        type === 'sweatshirt' ? 'Polera' :
                        type === 'poloShirt' ? 'Polo' :
@@ -381,16 +384,16 @@ export function ImageUpload({ showConfirmation, onSuccess }: ImageUploadProps) {
             <div>
               <Label htmlFor="category" className="text-lg font-semibold">Category</Label>
               <Select value={category} onValueChange={handleCategoryChange}>
-                <SelectTrigger id="category" className="w-full mt-2">
+                <SelectTrigger id="category" className="w-full mt-2 bg-white/10 border-white/20 text-white">
                   <SelectValue placeholder="Select category..." />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-gray-800 text-white border-white/20">
                   {categories.map((cat) => (
-                    <SelectItem key={cat.id} value={cat.id}>
+                    <SelectItem key={cat.id} value={cat.id} className="hover:bg-white/10 focus:bg-white/20">
                       {cat.name}
                     </SelectItem>
                   ))}
-                  <SelectItem value="custom">+ Add New Category</SelectItem>
+                  <SelectItem value="custom" className="hover:bg-white/10 focus:bg-white/20">+ Add New Category</SelectItem>
                 </SelectContent>
               </Select>
               
@@ -399,7 +402,7 @@ export function ImageUpload({ showConfirmation, onSuccess }: ImageUploadProps) {
                   <Label htmlFor="custom-category">New Category Name</Label>
                   <input
                     id="custom-category"
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex h-10 w-full rounded-md border border-white/20 bg-white/10 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-white/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-white"
                     value={customCategory}
                     onChange={(e) => setCustomCategory(e.target.value)}
                     placeholder="Enter new category name"
@@ -412,16 +415,16 @@ export function ImageUpload({ showConfirmation, onSuccess }: ImageUploadProps) {
               <div>
                 <Label htmlFor="collection" className="text-lg font-semibold">Collection</Label>
                 <Select value={collection} onValueChange={handleCollectionChange}>
-                  <SelectTrigger id="collection" className="w-full mt-2">
+                  <SelectTrigger id="collection" className="w-full mt-2 bg-white/10 border-white/20 text-white">
                     <SelectValue placeholder="Select collection..." />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-gray-800 text-white border-white/20">
                     {filteredCollections.map((col) => (
-                      <SelectItem key={col.id} value={col.id}>
+                      <SelectItem key={col.id} value={col.id} className="hover:bg-white/10 focus:bg-white/20">
                         {col.name}
                       </SelectItem>
                     ))}
-                    <SelectItem value="custom">+ Add New Collection</SelectItem>
+                    <SelectItem value="custom" className="hover:bg-white/10 focus:bg-white/20">+ Add New Collection</SelectItem>
                   </SelectContent>
                 </Select>
                 
@@ -430,7 +433,7 @@ export function ImageUpload({ showConfirmation, onSuccess }: ImageUploadProps) {
                     <Label htmlFor="custom-collection">New Collection Name</Label>
                     <input
                       id="custom-collection"
-                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex h-10 w-full rounded-md border border-white/20 bg-white/10 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-white/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 text-white"
                       value={customCollection}
                       onChange={(e) => setCustomCollection(e.target.value)}
                       placeholder="Enter new collection name"

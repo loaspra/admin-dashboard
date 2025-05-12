@@ -3,7 +3,7 @@
 import React, { ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/app/lib/utils';
-import { GlowEffect } from './glow-effect';
+import { GlowEffect } from '@/components/ui/glow-effect';
 
 interface EnhancedGlassCardProps {
   children: ReactNode;

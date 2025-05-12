@@ -2,12 +2,15 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/app/components/ui/card";
-import { Button } from "@/app/components/ui/button";
+import Link from "next/link";
+import Image from "next/image";
+import { cn } from "@/app/lib/utils";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { ProductCreateModal } from './product-create-modal';
 import { ProductEditModal } from './product-edit-modal';
 import { Package, Edit, Plus } from 'lucide-react';
-import { EnhancedGlassCard } from '@/app/components/ui/enhanced-glass-card';
+import { EnhancedGlassCard } from '@/components/ui/enhanced-glass-card';
 
 export function ManagementCard() {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);

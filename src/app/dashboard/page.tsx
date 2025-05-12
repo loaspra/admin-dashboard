@@ -10,8 +10,8 @@ import { toast } from 'sonner';
 import { ManagementCard } from './management-card';
 import { BarChart3, Activity, TrendingUp, ShoppingBag, DollarSign } from 'lucide-react';
 import RecentOrders from '@/app/components/ui/recent-orders';
-import { EnhancedGlassCard } from '@/app/components/ui/enhanced-glass-card';
-import { GlowEffect } from '@/app/components/ui/glow-effect';
+import { EnhancedGlassCard } from '@/components/ui/enhanced-glass-card';
+import { GlowEffect } from '@/components/ui/glow-effect';
 import { useTheme } from '@/contexts/theme-context';
 import { AuroraBackground } from '@/app/components/ui/aurora-background';
 
@@ -138,11 +138,11 @@ export default function Dashboard() {
   const isDark = theme === 'dark';
 
   return (
-    <AuroraBackground className="min-h-screen">
+    <AuroraBackground>
       {/* Background elements */}
       <BackgroundOrbs />
       
-      <div className="container mx-auto p-6 relative z-10">
+      <div className="container mx-auto p-6 relative z-10 h-full overflow-y-auto pb-20">
         {/* Page Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -190,6 +190,7 @@ export default function Dashboard() {
           />
         </div>
         
+        {/* Main Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Management Section */}
           <div className="lg:col-span-1">
@@ -204,16 +205,11 @@ export default function Dashboard() {
           </div>
           
           {/* Recent Orders Section */}
-          <div className="lg:col-span-1">
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="space-y-3"
-            >
-              <h2 className="text-xl font-bold mb-4 text-white">Recent Orders</h2>
+          <div className="lg:col-span-1 flex flex-col">
+            <h2 className="text-xl font-bold mb-4 text-white">Recent Orders</h2>
+            <div className="w-full">
               <RecentOrders />
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
