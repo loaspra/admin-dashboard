@@ -14,24 +14,24 @@ interface UploadedFile {
 
 // Add ProductType definition based on schema relation fields
 type ProductType = 
-  | 'CapDetails' 
-  | 'PoloShirtDetails' 
-  | 'StickerDetails' 
-  | 'StickerSheetDetails' 
-  | 'SweatshirtDetails' 
-  | 'ThermosDetails';
+  | 'cap'
+  | 'poloShirt'
+  | 'sticker'
+  | 'stickerSheet'
+  | 'sweatshirt'
+  | 'thermos';
 
 // Function to map ProductType string to the actual Prisma model name
 // We might not need this if we just use the string directly in the Product model
 // but it's good for validation or potential future use.
 function isValidProductType(type: string): type is ProductType {
   return [
-    'CapDetails', 
-    'PoloShirtDetails', 
-    'StickerDetails', 
-    'StickerSheetDetails', 
-    'SweatshirtDetails', 
-    'ThermosDetails'
+    'cap', 
+    'poloShirt', 
+    'sticker', 
+    'stickerSheet', 
+    'sweatshirt', 
+    'thermos'
   ].includes(type);
 }
 
@@ -393,10 +393,10 @@ export class ImageService {
       
       // Convert full URL to storage path for DB consistency
       const urlObj = new URL(publicUrl);
-      const pathParts = urlObj.pathname.split('/');
-      // Adjust index based on expected URL structure (e.g., /storage/v1/object/public/bucket/path/to/file)
-      const bucketNameIndex = pathParts.findIndex(part => part === 'public') + 1; 
-      const storagePath = urlObj.pathname.substring(urlObj.pathname.indexOf('/', bucketNameIndex + 1)); // Get path after bucket name
+      let storagePath = urlObj.pathname.substring(urlObj.pathname.indexOf('/', 1));
+      console.log("Storage path: " + storagePath)
+      storagePath = storagePath.replace('/v1/object/public/images', '');
+      console.log("Storage path: " + storagePath)
 
       // Create product entry with ID and the correct productType
       const product = await prisma.product.create({
@@ -423,7 +423,7 @@ export class ImageService {
       // Note: Default values are used here. You might want to infer these from Gemini too,
       // or provide UI options for them during upload.
       switch (productType) {
-        case 'CapDetails':
+        case 'cap':
           await prisma.capDetails.create({
             data: {
               id: uuidv4(),
@@ -433,7 +433,7 @@ export class ImageService {
             }
           });
           break;
-        case 'PoloShirtDetails':
+        case 'poloShirt':
           await prisma.poloShirtDetails.create({
             data: {
               id: uuidv4(),
@@ -443,7 +443,7 @@ export class ImageService {
             }
           });
           break;
-        case 'StickerDetails': // Assuming single stickers might be uploaded this way too
+        case 'sticker':
            await prisma.stickerDetails.create({
             data: {
               id: uuidv4(),
@@ -453,7 +453,7 @@ export class ImageService {
             }
            });
            break;
-        case 'StickerSheetDetails': // If the uploaded image is a sheet
+        case 'stickerSheet':
            await prisma.stickerSheetDetails.create({
              data: {
                id: uuidv4(),
@@ -465,7 +465,7 @@ export class ImageService {
              }
            });
            break;
-        case 'SweatshirtDetails':
+        case 'sweatshirt':
            await prisma.sweatshirtDetails.create({
             data: {
               id: uuidv4(),
@@ -475,7 +475,7 @@ export class ImageService {
             }
            });
            break;
-        case 'ThermosDetails':
+        case 'thermos':
            await prisma.thermosDetails.create({
             data: {
               id: uuidv4(),
@@ -498,10 +498,145 @@ export class ImageService {
     }
   }
 
+  // New method to process images with custom category and collection
+  static async processAndUploadImageWithCustomCategorization(
+    imageBuffer: Buffer, 
+    fileName: string, 
+    productType: string,
+    categoryId?: string,
+    collectionId?: string
+  ): Promise<string> {
+    if (!isValidProductType(productType)) {
+        throw new Error(`Invalid product type provided: ${productType}`);
+    }
+
+    try {
+      // Optimize image
+      const optimizedBuffer = await this.optimizeImage(imageBuffer)
+
+      // Process with Gemini for product attributes, but not for categorization
+      // Use the same method but we'll ignore the category/collection it returns
+      const [metadata, publicUrl] = await Promise.all([
+        this.processImageWithGemini(optimizedBuffer, true), // true to skip category/collection inference
+        this.uploadImageToSupabase(optimizedBuffer, fileName),
+      ])
+
+      console.log("Metadata with custom categorization: " + JSON.stringify(metadata, null, 2))
+
+      // Get image dimensions
+      const dimensions = await sharp(optimizedBuffer).metadata()
+      
+      // Generate ID for product
+      const productId = uuidv4();
+      
+      // Convert full URL to storage path for DB consistency
+      const urlObj = new URL(publicUrl);
+      const pathParts = urlObj.pathname.split('/');
+      let storagePath = urlObj.pathname.substring(urlObj.pathname.indexOf('/', 1));
+      // replace the string `/v1/object/public/images` with `/storage`
+      storagePath = storagePath.replace('/v1/object/public/images', '/storage');
+      console.log("Storage path: " + storagePath)
+
+      // Create product entry with ID and the custom category/collection
+      const product = await prisma.product.create({
+        data: {
+          id: productId,
+          name: metadata.nombre || 'Untitled Image',
+          description: metadata.tags?.join(', ') || 'No description',
+          price: metadata.premium ? 9.99 : 4.99,
+          images: [storagePath],
+          stock: 999,
+          tags: metadata.tags || [],
+          productType: productType,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          featured: metadata.premium,
+          isCustomizable: true,
+          // Use provided category/collection or default to 'misc'
+          categoryId: categoryId || await this.getOrCreateCategoryId('misc'),
+          collectionId: collectionId || null,
+        },
+      })
+
+      // Create the corresponding details entry based on productType
+      // Same as in processAndUploadImageWithType
+      switch (productType) {
+        case 'cap':
+          await prisma.capDetails.create({
+            data: {
+              id: uuidv4(),
+              sizes: ['Adult Unisex'], colors: [metadata.color || 'various'], material: 'Cotton Blend', adjustable: true, style: metadata.estilo,
+              customizationArea: { front: true, back: false, side: false },
+              productId: product.id,
+            }
+          });
+          break;
+        case 'poloShirt':
+          await prisma.poloShirtDetails.create({
+            data: {
+              id: uuidv4(),
+              sizes: ['S', 'M', 'L', 'XL'], colors: [metadata.color || 'various'], material: 'Pique Cotton', sleeveType: 'Short',
+              customizationAreas: { front_chest: true, back: true, sleeve: false }, collar: true, fit: 'Regular',
+              productId: product.id,
+            }
+          });
+          break;
+        case 'sticker':
+           await prisma.stickerDetails.create({
+            data: {
+              id: uuidv4(),
+              dimensions: { width: dimensions.width || 100, height: dimensions.height || 100 },
+              adhesiveType: 'Standard', material: 'Vinyl', waterproof: true, customShape: true, shape: 'Custom', finishType: 'Glossy',
+              productId: product.id
+            }
+           });
+           break;
+        case 'stickerSheet':
+           await prisma.stickerSheetDetails.create({
+             data: {
+               id: uuidv4(),
+               sheetDimensions: { width: dimensions.width || 210, height: dimensions.height || 297 },
+               stickerCount: metadata.tags?.length || 5,
+               adhesiveType: 'Standard', material: 'Vinyl', waterproof: true,
+               productId: product.id,
+             }
+           });
+           break;
+        case 'sweatshirt':
+           await prisma.sweatshirtDetails.create({
+            data: {
+              id: uuidv4(),
+              sizes: ['S', 'M', 'L', 'XL'], colors: [metadata.color || 'various'], material: 'Fleece Blend', hasHood: true, pockets: true,
+              customizationAreas: { front: true, back: true, sleeve: true }, thickness: 'Medium',
+              productId: product.id,
+            }
+           });
+           break;
+        case 'thermos':
+           await prisma.thermosDetails.create({
+            data: {
+              id: uuidv4(),
+              capacity: 500, colors: [metadata.color || 'various'], material: 'Stainless Steel', insulated: true,
+              customizationArea: { wrap: true }, lidType: 'Screw-on',
+              productId: product.id,
+            }
+           });
+           break;
+        default:
+          console.warn(`Product details not created for unknown type: ${productType}`);
+      }
+
+      return publicUrl
+    } catch (error) {
+      console.error(`Error in processAndUploadImageWithCustomCategorization for ${fileName}:`, error)
+      throw error
+    }
+  }
+
   static async processAndUploadImage(imageBuffer: Buffer, fileName: string): Promise<string> {
      console.warn("Calling deprecated processAndUploadImage. Use processAndUploadImageWithType or processJsonImages.");
-     // Defaulting to 'StickerSheetDetails' for backward compatibility or specific use cases
-     return this.processAndUploadImageWithType(imageBuffer, fileName, 'StickerSheetDetails');
+     // Defaulting to 'stickerSheet' for backward compatibility or specific use cases
+     return this.processAndUploadImageWithType(imageBuffer, fileName, 'stickerSheet');
   }
 
   private static async getOrCreateCategoryId(categoryName: string): Promise<string> {
@@ -561,8 +696,8 @@ export class ImageService {
   // It seems tied to the old direct image upload logic which defaults to StickerSheet
   static async processBatchImages(files: UploadedFile[]): Promise<string[]> {
      console.warn("Calling deprecated processBatchImages. Use processBatchImagesWithType.");
-     // Defaulting to 'StickerSheetDetails'
-     return this.processBatchImagesWithType(files, 'StickerSheetDetails');
+     // Defaulting to 'stickerSheet'
+     return this.processBatchImagesWithType(files, 'stickerSheet');
   }
 
   static async processJsonImages(jsonImages: JsonImage[]): Promise<string[]> {
@@ -582,8 +717,9 @@ export class ImageService {
         // Convert full URL to storage path
         const urlObj = new URL(fullPublicUrl);
         const pathParts = urlObj.pathname.split('/');
-         const bucketNameIndex = pathParts.findIndex(part => part === 'public') + 1; 
-         const storagePath = urlObj.pathname.substring(urlObj.pathname.indexOf('/', bucketNameIndex + 1));
+         let storagePath = urlObj.pathname.substring(urlObj.pathname.indexOf('/', 1));
+        // replace the string `/v1/object/public/images` with `/storage`
+        storagePath = storagePath.replace('/v1/object/public/images', '/storage');
 
         // Get image dimensions
         const dimensions = await sharp(optimizedBuffer).metadata()
@@ -591,9 +727,9 @@ export class ImageService {
         // Generate ID for product
         const productId = uuidv4();
         
-        // Determine productType - JSON implies single stickers or sheets? Defaulting to 'StickerDetails'
+        // Determine productType - JSON implies single stickers or sheets? Defaulting to 'sticker'
         // This might need refinement based on JSON structure or conventions
-        const productTypeForJson: ProductType = 'StickerDetails'; 
+        const productTypeForJson: ProductType = 'sticker'; 
 
         // Create product entry with ID
         const product = await prisma.product.create({

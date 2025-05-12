@@ -1,6 +1,15 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+// TypeScript declarations for custom HTML attributes
+declare module 'react' {
+  interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
+    // Custom attributes for file inputs
+    webkitdirectory?: string;
+    directory?: string;
+  }
+}
+
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { useDropzone, Accept } from 'react-dropzone';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -11,22 +20,85 @@ import { toast } from 'sonner';
 
 // Define product types based on schema
 const productTypes = [
-  'gorra',
-  'polera',
-  'polo',
-  'termo',
+  'cap',
+  'sweatshirt', // polera
+  'poloShirt', // polo
+  'thermos', // termo
   'sticker',
   'stickerSheet'
 ];
 
-export function ImageUpload() {
+interface Category {
+  id: string;
+  name: string;
+}
+
+interface Collection {
+  id: string;
+  name: string;
+  categoryId: string;
+}
+
+interface ImageUploadProps {
+  showConfirmation?: (title: string, message: string, action: () => void) => void;
+  onSuccess?: () => void;
+}
+
+export function ImageUpload({ showConfirmation, onSuccess }: ImageUploadProps) {
   const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
-  const [uploadMode, setUploadMode] = useState<'json' | 'image'>('json');
+  const [uploadMode, setUploadMode] = useState<'json' | 'image' | 'folder'>('json');
   const [productType, setProductType] = useState<string>('');
+  const [category, setCategory] = useState<string>('');
+  const [collection, setCollection] = useState<string>('');
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [collections, setCollections] = useState<Collection[]>([]);
+  const [filteredCollections, setFilteredCollections] = useState<Collection[]>([]);
+  const [customCategory, setCustomCategory] = useState('');
+  const [customCollection, setCustomCollection] = useState('');
+
+  // Fetch categories and collections on component mount
+  useEffect(() => {
+    const fetchCategoriesAndCollections = async () => {
+      try {
+        const categoriesResponse = await fetch('/api/categories');
+        if (categoriesResponse.ok) {
+          const categoriesData = await categoriesResponse.json();
+          setCategories(categoriesData);
+        }
+
+        const collectionsResponse = await fetch('/api/collections');
+        if (collectionsResponse.ok) {
+          const collectionsData = await collectionsResponse.json();
+          setCollections(collectionsData);
+        }
+      } catch (error) {
+        console.error('Error fetching categories and collections:', error);
+        toast.error('Failed to load categories and collections');
+      }
+    };
+
+    fetchCategoriesAndCollections();
+  }, []);
+
+  // Filter collections when category changes
+  useEffect(() => {
+    if (category) {
+      const filtered = collections.filter(col => col.categoryId === category);
+      setFilteredCollections(filtered);
+    } else {
+      setFilteredCollections([]);
+    }
+  }, [category, collections]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
+        if (uploadMode === 'folder') {
+          // For folder uploads, accept all files
+          setFiles(acceptedFiles);
+          return;
+        }
+        
         const firstFileType = acceptedFiles[0].type;
         const currentModeIsJson = firstFileType === 'application/json';
         const newMode = currentModeIsJson ? 'json' : 'image';
@@ -47,6 +119,11 @@ export function ImageUpload() {
       return {
         'application/json': ['.json'] 
       };
+    } else if (uploadMode === 'folder') {
+      return {
+        'image/jpeg': ['.jpg', '.jpeg'], 
+        'image/png': ['.png']
+      };
     } else {
       return {
         'image/jpeg': ['.jpg', '.jpeg'], 
@@ -55,12 +132,15 @@ export function ImageUpload() {
     }
   }, [uploadMode]);
 
-  const multipleFiles = useMemo(() => uploadMode === 'image', [uploadMode]);
+  const multipleFiles = useMemo(() => uploadMode === 'image' || uploadMode === 'folder', [uploadMode]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: dropzoneConfig,
     multiple: multipleFiles,
+    noClick: uploadMode === 'folder', // Disable click for folder mode (will use input directly)
+    noKeyboard: uploadMode === 'folder',
+    noDrag: uploadMode === 'folder',
     onDropRejected: () => {
         toast.error(`Invalid file type. Please upload ${uploadMode === 'json' ? 'a JSON file' : 'image files (JPG, PNG)'}.`);
     },
@@ -69,38 +149,122 @@ export function ImageUpload() {
     }
   });
 
+  const handleCategoryChange = (value: string) => {
+    if (value === 'custom') {
+      // Show input for custom category
+      setCategory('custom');
+    } else {
+      setCategory(value);
+      setCustomCategory('');
+    }
+    // Reset collection when category changes
+    setCollection('');
+    setCustomCollection('');
+  };
+
+  const handleCollectionChange = (value: string) => {
+    if (value === 'custom') {
+      // Show input for custom collection
+      setCollection('custom');
+    } else {
+      setCollection(value);
+      setCustomCollection('');
+    }
+  };
+
+  const handleFolderSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const fileArray = Array.from(e.target.files);
+      setFiles(fileArray);
+      toast.success(`Selected ${fileArray.length} files from folder`);
+    }
+  };
+
   const handleUpload = async () => {
     if (files.length === 0) {
       toast.error('Please select files to upload');
       return;
     }
 
-    if (uploadMode === 'image' && !productType) {
+    if ((uploadMode === 'image' || uploadMode === 'folder') && !productType) {
       toast.error('Please select a product type for image uploads');
       return;
     }
 
+    // Check if category and collection are empty
+    if (!category && !customCategory && !collection && !customCollection) {
+      if (showConfirmation) {
+        showConfirmation(
+          'Use AI for Categorization',
+          'No category or collection was selected. The system will use AI to infer categories and collections from existing ones. Continue?',
+          () => processUpload(true)
+        );
+        return;
+      }
+    }
+
+    // Check if custom category or collection was entered
+    if ((customCategory || customCollection) && showConfirmation) {
+      showConfirmation(
+        'Create New Category/Collection',
+        `You've entered ${customCategory ? `a new category "${customCategory}"` : ''}${customCategory && customCollection ? ' and ' : ''}${customCollection ? `a new collection "${customCollection}"` : ''}. Do you want to create ${customCategory && customCollection ? 'them' : 'it'}?`,
+        () => processUpload(false)
+      );
+      return;
+    }
+
+    processUpload(false);
+  };
+
+  const processUpload = async (useAiInference: boolean) => {
     setUploading(true);
     const formData = new FormData();
     formData.append('uploadMode', uploadMode);
 
-    if (uploadMode === 'image') {
-        formData.append('productType', productType);
-        files.forEach(file => {
-            formData.append('files', file);
-        });
-    } else {
-        const file = files[0];
-         const text = await file.text();
-        let jsonData;
-        try {
-          jsonData = JSON.parse(text);
-           formData.append('file', new Blob([JSON.stringify(jsonData)], { type: 'application/json' }), file.name);
-        } catch (error) {
-          toast.error('Invalid JSON file. Please check the format.');
-          setUploading(false);
-          return;
+    if (uploadMode === 'image' || uploadMode === 'folder') {
+      formData.append('productType', productType);
+      
+      // For folder uploads, we want to preserve relative paths
+      if (uploadMode === 'folder') {
+        formData.append('isFolder', 'true');
+      }
+      
+      files.forEach(file => {
+        // For folder uploads, include the relative path
+        if (uploadMode === 'folder' && file.webkitRelativePath) {
+          formData.append('filePaths', file.webkitRelativePath);
         }
+        formData.append('files', file);
+      });
+
+      // Add category and collection information
+      if (!useAiInference) {
+        if (customCategory) {
+          formData.append('customCategory', customCategory.toLowerCase());
+        } else if (category) {
+          formData.append('categoryId', category);
+        }
+
+        if (customCollection) {
+          formData.append('customCollection', customCollection.toLowerCase());
+        } else if (collection) {
+          formData.append('collectionId', collection);
+        }
+      }
+
+      formData.append('useAiInference', String(useAiInference));
+    } else {
+      const file = files[0];
+      const text = await file.text();
+      let jsonData;
+      try {
+        jsonData = JSON.parse(text);
+        formData.append('file', new Blob([JSON.stringify(jsonData)], { type: 'application/json' }), file.name);
+      } catch (error) {
+        toast.error('Invalid JSON file. Please check the format.');
+        setUploading(false);
+        return;
+      }
     }
 
     try {
@@ -110,14 +274,22 @@ export function ImageUpload() {
       });
 
       if (!response.ok) {
-          const errorData = await response.json().catch(() => ({ message: 'Upload failed with status: ' + response.status }));
+        const errorData = await response.json().catch(() => ({ message: 'Upload failed with status: ' + response.status }));
         throw new Error(errorData.message || 'Upload failed');
       }
 
       const data = await response.json();
-      toast.success(`Successfully started processing ${files.length} ${uploadMode === 'image' ? 'image(s)' : 'JSON file'}.`);
+      toast.success(`Successfully started processing ${files.length} ${uploadMode === 'json' ? 'JSON file' : 'image(s)'}.`);
       setFiles([]);
       setProductType('');
+      setCategory('');
+      setCollection('');
+      setCustomCategory('');
+      setCustomCollection('');
+      
+      if (onSuccess) {
+        onSuccess();
+      }
     } catch (error: any) {
       console.error('Upload error:', error);
       toast.error(`Upload failed: ${error.message}`);
@@ -133,7 +305,7 @@ export function ImageUpload() {
     });
   };
 
-  const handleModeChange = (value: 'json' | 'image') => {
+  const handleModeChange = (value: 'json' | 'image' | 'folder') => {
     if (value !== uploadMode) {
         setUploadMode(value);
         setFiles([]);
@@ -150,7 +322,7 @@ export function ImageUpload() {
             defaultValue="json"
             value={uploadMode}
             onValueChange={handleModeChange}
-            className="mt-2 grid grid-cols-2 gap-4"
+            className="mt-2 grid grid-cols-3 gap-4"
           >
             <div>
               <RadioGroupItem value="json" id="json-mode" className="peer sr-only" />
@@ -166,49 +338,149 @@ export function ImageUpload() {
               <Label
                 htmlFor="image-mode"
                 className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-
               >
                 Upload Images
+              </Label>
+            </div>
+            <div>
+              <RadioGroupItem value="folder" id="folder-mode" className="peer sr-only" />
+              <Label
+                htmlFor="folder-mode"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+              >
+                Upload Folder
               </Label>
             </div>
           </RadioGroup>
         </div>
 
-         {uploadMode === 'image' && (
-          <div>
-            <Label htmlFor="product-type" className="text-lg font-semibold">Product Type</Label>
-            <Select value={productType} onValueChange={setProductType}>
-              <SelectTrigger id="product-type" className="w-full mt-2">
-                <SelectValue placeholder="Select product type..." />
-              </SelectTrigger>
-              <SelectContent>
-                {productTypes.map((type) => (
-                  <SelectItem key={type} value={type}>
-                    {type.charAt(0).toUpperCase() + type.slice(1)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+        {(uploadMode === 'image' || uploadMode === 'folder') && (
+          <>
+            <div>
+              <Label htmlFor="product-type" className="text-lg font-semibold">Product Type</Label>
+              <Select value={productType} onValueChange={setProductType}>
+                <SelectTrigger id="product-type" className="w-full mt-2">
+                  <SelectValue placeholder="Select product type..." />
+                </SelectTrigger>
+                <SelectContent>
+                  {productTypes.map((type) => (
+                    <SelectItem key={type} value={type}>
+                      {type === 'cap' ? 'Gorra' :
+                       type === 'sweatshirt' ? 'Polera' :
+                       type === 'poloShirt' ? 'Polo' :
+                       type === 'thermos' ? 'Termo' :
+                       type === 'sticker' ? 'Sticker' :
+                       type === 'stickerSheet' ? 'Plancha de Stickers' :
+                       type.charAt(0).toUpperCase() + type.slice(1)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div>
+              <Label htmlFor="category" className="text-lg font-semibold">Category</Label>
+              <Select value={category} onValueChange={handleCategoryChange}>
+                <SelectTrigger id="category" className="w-full mt-2">
+                  <SelectValue placeholder="Select category..." />
+                </SelectTrigger>
+                <SelectContent>
+                  {categories.map((cat) => (
+                    <SelectItem key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </SelectItem>
+                  ))}
+                  <SelectItem value="custom">+ Add New Category</SelectItem>
+                </SelectContent>
+              </Select>
+              
+              {category === 'custom' && (
+                <div className="mt-2">
+                  <Label htmlFor="custom-category">New Category Name</Label>
+                  <input
+                    id="custom-category"
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    value={customCategory}
+                    onChange={(e) => setCustomCategory(e.target.value)}
+                    placeholder="Enter new category name"
+                  />
+                </div>
+              )}
+            </div>
+
+            {(category || customCategory) && (
+              <div>
+                <Label htmlFor="collection" className="text-lg font-semibold">Collection</Label>
+                <Select value={collection} onValueChange={handleCollectionChange}>
+                  <SelectTrigger id="collection" className="w-full mt-2">
+                    <SelectValue placeholder="Select collection..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {filteredCollections.map((col) => (
+                      <SelectItem key={col.id} value={col.id}>
+                        {col.name}
+                      </SelectItem>
+                    ))}
+                    <SelectItem value="custom">+ Add New Collection</SelectItem>
+                  </SelectContent>
+                </Select>
+                
+                {collection === 'custom' && (
+                  <div className="mt-2">
+                    <Label htmlFor="custom-collection">New Collection Name</Label>
+                    <input
+                      id="custom-collection"
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      value={customCollection}
+                      onChange={(e) => setCustomCollection(e.target.value)}
+                      placeholder="Enter new collection name"
+                    />
+                  </div>
+                )}
+              </div>
+            )}
+          </>
         )}
 
-        <div
-          {...getRootProps()}
-          className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors
-            ${isDragActive ? 'border-primary bg-primary/10' : 'border-gray-300 hover:border-primary'}`}
-        >
-          <input {...getInputProps()} />
-          {isDragActive ? (
-            <p>Drop the {uploadMode === 'json' ? 'JSON file' : 'image files'} here ...</p>
-          ) : (
-            <p>Drag & drop {uploadMode === 'json' ? 'a JSON file' : 'image files'} here, or click to select</p>
-          )}
-          <p className="text-sm text-gray-500 mt-2">
-            {uploadMode === 'json'
-              ? 'Supported format: JSON'
-              : 'Supported formats: JPG, PNG'}
-          </p>
-        </div>
+        {uploadMode === 'folder' ? (
+          <div className="border-2 border-dashed rounded-lg p-8 text-center">
+            <input
+              type="file"
+              webkitdirectory="true"
+              directory=""
+              onChange={handleFolderSelect}
+              className="hidden"
+              id="folder-input"
+            />
+            <Label 
+              htmlFor="folder-input"
+              className="cursor-pointer block py-4 px-6 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+            >
+              Select Folder
+            </Label>
+            <p className="text-sm text-gray-500 mt-2">
+              Click the button to select a folder containing images
+            </p>
+          </div>
+        ) : (
+          <div
+            {...getRootProps()}
+            className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors
+              ${isDragActive ? 'border-primary bg-primary/10' : 'border-gray-300 hover:border-primary'}`}
+          >
+            <input {...getInputProps()} />
+            {isDragActive ? (
+              <p>Drop the {uploadMode === 'json' ? 'JSON file' : 'image files'} here ...</p>
+            ) : (
+              <p>Drag & drop {uploadMode === 'json' ? 'a JSON file' : 'image files'} here, or click to select</p>
+            )}
+            <p className="text-sm text-gray-500 mt-2">
+              {uploadMode === 'json'
+                ? 'Supported format: JSON'
+                : 'Supported formats: JPG, PNG'}
+            </p>
+          </div>
+        )}
 
         {files.length > 0 && (
           <div className="space-y-2">
@@ -216,7 +488,11 @@ export function ImageUpload() {
             <ul className="space-y-2 max-h-40 overflow-y-auto">
               {files.map((file, index) => (
                 <li key={`${file.name}-${index}`} className="flex items-center justify-between bg-gray-50 p-2 rounded">
-                  <span className="truncate mr-2">{file.name}</span>
+                  <span className="truncate mr-2">
+                    {uploadMode === 'folder' && file.webkitRelativePath
+                      ? file.webkitRelativePath
+                      : file.name}
+                  </span>
                   <Button
                     variant="destructive"
                     size="sm"
@@ -232,10 +508,10 @@ export function ImageUpload() {
 
         <Button
           onClick={handleUpload}
-          disabled={uploading || files.length === 0 || (uploadMode === 'image' && !productType)}
+          disabled={uploading || files.length === 0 || ((uploadMode === 'image' || uploadMode === 'folder') && !productType)}
           className="w-full"
         >
-          {uploading ? 'Uploading...' : `Upload ${uploadMode === 'image' ? 'Images' : 'JSON'}`}
+          {uploading ? 'Uploading...' : `Upload ${uploadMode === 'image' ? 'Images' : uploadMode === 'folder' ? 'Folder' : 'JSON'}`}
         </Button>
       </div>
     </Card>

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ImageService } from '@/app/lib/image-service';
+import { v4 as uuidv4 } from 'uuid';
+import { prisma } from '@/app/lib/prisma';
 
 interface ImageInput {
   imageSrc: string;
@@ -13,6 +15,7 @@ interface UploadedFile {
   originalname: string
   mimetype: string
   size: number
+  relativePath?: string
 }
 
 export async function POST(request: NextRequest) {
@@ -21,10 +24,19 @@ export async function POST(request: NextRequest) {
     console.log('Received form data keys:', Array.from(formData.keys()));
 
     // Get upload mode and product type
-    const uploadMode = formData.get('uploadMode') as 'json' | 'image' | null;
+    const uploadMode = formData.get('uploadMode') as 'json' | 'image' | 'folder' | null;
     const productType = formData.get('productType') as string | null;
+    const isFolder = formData.get('isFolder') === 'true';
 
-    console.log(`Upload Mode: ${uploadMode}, Product Type: ${productType}`);
+    // Get category and collection information
+    const useAiInference = formData.get('useAiInference') === 'true';
+    const categoryId = formData.get('categoryId') as string | null;
+    const collectionId = formData.get('collectionId') as string | null;
+    const customCategory = formData.get('customCategory') as string | null;
+    const customCollection = formData.get('customCollection') as string | null;
+
+    console.log(`Upload Mode: ${uploadMode}, Product Type: ${productType}, Is Folder: ${isFolder}`);
+    console.log(`Category: ${categoryId || customCategory || 'AI inferred'}, Collection: ${collectionId || customCollection || 'AI inferred'}`);
 
     if (!uploadMode) {
       return NextResponse.json({ error: 'Missing uploadMode in form data' }, { status: 400 });
@@ -38,7 +50,9 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'No JSON file found in the \'file\' field for JSON upload mode.' }, { status: 400 });
         }
 
-        console.log(`Processing JSON file: ${jsonFileBlob.name || 'uploaded.json'}, Size: ${jsonFileBlob.size}`);
+        // Use File object if available, otherwise use fallback
+        const fileName = (jsonFileBlob instanceof File) ? jsonFileBlob.name : 'uploaded.json';
+        console.log(`Processing JSON file: ${fileName}, Size: ${jsonFileBlob.size}`);
 
         try {
             const text = await jsonFileBlob.text();
@@ -173,12 +187,13 @@ export async function POST(request: NextRequest) {
         }
 
     // --- Image Upload Handling --- 
-    } else if (uploadMode === 'image') {
+    } else if (uploadMode === 'image' || uploadMode === 'folder') {
         if (!productType) {
             return NextResponse.json({ error: 'Missing productType for image upload mode' }, { status: 400 });
         }
 
         const imageFiles = formData.getAll('files') as File[];
+        const filePaths = isFolder ? formData.getAll('filePaths') as string[] : [];
 
         if (!imageFiles || imageFiles.length === 0) {
             return NextResponse.json({ error: 'No image files found in the \'files\' field for image upload mode.' }, { status: 400 });
@@ -192,22 +207,183 @@ export async function POST(request: NextRequest) {
         }
 
         console.log(`Processing ${validImageFiles.length} image files for product type: ${productType}`);
+        
+        // Log folder structure info if this is a folder upload
+        if (isFolder) {
+            console.log(`Folder upload with ${filePaths.length} paths provided`);
+            
+            // Group files by directories to preserve folder structure
+            const directories = new Set<string>();
+            filePaths.forEach(path => {
+                const dirPath = path.split('/').slice(0, -1).join('/');
+                if (dirPath) directories.add(dirPath);
+            });
+            
+            console.log(`Detected ${directories.size} directories in uploaded folder`);
+        }
 
         try {
+            // Handle category and collection creation if needed
+            let actualCategoryId = categoryId;
+            let actualCollectionId = collectionId;
+
+            if (customCategory) {
+                // Create a new category with the cat_XXX format
+                const categoriesCount = await prisma.category.count();
+                const newCategoryId = `cat_${(categoriesCount + 1).toString().padStart(3, '0')}`;
+
+                console.log(`Creating new category: ${customCategory.toLowerCase()} with ID ${newCategoryId}`);
+                
+                const newCategory = await prisma.category.create({
+                    data: {
+                        id: newCategoryId,
+                        name: customCategory.toLowerCase(),
+                        description: `${customCategory} category`,
+                        createdAt: new Date()
+                    }
+                });
+                
+                console.log(`Created new category: ${newCategory.name} with ID ${newCategory.id}`);
+                actualCategoryId = newCategory.id;
+            }
+
+            if (customCollection && actualCategoryId) {
+                // Create a new collection with the col_XXX format
+                const collectionsCount = await prisma.collection.count();
+                const newCollectionId = `col_${(collectionsCount + 1).toString().padStart(3, '0')}`;
+                
+                const newCollection = await prisma.collection.create({
+                    data: {
+                        id: newCollectionId,
+                        name: customCollection.toLowerCase(),
+                        description: `${customCollection} collection`,
+                        categoryId: actualCategoryId,
+                        createdAt: new Date()
+                    }
+                });
+                
+                console.log(`Created new collection: ${newCollection.name} with ID ${newCollection.id}`);
+                actualCollectionId = newCollection.id;
+            }
+
             // Convert Files to the UploadedFile format expected by ImageService
             const processableImages: UploadedFile[] = await Promise.all(
-                validImageFiles.map(async (file) => ({
-                    buffer: Buffer.from(await file.arrayBuffer()),
-                    originalname: file.name,
-                    mimetype: file.type,
-                    size: file.size
-                }))
+                validImageFiles.map(async (file, index) => {
+                    const uploadedFile: UploadedFile = {
+                        buffer: Buffer.from(await file.arrayBuffer()),
+                        originalname: file.name,
+                        mimetype: file.type,
+                        size: file.size
+                    };
+                    
+                    // Add relative path for folder uploads
+                    if (isFolder && index < filePaths.length) {
+                        uploadedFile.relativePath = filePaths[index];
+                    }
+                    
+                    return uploadedFile;
+                })
             );
 
-            // Use the new service method for batch processing with product type
-            const results = await ImageService.processBatchImagesWithType(processableImages, productType);
+            // Process each file
+            const results = [];
+            
+            for (const file of processableImages) {
+                try {
+                    let url;
+                    
+                    // If we're using AI inference, use the standard upload method
+                    if (useAiInference) {
+                        url = await ImageService.processAndUploadImageWithType(
+                            file.buffer, 
+                            file.originalname, 
+                            productType
+                        );
+                    } else {
+                        // For folder uploads, consider using the folder structure
+                        if (isFolder && file.relativePath) {
+                            // Extract folder name as potential subcategory/collection
+                            const folderPath = file.relativePath.split('/');
+                            const folderName = folderPath.length > 1 ? folderPath[0] : '';
+                            
+                            if (folderName && !actualCollectionId && !customCollection) {
+                                // Use folder name as collection if none was specified
+                                console.log(`Using folder name "${folderName}" as collection for ${file.originalname}`);
+                                
+                                // Check if this collection already exists for the category
+                                let folderCollectionId = null;
+                                
+                                if (actualCategoryId) {
+                                    const existingCollection = await prisma.collection.findFirst({
+                                        where: {
+                                            name: folderName.toLowerCase(),
+                                            categoryId: actualCategoryId
+                                        }
+                                    });
+                                    
+                                    if (existingCollection) {
+                                        folderCollectionId = existingCollection.id;
+                                    } else {
+                                        // Create new collection based on folder name
+                                        const collectionsCount = await prisma.collection.count();
+                                        const newCollectionId = `col_${(collectionsCount + 1).toString().padStart(3, '0')}`;
+                                        
+                                        const newCollection = await prisma.collection.create({
+                                            data: {
+                                                id: newCollectionId,
+                                                name: folderName.toLowerCase(),
+                                                description: `${folderName} collection (from folder upload)`,
+                                                categoryId: actualCategoryId,
+                                                createdAt: new Date()
+                                            }
+                                        });
+                                        
+                                        folderCollectionId = newCollection.id;
+                                        console.log(`Created new collection from folder: ${newCollection.name} with ID ${newCollection.id}`);
+                                    }
+                                }
+                                
+                                url = await ImageService.processAndUploadImageWithCustomCategorization(
+                                    file.buffer, 
+                                    file.originalname, 
+                                    productType,
+                                    actualCategoryId || undefined,
+                                    folderCollectionId || undefined
+                                );
+                            } else {
+                                // Use specified category and collection
+                                url = await ImageService.processAndUploadImageWithCustomCategorization(
+                                    file.buffer, 
+                                    file.originalname, 
+                                    productType,
+                                    actualCategoryId || undefined,
+                                    actualCollectionId || undefined
+                                );
+                            }
+                        } else {
+                            // Use specified category and collection
+                            url = await ImageService.processAndUploadImageWithCustomCategorization(
+                                file.buffer, 
+                                file.originalname, 
+                                productType,
+                                actualCategoryId || undefined,
+                                actualCollectionId || undefined
+                            );
+                        }
+                    }
+                    
+                    results.push(url);
+                } catch (fileError) {
+                    console.error(`Error processing file ${file.originalname}:`, fileError);
+                    // Continue with next file even if one fails
+                }
+            }
 
-            return NextResponse.json({ success: true, message: `Processed ${results.length} images for type ${productType}.`, urls: results });
+            return NextResponse.json({ 
+                success: true, 
+                message: `Processed ${results.length} images for type ${productType}.`, 
+                urls: results 
+            });
         } catch (error) {
              console.error(`Error processing batch images for type ${productType}:`, error);
              return NextResponse.json(
@@ -215,7 +391,6 @@ export async function POST(request: NextRequest) {
                  { status: 500 }
              );
         }
-
     } else {
         // Should not happen if uploadMode is validated earlier
         return NextResponse.json({ error: 'Invalid uploadMode specified' }, { status: 400 });
@@ -231,8 +406,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  // Optional: Add rate limit status endpoint?
-  // const status = ImageService.getRateLimitStatus();
-  // return NextResponse.json({ message: 'Image upload API endpoint', rateLimit: status });
-  return NextResponse.json({ message: 'Image upload API endpoint' });
+  // Return rate limit status
+  const status = ImageService.getRateLimitStatus();
+  return NextResponse.json({ message: 'Image upload API endpoint', rateLimit: status });
 }

@@ -3,7 +3,8 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/auth-context';
-import { Button } from '@/app/components/ui/button'; // Importing Shadcn Button
+import { Button } from '@/app/components/ui/button';
+import { AuroraBackground } from '@/app/components/ui/aurora-background';
 
 export default function Home() {
   const router = useRouter();
@@ -22,17 +23,19 @@ export default function Home() {
 
   // Simple loading state while determining auth
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold mb-4">Admin Dashboard</h1>
-        {isLoading ? (
-          <Button variant="outline" className="text-gray-500">
-            Loading...
-          </Button>
-        ) : (
-          <div className="text-gray-500">Welcome to the Admin Dashboard!</div>
-        )}
+    <AuroraBackground className="min-h-screen">
+      <div className="flex flex-col items-center justify-center h-screen">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold mb-4 text-white">Admin Dashboard</h1>
+          {isLoading ? (
+            <Button variant="outline" className="bg-white/10 backdrop-blur-sm text-white border-white/20">
+              Loading...
+            </Button>
+          ) : (
+            <div className="text-white/80">Welcome to the Admin Dashboard!</div>
+          )}
+        </div>
       </div>
-    </div>
+    </AuroraBackground>
   );
 }

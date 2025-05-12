@@ -170,3 +170,121 @@
     --chart-5: 340 75% 55%;
   }
 }
+
+/* Glassmorphism and animation utilities */
+@layer components {
+  .glass-card {
+    background-color: rgb(var(--background) / 0.6);
+    backdrop-filter: blur(12px);
+    backdrop-filter: saturate(150%);
+    border: 1px solid rgb(var(--border) / 0.3);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  }
+  
+  .glass-dialog {
+    background-color: rgb(var(--background) / 0.8);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgb(var(--border) / 0.3);
+    border-radius: var(--radius);
+  }
+}
+
+@layer utilities {
+  .gradient-text {
+    background-image: linear-gradient(to right, rgb(var(--primary)), rgb(var(--secondary)));
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* Custom animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes pulse-light {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes background-gradient {
+  0% {
+    transform: translate(0%, 0%);
+  }
+  25% {
+    transform: translate(10%, 10%);
+  }
+  50% {
+    transform: translate(-5%, 15%);
+  }
+  75% {
+    transform: translate(-15%, 5%);
+  }
+  100% {
+    transform: translate(0%, 0%);
+  }
+}
+
+@layer utilities {
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-pulse-light {
+    animation: pulse-light 4s ease-in-out infinite;
+  }
+  
+  .animate-background-gradient {
+    animation: background-gradient 25s ease-in-out infinite;
+  }
+}
+
+/* Aurora Background Styles */
+.aurora-bg-gradient-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.6;
+  mix-blend-mode: soft-light;
+  filter: brightness(0.8) saturate(1.5);
+  overflow: hidden;
+}
+
+.aurora-bg-gradient {
+  position: absolute;
+  inset: -100%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(
+    135deg,
+    #ff008c 0%,
+    #5500ff 25%,
+    #00d4ff 50%,
+    #00ff6a 75%,
+    #ff008c 100%
+  );
+  animation: aurora-rotate 80s linear infinite;
+  opacity: 0.9;
+}
+
+@keyframes aurora-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

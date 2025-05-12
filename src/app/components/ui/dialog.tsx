@@ -34,6 +34,29 @@ function DialogOverlay({
   className,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Overlay>) {
+  // Add a style tag to fix scrollbar shifting when dialog opens
+  React.useEffect(() => {
+    const style = document.createElement('style');
+    style.innerHTML = `
+      html body[data-scroll-locked] {
+        --removed-body-scroll-bar-size: 0 !important;
+        margin-right: 0 !important;
+        overflow: hidden !important;
+      }
+    `;
+    style.id = 'dialog-scroll-fix';
+    if (!document.getElementById('dialog-scroll-fix')) {
+      document.head.appendChild(style);
+    }
+    
+    return () => {
+      const styleTag = document.getElementById('dialog-scroll-fix');
+      if (styleTag) {
+        styleTag.remove();
+      }
+    };
+  }, []);
+
   return (
     <DialogPrimitive.Overlay
       data-slot="dialog-overlay"

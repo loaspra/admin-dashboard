@@ -6,29 +6,29 @@ type PrismaModelName = keyof typeof prisma
 
 // New function to fetch product data based on type with pagination
 export async function getProductData(type: string, page = 0, pageSize = 10) {
-  let detailTable: string;
+  let detailTable: string = '';  // Initialize with empty string to fix linter error
 
   console.log(`getProductData called with type: ${type}, page: ${page}, pageSize: ${pageSize}`);
   try {
     // Determine the detail table name based on the product type
-    switch (type.toLowerCase()) {
-      case 'gorra':
-        detailTable = 'capDetails';
+    switch (type) {
+      case 'cap':
+        detailTable = 'CapDetails';
         break;
-      case 'polera':
-        detailTable = 'sweatshirtDetails';
+      case 'sweatshirt':
+        detailTable = 'SweatshirtDetails';
         break;
-      case 'polo':
-        detailTable = 'poloShirtDetails';
+      case 'poloShirt':
+        detailTable = 'PoloShirtDetails';
         break;
-      case 'termo':
-        detailTable = 'thermosDetails';
+      case 'thermos':
+        detailTable = 'ThermosDetails';
         break;
       case 'sticker':
-        detailTable = 'stickerDetails';
+        detailTable = 'StickerDetails';
         break;
-      case 'stickersheet':
-        detailTable = 'stickerSheetDetails';
+      case 'stickerSheet':
+        detailTable = 'StickerSheetDetails';
         break;
       default:
         console.error(`Invalid product type: ${type}`);
@@ -39,12 +39,12 @@ export async function getProductData(type: string, page = 0, pageSize = 10) {
     
     // Get total count for pagination info
     const totalCount = await prisma.product.count({
-      where: { productType: type.toLowerCase() }
+      where: { productType: type }
     });
     
     // Fetch paginated data
     const data = await prisma.product.findMany({
-      where: { productType: type.toLowerCase() },
+      where: { productType: type },
       include: { [detailTable]: true },
       skip: page * pageSize,
       take: pageSize,
@@ -83,19 +83,19 @@ export async function createRowProduct(productData: any, detailData: any) {
 
 // Helper function to get the correct detail table name
 function getDetailModelName(productType: string): string {
-  switch (productType.toLowerCase()) {
-    case 'gorra':
-      return 'capDetails';
-    case 'polera':
-      return 'sweatshirtDetails';
-    case 'polo':
-      return 'poloShirtDetails';
-    case 'termo':
-      return 'thermosDetails';
+  switch (productType) {
+    case 'cap':
+      return 'CapDetails';
+    case 'sweatshirt':
+      return 'SweatshirtDetails';
+    case 'poloShirt':
+      return 'PoloShirtDetails';
+    case 'thermos':
+      return 'ThermosDetails';
     case 'sticker':
-      return 'stickerDetails';
-    case 'stickersheet':
-      return 'stickerSheetDetails';
+      return 'StickerDetails';
+    case 'stickerSheet':
+      return 'StickerSheetDetails';
     default:
       throw new Error(`Invalid product type: ${productType}`);
   }

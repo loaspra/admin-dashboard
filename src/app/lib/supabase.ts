@@ -63,34 +63,61 @@ export async function getProductData(type: string) {
 
   // Determine the detail table name based on the product type
   switch (type) {
-    case 'Gorra':
+    case 'cap':
       detailTable = 'CapDetails';
       break;
-    case 'Polera':
+    case 'sweatshirt':
       detailTable = 'SweatshirtDetails';
       break;
-    case 'Polo':
+    case 'poloShirt':
       detailTable = 'PoloShirtDetails';
       break;
-    case 'Termo':
+    case 'thermos':
       detailTable = 'ThermosDetails';
       break;
+    case 'sticker':
+      detailTable = 'StickerDetails';
+      break;
+    case 'stickerSheet':
+      detailTable = 'StickerSheetDetails';
+      break;
     default:
-      throw new Error('Invalid product type');
+      throw new Error(`Invalid product type: ${type}`);
   }
 
   const data = await prisma.product.findMany({
-    where: { productType: type.toLowerCase() },
+    where: { productType: type },
     include: { [detailTable]: true }
   });
 
   return data || [];
 }
 
+// Helper function to get the correct detail table name
+function getDetailModelName(productType: string): string {
+  switch (productType) {
+    case 'cap':
+      return 'capDetails';
+    case 'sweatshirt':
+      return 'sweatshirtDetails';
+    case 'poloShirt':
+      return 'poloShirtDetails';
+    case 'thermos':
+      return 'thermosDetails';
+    case 'sticker':
+      return 'stickerDetails';
+    case 'stickerSheet':
+      return 'stickerSheetDetails';
+    default:
+      throw new Error(`Invalid product type: ${productType}`);
+  }
+}
+
 // New function to create a product and its details
 export async function createRowProduct(productData: any, detailData: any) {
   await prisma.product.create({ data: productData });
-  await (prisma[detailData.productType] as any).create({ data: detailData });
+  const detailModelName = getDetailModelName(productData.productType) as PrismaModelName;
+  await (prisma[detailModelName] as any).create({ data: detailData });
   return true;
 }
 
@@ -101,25 +128,7 @@ export async function updateRowProduct(productId: string, productData: any, deta
     data: productData
   });
   
-  const productType = productData.productType.toLowerCase();
-  let detailsModelName: PrismaModelName;
-  
-  switch (productType) {
-    case 'gorra':
-      detailsModelName = 'capDetails';
-      break;
-    case 'polera':
-      detailsModelName = 'sweatshirtDetails';
-      break;
-    case 'polo':
-      detailsModelName = 'poloShirtDetails';
-      break;
-    case 'termo':
-      detailsModelName = 'thermosDetails';
-      break;
-    default:
-      throw new Error('Invalid product type');
-  }
+  const detailsModelName = getDetailModelName(productData.productType) as PrismaModelName;
   
   await (prisma[detailsModelName] as any).update({
     where: { productId: productId },
