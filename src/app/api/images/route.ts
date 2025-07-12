@@ -18,6 +18,27 @@ interface UploadedFile {
   relativePath?: string
 }
 
+// Helper function to fetch and format categories and collections
+async function fetchCategoriesAndCollections(): Promise<Record<string, {collections: string[]}>> {
+  // Fetch all categories
+  const categories = await prisma.category.findMany({
+    include: {
+      Collection: true,
+    }
+  });
+
+  // Format data for AI prompt
+  const categoriesMap: Record<string, {collections: string[]}> = {};
+  
+  categories.forEach(category => {
+    categoriesMap[category.name] = {
+      collections: category.Collection.map(col => col.name),
+    };
+  });
+
+  return categoriesMap;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
@@ -41,6 +62,15 @@ export async function POST(request: NextRequest) {
     if (!uploadMode) {
       return NextResponse.json({ error: 'Missing uploadMode in form data' }, { status: 400 });
     }
+
+    // Fetch categories and collections once per request if we need categorization
+    let categoriesData = null;
+    if (useAiInference || (!categoryId && !customCategory) || (categoryId && !collectionId && !customCollection)) {
+      categoriesData = await fetchCategoriesAndCollections();
+      console.log(`Fetched ${Object.keys(categoriesData).length} categories for AI categorization`);
+    }
+
+    console.log("Categories Data:", categoriesData);
 
     // --- JSON Upload Handling --- 
     if (uploadMode === 'json') {
@@ -173,7 +203,7 @@ export async function POST(request: NextRequest) {
             console.log(`Successfully fetched ${processableImages.length} images from JSON sources.`);
 
             // Process fetched images using the ImageService (this assumes processJsonImages handles the JsonImage structure)
-            const results = await ImageService.processJsonImages(processableImages);
+            const results = await ImageService.processJsonImages(processableImages, categoriesData || undefined);
             // --- End: Existing JSON Processing Logic --- 
             
             return NextResponse.json({ success: true, message: `Processed ${results.length} images from JSON.`, urls: results });
@@ -297,7 +327,10 @@ export async function POST(request: NextRequest) {
                         url = await ImageService.processAndUploadImageWithType(
                             file.buffer, 
                             file.originalname, 
-                            productType
+                            productType,
+                            undefined,
+                            undefined,
+                            categoriesData || undefined
                         );
                     } else {
                         // For folder uploads, consider using the folder structure
@@ -343,31 +376,34 @@ export async function POST(request: NextRequest) {
                                     }
                                 }
                                 
-                                url = await ImageService.processAndUploadImageWithCustomCategorization(
+                                url = await ImageService.processAndUploadImageWithType(
                                     file.buffer, 
                                     file.originalname, 
                                     productType,
                                     actualCategoryId || undefined,
-                                    folderCollectionId || undefined
+                                    folderCollectionId || undefined,
+                                    categoriesData || undefined
                                 );
                             } else {
                                 // Use specified category and collection
-                                url = await ImageService.processAndUploadImageWithCustomCategorization(
+                                url = await ImageService.processAndUploadImageWithType(
                                     file.buffer, 
                                     file.originalname, 
                                     productType,
                                     actualCategoryId || undefined,
-                                    actualCollectionId || undefined
+                                    actualCollectionId || undefined,
+                                    categoriesData || undefined
                                 );
                             }
                         } else {
                             // Use specified category and collection
-                            url = await ImageService.processAndUploadImageWithCustomCategorization(
+                            url = await ImageService.processAndUploadImageWithType(
                                 file.buffer, 
                                 file.originalname, 
                                 productType,
                                 actualCategoryId || undefined,
-                                actualCollectionId || undefined
+                                actualCollectionId || undefined,
+                                categoriesData || undefined
                             );
                         }
                     }

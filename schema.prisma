@@ -50,7 +50,6 @@ model Design {
   tags                String[]
   createdAt           DateTime              @default(now())
   userId              String?
-  User                User?                 @relation(fields: [userId], references: [id])
   DesignCustomization DesignCustomization[]
 }
 
@@ -85,7 +84,6 @@ model Order {
   orderDate       DateTime    @default(now())
   deliveryDate    DateTime?
   userId          String
-  User            User        @relation(fields: [userId], references: [id])
   OrderItem       OrderItem[]
 }
 
@@ -149,7 +147,6 @@ model ProductFavorite {
   productId String
   addedAt   DateTime @default(now())
   Product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, productId])
 }
@@ -202,18 +199,4 @@ model ThermosDetails {
   lidType           String?
   productId         String   @unique
   Product           Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-}
-
-model User {
-  id              String            @id
-  email           String            @unique
-  firstName       String
-  lastName        String
-  address         String?
-  phone           String?
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime
-  Design          Design[]
-  Order           Order[]
-  ProductFavorite ProductFavorite[]
 }

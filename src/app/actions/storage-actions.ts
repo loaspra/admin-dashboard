@@ -2,16 +2,16 @@
 
 import { supabaseAdmin } from '../lib/supabase';
 
-export async function uploadImage(imageBuffer: Buffer, fileName: string, path: string) {
+export async function uploadImage(imageBuffer: Buffer, fileName: string, path: string, productType: string) {
   if (!supabaseAdmin) {
     throw new Error('Admin client not available');
   }
   
   try {
-    // Ensure the path is in the products/sticker subdirectory
-    const storagePath = path.startsWith('products/sticker') 
+    // Ensure the path is in the products/<productType> subdirectory
+    const storagePath = path.startsWith(`products/${productType}`) 
       ? path 
-      : `products/sticker/${path.split('/').pop() || path}`;
+      : `products/${productType}/${path.split('/').pop() || path}`;
     
     const { data, error } = await supabaseAdmin.storage
       .from('images')
@@ -26,7 +26,10 @@ export async function uploadImage(imageBuffer: Buffer, fileName: string, path: s
       .from('images')
       .getPublicUrl(storagePath);
 
-    return publicUrl;
+    // Format the URL as requested
+    const formattedUrl = `/storage/products/${productType}/${storagePath.split('/').pop()}`;
+
+    return formattedUrl;
   } catch (error) {
     console.error('Error uploading to Supabase:', error);
     throw error;

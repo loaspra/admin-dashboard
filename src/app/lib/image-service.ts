@@ -169,88 +169,94 @@ export class ImageService {
     return collections.map((collection) => collection.name).filter(Boolean) as string[]
   }
 
-  private static async processImageWithGemini(imageBytes: Buffer, isFromJson: boolean): Promise<ImageMetadata> {
+  private static async processImageWithGemini(
+    imageBytes: Buffer, 
+    isFromJson: boolean, 
+    providedCategoryId?: string, 
+    providedCollectionId?: string,
+    categoriesData?: Record<string, {collections: string[]}>
+  ): Promise<ImageMetadata> {
     // Use the rate limiter to control API calls to Gemini
     return geminiRateLimiter.execute(async () => {
       const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" })
 
-      const categorias = {
-        deportes: {
-          collecion: ["boxing", "judo", "gym", "bjj", "futbol", "messi"],
-        },
-        musica: {
-          collecion: ["harry styles", "arctick monkeys", "bad bunny"],
-        },
-        zodiaco: {
-          collecion: ["aries", "todos", "luna"],
-        },
-        "series tv": {
-          collecion: ["house of dragon", "the office", "rick and morty", "CHAINSAW MAN"],
-        },
-        mentalidad: {
-          collecion: ["estoicismo", "psico"],
-        },
-        parejas: {
-          collecion: ["duos"],
-        },
-        halloween: {
-          collecion: [],
-        },
-        tattos: {
-          collecion: ["tattos", "negro"],
-        },
-        animes: {
-          collecion: ["kimetsu no yaiba"],
-        },
-        arte: {
-          collecion: ["psicodelicos", "art", "obras de arte", "estatuas"],
-        },
-        cosmos: {
-          collecion: ["astronomia"],
-        },
-        profesiones: {
-          collecion: ["med", "programadores", "data", "security"],
-        },
-        caricaturas: {
-          collecion: [
-            "snoopy",
-            "capibara",
-            "lord nermal",
-            "pepe the frog",
-            "hamsters",
-            "michis",
-            "perros",
-            "rana René",
-          ],
-        },
-        memes: {
-          collecion: ["rage comics"],
-        },
-        travel: {
-          collecion: ["boletos"],
-        },
-        peliculas: {
-          collecion: ["rocky"],
-        },
-      }
-      const prompt = `Analiza esta imagen y proporciona la siguiente información en formato JSON:
-  - nombre: un nombre descriptivo para la imagen
-  - tags: arreglo de palabras clave relevantes (máximo 5), debes incluir los colores predominantes de la imagen
-  - color: color dominante o esquema de colores
-  - estilo: uno de [cartoon, realista, minimalista, abstracto]
-  - orientacion: uno de [horizontal, vertical, cuadrada]
-  - premium: booleano que indica si esta debe ser una imagen premium
-  ${isFromJson ? "" : `
-  - categoria: una de la categoria, debe de estar en el JSON de abajo
-  - coleccion: una colección de la categoria a la que pertenece la imagen
+      // Determine what kind of categorization prompt to use
+      let categorizationPrompt = '';
+      
+      if (!providedCategoryId && !providedCollectionId) {
+        // Neither category nor collection provided - ask AI to choose from available categories
+        if (categoriesData) {
+          categorizationPrompt = `
+- categoria: una de la categoria, debe de estar en el JSON de abajo
+- coleccion: una colección de la categoria a la que pertenece la imagen
 
-  A continuación, se muestran las categorías disponibles, cada una tiene una lista de colecciones asociadas:
-  ${JSON.stringify(Object.keys(categorias))}
-  `}
-  Por favor, responde solo con el objeto JSON, sin texto adicional.
-  
-  Mas contexto: las imagenes son planchas de stickers, pueden tener diferentes tematicas y colores. `
+A continuación, se muestran las categorías disponibles, cada una tiene una lista de colecciones asociadas:
+${JSON.stringify(categoriesData)}
+`;
+        } else {
+          // Fallback hardcoded categories if we don't have the fetched data
+          const categorias = {
+            deportes: {collections: ["boxing", "judo", "gym", "bjj", "futbol", "messi"]},
+            musica: {collections: ["harry styles", "arctick monkeys", "bad bunny"]},
+            zodiaco: {collections: ["aries", "todos", "luna"]},
+            "series tv": {collections: ["house of dragon", "the office", "rick and morty", "CHAINSAW MAN"]},
+            mentalidad: {collections: ["estoicismo", "psico"]},
+            parejas: {collections: ["duos"]},
+            halloween: {collections: []},
+            tattos: {collections: ["tattos", "negro"]},
+            animes: {collections: ["kimetsu no yaiba"]},
+            arte: {collections: ["psicodelicos", "art", "obras de arte", "estatuas"]},
+            cosmos: {collections: ["astronomia"]},
+            profesiones: {collections: ["med", "programadores", "data", "security"]},
+            caricaturas: {collections: ["snoopy", "capibara", "lord nermal", "pepe the frog", "hamsters", "michis", "perros", "rana René"]},
+            memes: {collections: ["rage comics"]},
+            travel: {collections: ["boletos"]},
+            peliculas: {collections: ["rocky"]}
+          };
+          
+          categorizationPrompt = `
+- categoria: una de la categoria, debe de estar en el JSON de abajo
+- coleccion: una colección de la categoria a la que pertenece la imagen
+
+A continuación, se muestran las categorías disponibles, cada una tiene una lista de colecciones asociadas:
+${JSON.stringify(Object.keys(categorias))}
+`;
+        }
+      } else if (providedCategoryId && !providedCollectionId) {
+        // Category provided but not collection - ask AI to suggest only a collection
+        if (categoriesData && categoriesData[providedCategoryId]) {
+          categorizationPrompt = `
+- coleccion: una colección que pertenezca a la categoría "${providedCategoryId}". Puedes sugerir una de las siguientes o crear una nueva si ninguna es apropiada:
+${JSON.stringify(categoriesData[providedCategoryId].collections)}
+`;
+        } else {
+          categorizationPrompt = `
+- coleccion: una colección apropiada para la categoría "${providedCategoryId}". Sé creativo pero relevante.
+`;
+        }
+      } else if (isFromJson) {
+        // For JSON files, we already have the categorization from the JSON
+        categorizationPrompt = '';
+      } else {
+        // Both category and collection provided or it's from JSON - don't ask for categorization
+        categorizationPrompt = '';
+      }
+
+      const prompt = `Analiza esta imagen y proporciona la siguiente información en formato JSON:
+- nombre: un nombre descriptivo para la imagen
+- tags: arreglo de palabras clave relevantes (máximo 5), debes incluir los colores predominantes de la imagen
+- color: color dominante o esquema de colores
+- estilo: uno de [cartoon, realista, minimalista, abstracto]
+- orientacion: uno de [horizontal, vertical, cuadrada]
+- premium: booleano que indica si esta debe ser una imagen premium
+${categorizationPrompt}
+
+Por favor, responde solo con el objeto JSON, sin texto adicional.
+
+Mas contexto: las imagenes son planchas de stickers, pueden tener diferentes tematicas y colores.`;
+
       const base64Image = imageBytes.toString("base64")
+
 
       try {
         const result = await model.generateContent([
@@ -292,11 +298,12 @@ export class ImageService {
           // Fallback to default values if parsing fails
           return {
             nombre: "Unknown Image",
-            categoria: "objetos",
+            categoria: providedCategoryId || "objetos",
             tags: ["unknown"],
             color: "unknown",
             estilo: "realista",
             orientacion: "horizontal",
+            coleccion: providedCollectionId,
             premium: false,
           }
         }
@@ -306,42 +313,25 @@ export class ImageService {
         // Return default values if Gemini processing fails
         return {
           nombre: "Unprocessed Image",
-          categoria: "objetos",
+          categoria: providedCategoryId || "objetos",
           tags: ["unprocessed"],
           color: "unknown",
           estilo: "realista",
           orientacion: "horizontal",
+          coleccion: providedCollectionId,
           premium: false,
         }
       }
     })
   }
 
-  private static async uploadImageToSupabase(imageBuffer: Buffer, fileName: string): Promise<string> {
-    // Don't create nested folder structures, use flat structure with unique filename
-    const fileExt = fileName.split(".").pop()
-    const uniqueFileName = `${uuidv4()}.${fileExt}`
-    // Use a flat structure with a descriptive prefix instead of nested folders
-    const filePath = `products/sticker/${uniqueFileName}`
-
-    try {
-      // Call server action
-      return await uploadImage(imageBuffer, fileName, filePath)
-    } catch (error) {
-      console.error("Error uploading to Supabase:", error)
-      throw error
-    }
-  }
-
   private static async optimizeImage(buffer: Buffer): Promise<Buffer> {
     try {
       const image = sharp(buffer)
-      console.log("Image keys: ", Object.keys(image));
       const metadata = await image.metadata()
       
       // Get the original format (default to jpeg if not detected)
       const format = metadata.format || 'jpeg';
-      console.log(`Processing image with original format: ${format}`);
 
       // Resize if image is too large while maintaining aspect ratio
       if (metadata.width && metadata.width > 2000) {
@@ -364,10 +354,29 @@ export class ImageService {
     }
   }
 
+  private static async uploadImageToSupabase(imageBuffer: Buffer, fileName: string, productType: string): Promise<string> {
+    // Don't create nested folder structures, use flat structure with unique filename
+    const fileExt = fileName.split(".").pop()
+    const uniqueFileName = `${uuidv4()}.${fileExt}`
+    // Use productType for folder structure
+    const filePath = `products/${productType}/${uniqueFileName}`
+
+    try {
+      // Call server action with productType
+      return await uploadImage(imageBuffer, fileName, filePath, productType)
+    } catch (error) {
+      console.error("Error uploading to Supabase:", error)
+      throw error
+    }
+  }
+
   static async processAndUploadImageWithType(
     imageBuffer: Buffer, 
     fileName: string, 
-    productType: string // Now accepts productType string
+    productType: string, // Now accepts productType string
+    categoryId?: string,  // Add optional categoryId parameter
+    collectionId?: string, // Add optional collectionId parameter
+    categoriesData?: Record<string, {collections: string[]}>  // Add categories data
   ): Promise<string> {
     if (!isValidProductType(productType)) {
         throw new Error(`Invalid product type provided: ${productType}`);
@@ -379,8 +388,14 @@ export class ImageService {
 
       // Process with Gemini and upload to Supabase in parallel
       const [metadata, publicUrl] = await Promise.all([
-        this.processImageWithGemini(optimizedBuffer, false), // false because it's not from JSON
-        this.uploadImageToSupabase(optimizedBuffer, fileName), // Still uploads to a generic path, maybe refine later?
+        this.processImageWithGemini(
+          optimizedBuffer, 
+          false, // Not from JSON
+          categoryId, 
+          collectionId,
+          categoriesData
+        ),
+        this.uploadImageToSupabase(optimizedBuffer, fileName, productType), // Pass productType here
       ])
 
       console.log("Metadata: " + JSON.stringify(metadata, null, 2))
@@ -391,12 +406,7 @@ export class ImageService {
       // Generate ID for product
       const productId = uuidv4();
       
-      // Convert full URL to storage path for DB consistency
-      const urlObj = new URL(publicUrl);
-      let storagePath = urlObj.pathname.substring(urlObj.pathname.indexOf('/', 1));
-      console.log("Storage path: " + storagePath)
-      storagePath = storagePath.replace('/v1/object/public/images', '');
-      console.log("Storage path: " + storagePath)
+      // No need to modify the URL - it's already in the correct format coming from uploadImage
 
       // Create product entry with ID and the correct productType
       const product = await prisma.product.create({
@@ -405,7 +415,7 @@ export class ImageService {
           name: metadata.nombre || 'Untitled Image',
           description: metadata.tags?.join(', ') || 'No description',
           price: metadata.premium ? 9.99 : 4.99, // Default pricing, adjust as needed
-          images: [storagePath], // Store relative path
+          images: [publicUrl], // Store the formatted URL path
           stock: 999, // Default stock
           tags: metadata.tags || [],
           productType: productType, // Use the provided productType
@@ -413,9 +423,9 @@ export class ImageService {
           updatedAt: new Date(),
           featured: metadata.premium,
           isCustomizable: true, // Default, adjust as needed per product type
-          categoryId: await this.getOrCreateCategoryId(metadata.categoria), // Category from Gemini
-          // Collection might also come from Gemini or be null
-          collectionId: metadata.coleccion ? await this.getOrCreateCollectionId(metadata.categoria, metadata.coleccion) : null, 
+          // Use provided category/collection if they exist, otherwise use AI inference
+          categoryId: categoryId || await this.getOrCreateCategoryId(metadata.categoria), 
+          collectionId: collectionId || (metadata.coleccion ? await this.getOrCreateCollectionId(metadata.categoria, metadata.coleccion) : null),
         },
       })
 
@@ -506,131 +516,8 @@ export class ImageService {
     categoryId?: string,
     collectionId?: string
   ): Promise<string> {
-    if (!isValidProductType(productType)) {
-        throw new Error(`Invalid product type provided: ${productType}`);
-    }
-
-    try {
-      // Optimize image
-      const optimizedBuffer = await this.optimizeImage(imageBuffer)
-
-      // Process with Gemini for product attributes, but not for categorization
-      // Use the same method but we'll ignore the category/collection it returns
-      const [metadata, publicUrl] = await Promise.all([
-        this.processImageWithGemini(optimizedBuffer, true), // true to skip category/collection inference
-        this.uploadImageToSupabase(optimizedBuffer, fileName),
-      ])
-
-      console.log("Metadata with custom categorization: " + JSON.stringify(metadata, null, 2))
-
-      // Get image dimensions
-      const dimensions = await sharp(optimizedBuffer).metadata()
-      
-      // Generate ID for product
-      const productId = uuidv4();
-      
-      // Convert full URL to storage path for DB consistency
-      const urlObj = new URL(publicUrl);
-      const pathParts = urlObj.pathname.split('/');
-      let storagePath = urlObj.pathname.substring(urlObj.pathname.indexOf('/', 1));
-      // replace the string `/v1/object/public/images` with `/storage`
-      storagePath = storagePath.replace('/v1/object/public/images', '/storage');
-      console.log("Storage path: " + storagePath)
-
-      // Create product entry with ID and the custom category/collection
-      const product = await prisma.product.create({
-        data: {
-          id: productId,
-          name: metadata.nombre || 'Untitled Image',
-          description: metadata.tags?.join(', ') || 'No description',
-          price: metadata.premium ? 9.99 : 4.99,
-          images: [storagePath],
-          stock: 999,
-          tags: metadata.tags || [],
-          productType: productType,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          featured: metadata.premium,
-          isCustomizable: true,
-          // Use provided category/collection or default to 'misc'
-          categoryId: categoryId || await this.getOrCreateCategoryId('misc'),
-          collectionId: collectionId || null,
-        },
-      })
-
-      // Create the corresponding details entry based on productType
-      // Same as in processAndUploadImageWithType
-      switch (productType) {
-        case 'cap':
-          await prisma.capDetails.create({
-            data: {
-              id: uuidv4(),
-              sizes: ['Adult Unisex'], colors: [metadata.color || 'various'], material: 'Cotton Blend', adjustable: true, style: metadata.estilo,
-              customizationArea: { front: true, back: false, side: false },
-              productId: product.id,
-            }
-          });
-          break;
-        case 'poloShirt':
-          await prisma.poloShirtDetails.create({
-            data: {
-              id: uuidv4(),
-              sizes: ['S', 'M', 'L', 'XL'], colors: [metadata.color || 'various'], material: 'Pique Cotton', sleeveType: 'Short',
-              customizationAreas: { front_chest: true, back: true, sleeve: false }, collar: true, fit: 'Regular',
-              productId: product.id,
-            }
-          });
-          break;
-        case 'sticker':
-           await prisma.stickerDetails.create({
-            data: {
-              id: uuidv4(),
-              dimensions: { width: dimensions.width || 100, height: dimensions.height || 100 },
-              adhesiveType: 'Standard', material: 'Vinyl', waterproof: true, customShape: true, shape: 'Custom', finishType: 'Glossy',
-              productId: product.id
-            }
-           });
-           break;
-        case 'stickerSheet':
-           await prisma.stickerSheetDetails.create({
-             data: {
-               id: uuidv4(),
-               sheetDimensions: { width: dimensions.width || 210, height: dimensions.height || 297 },
-               stickerCount: metadata.tags?.length || 5,
-               adhesiveType: 'Standard', material: 'Vinyl', waterproof: true,
-               productId: product.id,
-             }
-           });
-           break;
-        case 'sweatshirt':
-           await prisma.sweatshirtDetails.create({
-            data: {
-              id: uuidv4(),
-              sizes: ['S', 'M', 'L', 'XL'], colors: [metadata.color || 'various'], material: 'Fleece Blend', hasHood: true, pockets: true,
-              customizationAreas: { front: true, back: true, sleeve: true }, thickness: 'Medium',
-              productId: product.id,
-            }
-           });
-           break;
-        case 'thermos':
-           await prisma.thermosDetails.create({
-            data: {
-              id: uuidv4(),
-              capacity: 500, colors: [metadata.color || 'various'], material: 'Stainless Steel', insulated: true,
-              customizationArea: { wrap: true }, lidType: 'Screw-on',
-              productId: product.id,
-            }
-           });
-           break;
-        default:
-          console.warn(`Product details not created for unknown type: ${productType}`);
-      }
-
-      return publicUrl
-    } catch (error) {
-      console.error(`Error in processAndUploadImageWithCustomCategorization for ${fileName}:`, error)
-      throw error
-    }
+    console.warn("processAndUploadImageWithCustomCategorization has been deprecated. Use processAndUploadImageWithType with category and collection parameters instead.");
+    return this.processAndUploadImageWithType(imageBuffer, fileName, productType, categoryId, collectionId);
   }
 
   static async processAndUploadImage(imageBuffer: Buffer, fileName: string): Promise<string> {
@@ -671,7 +558,12 @@ export class ImageService {
     return newCategory.id;
   }
 
-  static async processBatchImagesWithType(files: UploadedFile[], productType: string): Promise<string[]> {
+  static async processBatchImagesWithType(
+    files: UploadedFile[], 
+    productType: string,
+    categoryId?: string,
+    collectionId?: string
+  ): Promise<string[]> {
     if (!isValidProductType(productType)) {
         // Maybe return an error response instead of throwing?
         throw new Error(`Invalid product type provided for batch processing: ${productType}`);
@@ -680,8 +572,14 @@ export class ImageService {
 
     for (const file of files) {
       try {
-        // Call the type-aware processing function
-        const url = await this.processAndUploadImageWithType(file.buffer, file.originalname, productType)
+        // Call the type-aware processing function with optional category/collection
+        const url = await this.processAndUploadImageWithType(
+          file.buffer, 
+          file.originalname, 
+          productType, 
+          categoryId, 
+          collectionId
+        )
         results.push(url)
       } catch (error) {
         console.error(`Error processing ${file.originalname} for type ${productType}:`, error)
@@ -700,76 +598,28 @@ export class ImageService {
      return this.processBatchImagesWithType(files, 'stickerSheet');
   }
 
-  static async processJsonImages(jsonImages: JsonImage[]): Promise<string[]> {
+  static async processJsonImages(jsonImages: JsonImage[], categoriesData?: Record<string, {collections: string[]}>): Promise<string[]> {
     const results: string[] = [];
 
     for (const image of jsonImages) {
       try {
-        // Gemini still processes based on the image content + context
-        const metadata = await this.processImageWithGemini(image.buffer, true); // true because it's from JSON
-
-        // Optimize image
-        const optimizedBuffer = await this.optimizeImage(image.buffer)
-
-        // Upload image to Supabase
-        const fullPublicUrl = await this.uploadImageToSupabase(optimizedBuffer, image.originalname)
+        // Create necessary categories and collections from JSON
+        const categoryId = await this.getOrCreateCategoryId(image.categoria);
+        const collectionId = await this.getOrCreateCollectionId(image.categoria, image.coleccion);
         
-        // Convert full URL to storage path
-        const urlObj = new URL(fullPublicUrl);
-        const pathParts = urlObj.pathname.split('/');
-         let storagePath = urlObj.pathname.substring(urlObj.pathname.indexOf('/', 1));
-        // replace the string `/v1/object/public/images` with `/storage`
-        storagePath = storagePath.replace('/v1/object/public/images', '/storage');
+        const productType = 'sticker'; // Default JSON images to stickers
 
-        // Get image dimensions
-        const dimensions = await sharp(optimizedBuffer).metadata()
-
-        // Generate ID for product
-        const productId = uuidv4();
+        // Process image using the standard function with explicit category/collection
+        const url = await this.processAndUploadImageWithType(
+          image.buffer,
+          image.originalname,
+          productType, // Default JSON images to stickers
+          categoryId,
+          collectionId || undefined,
+          categoriesData
+        );
         
-        // Determine productType - JSON implies single stickers or sheets? Defaulting to 'sticker'
-        // This might need refinement based on JSON structure or conventions
-        const productTypeForJson: ProductType = 'sticker'; 
-
-        // Create product entry with ID
-        const product = await prisma.product.create({
-          data: {
-            id: productId,
-            name: metadata.nombre || 'Untitled Image',
-            description: metadata.tags?.join(', ') || 'No description',
-            price: metadata.premium ? 9.99 : 4.99,
-            images: [storagePath],
-            stock: 999,
-            tags: metadata.tags || [],
-            productType: productTypeForJson, // Set determined type
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            featured: metadata.premium,
-            isCustomizable: true,
-            categoryId: await this.getOrCreateCategoryId(image.categoria), // Use category from JSON input
-            collectionId: await this.getOrCreateCollectionId(image.categoria, image.coleccion), // Use collection from JSON input
-          },
-        });
-
-        // Create StickerDetails (as decided above for JSON uploads)
-        await prisma.stickerDetails.create({
-          data: {
-            id: uuidv4(),
-            dimensions: {
-              width: dimensions.width || 0,
-              height: dimensions.height || 0
-            },
-            adhesiveType: 'Standard',
-            material: 'Vinyl',
-            waterproof: true,
-            customShape: true,
-            shape: 'Custom',
-            finishType: 'Glossy',
-            productId: product.id
-          }
-        });
-
-        results.push(storagePath);
+        results.push(url);
       } catch (error) {
         console.error(`Error processing image from JSON:`, error);
         // Continue with next image even if one fails

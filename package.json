@@ -6,7 +6,14 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "backup-db": "chmod +x scripts/backup-database.sh && scripts/backup-database.sh",
+    "preview-zodiac": "npx tsx scripts/preview-zodiac-collections.ts",
+    "fix-zodiac": "npx tsx scripts/fix-zodiac-collections.ts",
+    "validate-db": "npx tsx scripts/validate-categories-collections.ts",
+    "fix-db": "npx tsx scripts/fix-categories-collections.ts",
+    "fix-structure": "npx tsx scripts/fix-structural-discrepancies.ts",
+    "assign-collections": "npx tsx scripts/assign-product-collections.ts"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.0",
@@ -27,6 +34,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "dotenv": "^16.5.0",
     "embla-carousel-react": "^8.5.2",
     "express-rate-limit": "^7.5.0",
     "framer-motion": "^11.0.3",
@@ -54,7 +62,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.2.2",
+    "prisma": "^6.5.0",
     "tailwindcss": "^4",
+    "tsx": "^4.19.1",
     "typescript": "^5"
   }
 }

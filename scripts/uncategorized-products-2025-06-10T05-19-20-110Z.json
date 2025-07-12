@@ -1,0 +1,76 @@
+{
+  "metadata": {
+    "timestamp": "2025-06-10T05:19:20.111Z",
+    "totalUncategorized": 4,
+    "summary": {
+      "no_collections_available": 1,
+      "ai_suggested_none": 3,
+      "ai_suggested_invalid": 0,
+      "processing_error": 0
+    },
+    "categoriesWithIssues": [
+      "Deportes",
+      "template-sticker"
+    ]
+  },
+  "uncategorized": [
+    {
+      "id": "378c8163-344e-4d97-ae29-55127260a44b",
+      "name": "Bandera a cuadros",
+      "description": "bandera, carreras, meta, blanco, negro",
+      "tags": [
+        "bandera",
+        "carreras",
+        "meta",
+        "blanco",
+        "negro"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en la categoría Deportes se relaciona directamente con una bandera a cuadros. Aunque está relacionada con el deporte, no encaja en las subcategorías existentes.",
+      "timestamp": "2025-06-10T05:19:20.110Z"
+    },
+    {
+      "id": "479ea5c4-045e-4b05-b7b0-68cb0e211a3c",
+      "name": "Eat Pasta, Drive Fast",
+      "description": "pasta, food, car, typography, black and white",
+      "tags": [
+        "pasta",
+        "food",
+        "car",
+        "typography",
+        "black and white"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en la categoría actual (Deportes) encaja con la descripción del producto (pasta, comida, coches, tipografía en blanco y negro). No hay una colección claramente superior en otras categorías tampoco.",
+      "timestamp": "2025-06-10T05:19:18.855Z"
+    },
+    {
+      "id": "7e725c0c-b375-4a43-9b18-969c3b005c42",
+      "name": "Just an Inchident",
+      "description": "texto, rojo, blanco, tipografía, incidente",
+      "tags": [
+        "texto",
+        "rojo",
+        "blanco",
+        "tipografía",
+        "incidente"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: El producto se describe con palabras genéricas como 'texto', 'rojo', 'blanco' y 'tipografía' y la palabra 'incidente'. Ninguna colección de Deportes ni ninguna otra categoría encaja directamente con esta descripción. Es posible que se necesite más información para determinar una colección apropiada.",
+      "timestamp": "2025-06-10T05:19:16.199Z"
+    },
+    {
+      "id": "template-sticker-product",
+      "name": "Custom Sticker Sheet",
+      "description": "Product for the template sticker category",
+      "tags": [],
+      "category": "template-sticker",
+      "reason": "no_collections_available",
+      "details": "Category \"template-sticker\" has no collections",
+      "timestamp": "2025-06-10T05:19:07.064Z"
+    }
+  ]
+}

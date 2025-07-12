@@ -1,0 +1,156 @@
+{
+  "metadata": {
+    "timestamp": "2025-06-10T05:13:27.712Z",
+    "totalUncategorized": 9,
+    "summary": {
+      "no_collections_available": 1,
+      "ai_suggested_none": 8,
+      "ai_suggested_invalid": 0,
+      "processing_error": 0
+    },
+    "categoriesWithIssues": [
+      "Deportes",
+      "template-sticker"
+    ]
+  },
+  "uncategorized": [
+    {
+      "id": "378c8163-344e-4d97-ae29-55127260a44b",
+      "name": "Bandera a cuadros",
+      "description": "bandera, carreras, meta, blanco, negro",
+      "tags": [
+        "bandera",
+        "carreras",
+        "meta",
+        "blanco",
+        "negro"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection. Available collections: [Boxing, Judo, Gym, BJJ, Escalada]. AI reasoning: Ninguna de las colecciones listadas (Boxing, Judo, Gym, BJJ, Escalada) se relaciona directamente con carreras o deportes de motor, que son los temas implícitos en la descripción de la bandera a cuadros. La bandera a cuadros se asocia típicamente con las carreras de autos y motos, no con las categorías provistas.",
+      "timestamp": "2025-06-10T05:13:27.712Z"
+    },
+    {
+      "id": "7f41c38e-223e-4454-91cd-ffc4a4e5cd44",
+      "name": "Cartel de la carrera de coches de Mónaco",
+      "description": "coche, carrera, vintage, Monaco, cartel",
+      "tags": [
+        "coche",
+        "carrera",
+        "vintage",
+        "Monaco",
+        "cartel"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection. Available collections: [Boxing, Judo, Gym, BJJ, Escalada]. AI reasoning: Ninguna de las colecciones disponibles (Boxing, Judo, Gym, BJJ, Escalada) se relaciona con carreras de coches o deportes de motor. La mejor opción es no asignar ninguna colección en este caso.",
+      "timestamp": "2025-06-10T05:13:21.321Z"
+    },
+    {
+      "id": "a06fa6cf-9266-45a4-88d9-97eae21097e9",
+      "name": "Cartel del Gran Premio de Mónaco",
+      "description": "Mónaco, carreras, automovilismo, circuito, cartel",
+      "tags": [
+        "Mónaco",
+        "carreras",
+        "automovilismo",
+        "circuito",
+        "cartel"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection. Available collections: [Boxing, Judo, Gym, BJJ, Escalada]. AI reasoning: Ninguna de las colecciones disponibles (Boxing, Judo, Gym, BJJ, Escalada) se relaciona con el automovilismo. El producto se refiere a carreras de coches, no a ninguno de los deportes listados.",
+      "timestamp": "2025-06-10T05:13:20.418Z"
+    },
+    {
+      "id": "b5a1645a-d8c4-49d4-9010-64e2b0dd39ef",
+      "name": "Cartel del Gran Premio de Mónaco de 1965",
+      "description": "Mónaco, carreras, automovilismo, vintage, cartel",
+      "tags": [
+        "Mónaco",
+        "carreras",
+        "automovilismo",
+        "vintage",
+        "cartel"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection. Available collections: [Boxing, Judo, Gym, BJJ, Escalada]. AI reasoning: Ninguna de las colecciones disponibles (Boxing, Judo, Gym, BJJ, Escalada) se relaciona con el automovilismo o las carreras de coches. El producto es un cartel de carreras, pero no encaja en ninguna de las categorías listadas.",
+      "timestamp": "2025-06-10T05:13:22.314Z"
+    },
+    {
+      "id": "32907c89-3b2d-4a55-a656-cead10f6fd26",
+      "name": "Casco de Ayrton Senna",
+      "description": "Senna, F1, Brasil, Deporte, Casco",
+      "tags": [
+        "Senna",
+        "F1",
+        "Brasil",
+        "Deporte",
+        "Casco"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection. Available collections: [Boxing, Judo, Gym, BJJ, Escalada]. AI reasoning: El producto es un casco relacionado con la Fórmula 1 (F1), que no encaja directamente en ninguna de las colecciones disponibles (Boxing, Judo, Gym, BJJ, Escalada). La colección más cercana sería 'Gym' o 'Deportes' en general, pero no es lo suficientemente específico. Por lo tanto, ninguna de las colecciones existentes es apropiada.",
+      "timestamp": "2025-06-10T05:13:25.555Z"
+    },
+    {
+      "id": "7ffd6323-be75-4d9e-ba8a-174df52e22a5",
+      "name": "Casco de Fórmula 1",
+      "description": "Fórmula 1, Deporte, Casco, Carreras, Ferrari",
+      "tags": [
+        "Fórmula 1",
+        "Deporte",
+        "Casco",
+        "Carreras",
+        "Ferrari"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection. Available collections: [Boxing, Judo, Gym, BJJ, Escalada]. AI reasoning: Ninguna de las colecciones disponibles (Boxing, Judo, Gym, BJJ, Escalada) se relaciona directamente con la Fórmula 1 o los deportes de motor. El casco es un elemento de protección en un deporte específico, pero ninguna de las colecciones existentes encaja.",
+      "timestamp": "2025-06-10T05:13:23.438Z"
+    },
+    {
+      "id": "a27e64d2-5f4b-46fc-bbca-04d4e0c1e897",
+      "name": "Charles Leclerc Ferrari F1",
+      "description": "F1, Ferrari, Charles Leclerc, carrera, automovilismo",
+      "tags": [
+        "F1",
+        "Ferrari",
+        "Charles Leclerc",
+        "carrera",
+        "automovilismo"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection. Available collections: [Boxing, Judo, Gym, BJJ, Escalada]. AI reasoning: Ninguna de las colecciones disponibles (Boxing, Judo, Gym, BJJ, Escalada) se relaciona con la Fórmula 1 ni con el automovilismo. La más apropiada sería una colección llamada \"Automovilismo\" o \"F1\", pero no existen en la lista.",
+      "timestamp": "2025-06-10T05:13:19.426Z"
+    },
+    {
+      "id": "7e725c0c-b375-4a43-9b18-969c3b005c42",
+      "name": "Just an Inchident",
+      "description": "texto, rojo, blanco, tipografía, incidente",
+      "tags": [
+        "texto",
+        "rojo",
+        "blanco",
+        "tipografía",
+        "incidente"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection. Available collections: [Boxing, Judo, Gym, BJJ, Escalada]. AI reasoning: La descripción del producto no proporciona suficiente información para relacionarla con ninguna de las colecciones deportivas. Las etiquetas son genéricas (texto, color) y no sugieren un deporte específico.",
+      "timestamp": "2025-06-10T05:13:24.432Z"
+    },
+    {
+      "id": "template-sticker-product",
+      "name": "Custom Sticker Sheet",
+      "description": "Product for the template sticker category",
+      "tags": [],
+      "category": "template-sticker",
+      "reason": "no_collections_available",
+      "details": "Category \"template-sticker\" has no collections",
+      "timestamp": "2025-06-10T05:13:17.534Z"
+    }
+  ]
+}

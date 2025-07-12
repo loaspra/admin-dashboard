@@ -1,0 +1,2963 @@
+{
+  "metadata": {
+    "timestamp": "2025-06-10T06:07:27.857Z",
+    "totalUncategorized": 184,
+    "summary": {
+      "no_collections_available": 1,
+      "ai_suggested_none": 148,
+      "ai_suggested_invalid": 35,
+      "processing_error": 0
+    },
+    "categoriesWithIssues": [
+      "Arte",
+      "Caricaturas",
+      "Cosmos",
+      "Deportes",
+      "Halloween",
+      "Música",
+      "Parejas",
+      "Profesiones",
+      "Series TV",
+      "Zodiaco",
+      "template-sticker"
+    ]
+  },
+  "uncategorized": [
+    {
+      "id": "e4aa9189-10cd-4dcb-a3bd-bcf8fdc452cf",
+      "name": "Alien entre mujeres",
+      "description": "alien, mujer, estrellas, dibujo, ciencia ficción",
+      "tags": [
+        "alien",
+        "mujer",
+        "estrellas",
+        "dibujo",
+        "ciencia ficción"
+      ],
+      "category": "Arte",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Cosmos\" in category \"Cosmos\" but collection not found",
+      "timestamp": "2025-06-10T05:56:59.528Z"
+    },
+    {
+      "id": "0a058af5-2f46-4674-832f-09f1eefe2b74",
+      "name": "Alien in Mirror",
+      "description": "alien, mirror, believe, comic, funny",
+      "tags": [
+        "alien",
+        "mirror",
+        "believe",
+        "comic",
+        "funny"
+      ],
+      "category": "Arte",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Cosmos\" in category \"Cosmos\" but collection not found",
+      "timestamp": "2025-06-10T05:56:35.928Z"
+    },
+    {
+      "id": "96a81ee8-005f-4808-9234-8adecd82545f",
+      "name": "Alien in the Mirror",
+      "description": "alien, mirror, hands, vintage, retro",
+      "tags": [
+        "alien",
+        "mirror",
+        "hands",
+        "vintage",
+        "retro"
+      ],
+      "category": "Arte",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Cosmos\" in category \"Cosmos\" but collection not found",
+      "timestamp": "2025-06-10T05:56:57.033Z"
+    },
+    {
+      "id": "e8dbf5a6-f6bf-42e7-88fc-0c110029516d",
+      "name": "Astronauta psicodélico en un campo de girasoles",
+      "description": "astronauta, psicodélico, girasoles, espacio, arte",
+      "tags": [
+        "astronauta",
+        "psicodélico",
+        "girasoles",
+        "espacio",
+        "arte"
+      ],
+      "category": "Arte",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Cosmos\" in category \"Cosmos\" but collection not found",
+      "timestamp": "2025-06-10T05:56:38.575Z"
+    },
+    {
+      "id": "4018d265-cad4-4778-89e3-1d73b1f45039",
+      "name": "Bruja relajada con mascota",
+      "description": "bruja, dibujo animado, mascota, sombrero, relajación",
+      "tags": [
+        "bruja",
+        "dibujo animado",
+        "mascota",
+        "sombrero",
+        "relajación"
+      ],
+      "category": "Arte",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Halloween\" in category \"Halloween\" but collection not found",
+      "timestamp": "2025-06-10T05:56:51.233Z"
+    },
+    {
+      "id": "56bccf24-a798-4a6f-8ef4-41a5d8233ffe",
+      "name": "Gato de tres ojos",
+      "description": "gato, tres ojos, morado, dibujo, terror",
+      "tags": [
+        "gato",
+        "tres ojos",
+        "morado",
+        "dibujo",
+        "terror"
+      ],
+      "category": "Arte",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Memes\" in category \"Memes\" but collection not found",
+      "timestamp": "2025-06-10T05:56:54.284Z"
+    },
+    {
+      "id": "182e7130-1c47-4222-9fb2-cfe0c5e671c9",
+      "name": "I Want to Believe UFO",
+      "description": "ufo, alien, x-files, sky, trees",
+      "tags": [
+        "ufo",
+        "alien",
+        "x-files",
+        "sky",
+        "trees"
+      ],
+      "category": "Arte",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Cosmos\" in category \"Cosmos\" but collection not found",
+      "timestamp": "2025-06-10T05:56:58.197Z"
+    },
+    {
+      "id": "39970c25-e1e0-4128-a478-7338f37fae79",
+      "name": "Ojo que todo lo ve",
+      "description": "ojo, místico, estrellas, azul, espiritual",
+      "tags": [
+        "ojo",
+        "místico",
+        "estrellas",
+        "azul",
+        "espiritual"
+      ],
+      "category": "Arte",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Cosmos\" in category \"Cosmos\" but collection not found",
+      "timestamp": "2025-06-10T05:56:47.170Z"
+    },
+    {
+      "id": "16d1591a-408d-442a-8cf5-a85b7e713258",
+      "name": "UFO I Want to Leave",
+      "description": "ufo, alien, leave, night, adventure",
+      "tags": [
+        "ufo",
+        "alien",
+        "leave",
+        "night",
+        "adventure"
+      ],
+      "category": "Arte",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Cosmos\" in category \"Cosmos\" but collection not found",
+      "timestamp": "2025-06-10T05:57:02.044Z"
+    },
+    {
+      "id": "fbf2cbda-4d75-47f6-ac52-443020618aab",
+      "name": "UFO Rainbow Beam",
+      "description": "UFO, rainbow, space, retro, vintage",
+      "tags": [
+        "UFO",
+        "rainbow",
+        "space",
+        "retro",
+        "vintage"
+      ],
+      "category": "Arte",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Cosmos\" in category \"Cosmos\" but collection not found",
+      "timestamp": "2025-06-10T05:57:00.861Z"
+    },
+    {
+      "id": "61a42916-0e0c-4091-b097-79535b4fcbf5",
+      "name": "Capibara con pistola",
+      "description": "capibara, pistola, animal, divertido, meme",
+      "tags": [
+        "capibara",
+        "pistola",
+        "animal",
+        "divertido",
+        "meme"
+      ],
+      "category": "Caricaturas",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Memes\" in category \"Memes\" but collection not found",
+      "timestamp": "2025-06-10T05:58:47.159Z"
+    },
+    {
+      "id": "7ef08b56-78e4-4483-8911-f6234cd4de35",
+      "name": "Billete interplanetario a Marte",
+      "description": "Marte, espacio, billete, viaje, ciencia ficción",
+      "tags": [
+        "Marte",
+        "espacio",
+        "billete",
+        "viaje",
+        "ciencia ficción"
+      ],
+      "category": "Cosmos",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones existentes encaja perfectamente. 'Art' es demasiado genérico. 'Luna' y 'Astronomía' son específicos y no cubren la temática de viaje a Marte.",
+      "timestamp": "2025-06-10T05:55:39.758Z"
+    },
+    {
+      "id": "b0499339-b25d-4a59-9a0c-a679afe1693d",
+      "name": "Casco de karting con patrón abstracto",
+      "description": "casco, karting, deporte, abstracto, amarillo",
+      "tags": [
+        "casco",
+        "karting",
+        "deporte",
+        "abstracto",
+        "amarillo"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna colección de las existentes se ajusta específicamente a un casco de karting con un patrón abstracto.",
+      "timestamp": "2025-06-10T05:49:38.842Z"
+    },
+    {
+      "id": "479ea5c4-045e-4b05-b7b0-68cb0e211a3c",
+      "name": "Eat Pasta, Drive Fast",
+      "description": "pasta, food, car, typography, black and white",
+      "tags": [
+        "pasta",
+        "food",
+        "car",
+        "typography",
+        "black and white"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna colección en la categoría actual o en otras categorías se ajusta bien al producto, que combina comida (pasta) con coches.",
+      "timestamp": "2025-06-10T05:49:29.373Z"
+    },
+    {
+      "id": "346d9b06-4ba9-4b2e-a905-b15b8dba107a",
+      "name": "Entrevista post-carrera de karting",
+      "description": "karting, deporte, entrevista, adolescente, incidente",
+      "tags": [
+        "karting",
+        "deporte",
+        "entrevista",
+        "adolescente",
+        "incidente"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en la categoría 'Deportes' es específica para karting. El producto trata sobre un deporte y la entrevista relacionada, pero no encaja en las subcategorías existentes.",
+      "timestamp": "2025-06-10T05:50:33.887Z"
+    },
+    {
+      "id": "27508bf8-39ee-4d08-adc2-6c81105a2b2c",
+      "name": "Hombre bebiendo de un zapato",
+      "description": "hombre, bebiendo, zapato, humor, extravagante",
+      "tags": [
+        "hombre",
+        "bebiendo",
+        "zapato",
+        "humor",
+        "extravagante"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Memes\" in category \"Memes\" but collection not found",
+      "timestamp": "2025-06-10T05:49:33.782Z"
+    },
+    {
+      "id": "c02ee8f9-af92-4400-9da0-c776d705c582",
+      "name": "Ilustración de piloto de carreras haciendo dab",
+      "description": "carreras, piloto, dab, automovilismo, cartoon",
+      "tags": [
+        "carreras",
+        "piloto",
+        "dab",
+        "automovilismo",
+        "cartoon"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Automovilismo\" in category \"Automovilismo\" but collection not found",
+      "timestamp": "2025-06-10T05:50:45.349Z"
+    },
+    {
+      "id": "7e725c0c-b375-4a43-9b18-969c3b005c42",
+      "name": "Just an Inchident",
+      "description": "texto, rojo, blanco, tipografía, incidente",
+      "tags": [
+        "texto",
+        "rojo",
+        "blanco",
+        "tipografía",
+        "incidente"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de deportes encaja con la descripción de \"Just an Inchident\". El producto parece más genérico, basado en texto y tipografía.",
+      "timestamp": "2025-06-10T05:49:26.859Z"
+    },
+    {
+      "id": "918d46c1-4f18-4cc1-94c1-019bc8db54a1",
+      "name": "Logotipo de Aston Martin",
+      "description": "Aston Martin, logotipo, automóvil, alas, marca",
+      "tags": [
+        "Aston Martin",
+        "logotipo",
+        "automóvil",
+        "alas",
+        "marca"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de 'Deportes' es apropiada para un logotipo de automóviles. No hay ninguna colección relevante en ninguna otra categoría.",
+      "timestamp": "2025-06-10T05:49:56.770Z"
+    },
+    {
+      "id": "6fe24a75-05fa-4779-aea8-19bb439176d1",
+      "name": "Smooth Operator Poster",
+      "description": "retrato, propagandas, estilo, cara, hombre",
+      "tags": [
+        "retrato",
+        "propagandas",
+        "estilo",
+        "cara",
+        "hombre"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en la categoría actual (Deportes) parece apropiada para un póster que describe un retrato estilizado de un hombre. No hay suficientes datos para identificar una colección más adecuada.",
+      "timestamp": "2025-06-10T05:50:23.241Z"
+    },
+    {
+      "id": "466b700d-1bcb-45aa-8cf1-10dfaaf40359",
+      "name": "Team Radio Logo",
+      "description": "radio, audio, waves, logo, music",
+      "tags": [
+        "radio",
+        "audio",
+        "waves",
+        "logo",
+        "music"
+      ],
+      "category": "Deportes",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna colección de Deportes se relaciona directamente con el producto. Las palabras clave se enfocan en radio, audio y música, que no encajan en las colecciones deportivas.",
+      "timestamp": "2025-06-10T05:49:37.568Z"
+    },
+    {
+      "id": "c8b0e696-795f-47b2-97d3-ff69c12916df",
+      "name": "Agujero en la pared con sustancia viscosa",
+      "description": "agujero, viscoso, verde, horror, daño",
+      "tags": [
+        "agujero",
+        "viscoso",
+        "verde",
+        "horror",
+        "daño"
+      ],
+      "category": "Halloween",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: El producto, aunque categorizado como Halloween, no encaja en la colección 'Tatto'. No hay una colección específica que se ajuste a la descripción de 'agujero viscoso verde' en ninguna otra categoría.",
+      "timestamp": "2025-06-10T06:00:27.917Z"
+    },
+    {
+      "id": "a3462063-d23e-4745-8769-9bb761138638",
+      "name": "Anatomía desgarrada",
+      "description": "anatomía, sangre, músculo, rojo, horror",
+      "tags": [
+        "anatomía",
+        "sangre",
+        "músculo",
+        "rojo",
+        "horror"
+      ],
+      "category": "Halloween",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La colección actual de Halloween (Tatto) no encaja bien con la descripción. No hay otra colección que se ajuste perfectamente.",
+      "timestamp": "2025-06-10T06:01:23.000Z"
+    },
+    {
+      "id": "238ac789-ea03-44cf-a7fb-c253fe852e88",
+      "name": "Corte de carne sangriento",
+      "description": "carne, sangre, corte, anatomía, rojo",
+      "tags": [
+        "carne",
+        "sangre",
+        "corte",
+        "anatomía",
+        "rojo"
+      ],
+      "category": "Halloween",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna colección existente encaja bien con la descripción de \"corte de carne sangriento\". Tatto en Halloween es la más cercana, pero no es una coincidencia fuerte.",
+      "timestamp": "2025-06-10T06:01:20.350Z"
+    },
+    {
+      "id": "4538e4c9-5ef2-42ff-a0b2-d4677f2bbc73",
+      "name": "Decoración de gota brillante",
+      "description": "brillo, gota, rojo, joya, ornamento",
+      "tags": [
+        "brillo",
+        "gota",
+        "rojo",
+        "joya",
+        "ornamento"
+      ],
+      "category": "Halloween",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La decoración de gota brillante no encaja con la temática de la colección 'Tatto' ni con Halloween en general. No hay ninguna colección que se ajuste.",
+      "timestamp": "2025-06-10T06:00:47.515Z"
+    },
+    {
+      "id": "3246ec7d-aa09-492e-82dc-2996af6ee0bf",
+      "name": "Dientes aterradores",
+      "description": "dientes, horror, miedo, sonrisa, sangre",
+      "tags": [
+        "dientes",
+        "horror",
+        "miedo",
+        "sonrisa",
+        "sangre"
+      ],
+      "category": "Halloween",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La colección 'Tatto' en Halloween no es particularmente relevante para 'Dientes aterradores'. No hay una colección que se ajuste mejor a los temas de terror, miedo y sangre dentro de las opciones proporcionadas.",
+      "timestamp": "2025-06-10T06:00:37.820Z"
+    },
+    {
+      "id": "4dd2205f-c5e9-4782-9d82-247d15d6f6e8",
+      "name": "Dientes en descomposición",
+      "description": "dientes, sangre, podrido, horror, macabro",
+      "tags": [
+        "dientes",
+        "sangre",
+        "podrido",
+        "horror",
+        "macabro"
+      ],
+      "category": "Halloween",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La colección 'Tatto' en Halloween no es apropiada para 'Dientes en descomposición'.  No hay una colección existente que encaje perfectamente. Se podría crear una nueva colección dentro de Halloween, pero no es posible en esta situación.",
+      "timestamp": "2025-06-10T06:00:57.450Z"
+    },
+    {
+      "id": "28e85583-244e-4446-9b09-0aff673ee182",
+      "name": "Estructura biológica",
+      "description": "biología, células, rojo, estructura, abstracto",
+      "tags": [
+        "biología",
+        "células",
+        "rojo",
+        "estructura",
+        "abstracto"
+      ],
+      "category": "Halloween",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones existentes se relaciona directamente con 'estructura biológica'. La categoría de Halloween no es apropiada.",
+      "timestamp": "2025-06-10T06:00:25.352Z"
+    },
+    {
+      "id": "481fe6a7-7585-4ea2-a22c-f7f740c8a07c",
+      "name": "Flores abstractas",
+      "description": "flores, abstracto, rojo, pétalos",
+      "tags": [
+        "flores",
+        "abstracto",
+        "rojo",
+        "pétalos"
+      ],
+      "category": "Halloween",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: El producto describe flores abstractas. La colección 'Tatto' en Halloween no es apropiada. No hay colecciones directamente relacionadas con flores abstractas en ninguna de las categorías disponibles. La mejor opción es mantener el producto en la categoría actual, pero sin asignarle una colección.",
+      "timestamp": "2025-06-10T06:00:50.242Z"
+    },
+    {
+      "id": "edcb9fc0-fd83-4f2a-988c-cce6972fda7e",
+      "name": "Garras rasguños",
+      "description": "rasguño, garra, herida, sangre, horror",
+      "tags": [
+        "rasguño",
+        "garra",
+        "herida",
+        "sangre",
+        "horror"
+      ],
+      "category": "Halloween",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La colección actual (Tatto) no se ajusta a la temática de 'rasguños, garra, herida, sangre, horror'. No hay una colección específica en Halloween que se ajuste mejor. Otras categorías tampoco tienen una colección perfecta.",
+      "timestamp": "2025-06-10T06:01:44.774Z"
+    },
+    {
+      "id": "7555f3b3-4896-4b93-84ce-c2f423dd1d59",
+      "name": "Herida abierta realista",
+      "description": "herida, sangre, medicina, trauma, realista",
+      "tags": [
+        "herida",
+        "sangre",
+        "medicina",
+        "trauma",
+        "realista"
+      ],
+      "category": "Halloween",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La colección de Halloween existente (Tatto) no es adecuada.  No hay una colección específica que se ajuste perfectamente a \"Herida abierta realista\".",
+      "timestamp": "2025-06-10T06:00:54.395Z"
+    },
+    {
+      "id": "3077eeb5-326a-4a40-9a5d-c057184e4335",
+      "name": "Mancha de sangre",
+      "description": "sangre, rojo, abstracto, líquido, mancha",
+      "tags": [
+        "sangre",
+        "rojo",
+        "abstracto",
+        "líquido",
+        "mancha"
+      ],
+      "category": "Halloween",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La colección 'Tatto' no es apropiada. No hay una colección específica que encaje perfectamente con una 'mancha de sangre' en las colecciones disponibles. Podría encajar en 'Tatto' pero es muy genérico. Se decide no hacer cambio de categoría.",
+      "timestamp": "2025-06-10T06:01:30.771Z"
+    },
+    {
+      "id": "a3226179-7fda-4169-898b-8a8cf3aef7a5",
+      "name": "Mancha de sangre",
+      "description": "sangre, rojo, mancha, horror, abstracto",
+      "tags": [
+        "sangre",
+        "rojo",
+        "mancha",
+        "horror",
+        "abstracto"
+      ],
+      "category": "Halloween",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La colección 'Tatto' dentro de Halloween no es apropiada para una mancha de sangre. No hay otra colección en otras categorías que se ajuste de manera significativa.",
+      "timestamp": "2025-06-10T06:01:34.779Z"
+    },
+    {
+      "id": "d7eba107-6b0e-4c1d-b10d-5f734a1d4b48",
+      "name": "Mandíbula de monstruo",
+      "description": "monstruo, dientes, terror, rojo, horror",
+      "tags": [
+        "monstruo",
+        "dientes",
+        "terror",
+        "rojo",
+        "horror"
+      ],
+      "category": "Halloween",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La colección 'Tatto' de Halloween no es adecuada para un monstruo. No hay ninguna otra colección que se ajuste directamente al tema de monstruos y terror. Por lo tanto, no hay una colección más apropiada.",
+      "timestamp": "2025-06-10T06:00:36.142Z"
+    },
+    {
+      "id": "c42c380d-5654-4223-b02d-4427ace0e632",
+      "name": "Microorganismo",
+      "description": "célula, microscopio, biología, verde, ciencia",
+      "tags": [
+        "célula",
+        "microscopio",
+        "biología",
+        "verde",
+        "ciencia"
+      ],
+      "category": "Halloween",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna colección existente es apropiada para un producto relacionado con células, microscopios y biología. La categoría actual (Halloween) no se relaciona. Se necesitaría una nueva colección.",
+      "timestamp": "2025-06-10T06:00:29.347Z"
+    },
+    {
+      "id": "92ce5420-26c5-43d4-a310-9fa965d42898",
+      "name": "Ojo Monstruoso",
+      "description": "monstruo, ojo, terror, espina, fantasia",
+      "tags": [
+        "monstruo",
+        "ojo",
+        "terror",
+        "espina",
+        "fantasia"
+      ],
+      "category": "Halloween",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones disponibles encaja bien con la descripción del producto (monstruo, ojo, terror, espina, fantasía). La colección 'Tatto' en la categoría Halloween es genérica.",
+      "timestamp": "2025-06-10T06:01:25.470Z"
+    },
+    {
+      "id": "8217cbcb-f8a2-42d2-b409-651e167464e6",
+      "name": "Ojos voladores con alas de murciélago",
+      "description": "ojo, alas, murcielago, fantasia, vuelo",
+      "tags": [
+        "ojo",
+        "alas",
+        "murcielago",
+        "fantasia",
+        "vuelo"
+      ],
+      "category": "Halloween",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: No hay una colección específica en Halloween que encaje con la temática de fantasía, ojos voladores y alas de murciélago. La colección 'Tatto' no es relevante.",
+      "timestamp": "2025-06-10T06:01:26.676Z"
+    },
+    {
+      "id": "a3c0d644-eaff-4133-b1ab-ebd5f15187b3",
+      "name": "Sonrisa perturbadora",
+      "description": "sonrisa, dientes, terror, miedo, joker",
+      "tags": [
+        "sonrisa",
+        "dientes",
+        "terror",
+        "miedo",
+        "joker"
+      ],
+      "category": "Halloween",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La colección 'Tatto' en Halloween no parece ser la más adecuada. No hay otra colección específica dentro de Halloween. Podría encajar en 'Memes' pero no es seguro y 'Películas' podría considerarse pero es muy general.",
+      "timestamp": "2025-06-10T06:00:39.161Z"
+    },
+    {
+      "id": "889dfe7f-c603-4e20-b69a-86198aa4261d",
+      "name": "Adore You",
+      "description": "amor, texto, colores, bloques, tipografía",
+      "tags": [
+        "amor",
+        "texto",
+        "colores",
+        "bloques",
+        "tipografía"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música existentes (Harry Styles, Arctick Monkeys, Soda Stereo, Bad Bunny) encaja con la descripción del producto. No se identifica claramente ninguna conexión.",
+      "timestamp": "2025-06-10T06:06:27.850Z"
+    },
+    {
+      "id": "403a4891-6002-4dff-bea1-03d3b5b0c8c9",
+      "name": "Afiche motivacional con flor y frase",
+      "description": "motivación, flor, verde, frase, respeto",
+      "tags": [
+        "motivación",
+        "flor",
+        "verde",
+        "frase",
+        "respeto"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música se relaciona con el afiche motivacional. No hay una colección específica que encaje perfectamente en ninguna otra categoría.",
+      "timestamp": "2025-06-10T05:52:23.198Z"
+    },
+    {
+      "id": "7c3145af-7091-424f-9d85-aed46b394ad6",
+      "name": "All You People Are Vampires",
+      "description": "vampires, text, black, circle, quote",
+      "tags": [
+        "vampires",
+        "text",
+        "black",
+        "circle",
+        "quote"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La descripción y las etiquetas no se relacionan con ninguna de las colecciones musicales existentes. No hay una colección de 'vampiros' en ninguna categoría.",
+      "timestamp": "2025-06-10T06:03:32.151Z"
+    },
+    {
+      "id": "bd9f28ae-d99f-427c-930b-bbb20cf9a728",
+      "name": "Amor es una búsqueda láser",
+      "description": "amor, láser, juego, romántico, dibujo",
+      "tags": [
+        "amor",
+        "láser",
+        "juego",
+        "romántico",
+        "dibujo"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en Música se relaciona con los tags del producto (amor, láser, juego, romántico, dibujo).",
+      "timestamp": "2025-06-10T06:04:02.015Z"
+    },
+    {
+      "id": "14dfcdb7-edeb-4c2f-b990-67b0b8acf419",
+      "name": "Arctic Monkeys Joker",
+      "description": "Arctic Monkeys, Joker, banda, arte, comic",
+      "tags": [
+        "Arctic Monkeys",
+        "Joker",
+        "banda",
+        "arte",
+        "comic"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en la categoría actual es apropiada, ya que se enfoca en los artistas, no en la temática Joker/Comic. Se podría considerar crear una nueva colección relacionada con 'Arte de álbumes/merch de bandas' pero no es una opción actual.",
+      "timestamp": "2025-06-10T06:04:03.443Z"
+    },
+    {
+      "id": "39188970-6b3e-4c20-8a9e-f713da2e2870",
+      "name": "Aventura en Bicicleta con Efectos Especiales",
+      "description": "bicicleta, niño, explosión, ciencia ficción, calle",
+      "tags": [
+        "bicicleta",
+        "niño",
+        "explosión",
+        "ciencia ficción",
+        "calle"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en la categoría actual (Música) es apropiada para un producto sobre una 'Aventura en Bicicleta con Efectos Especiales'. No hay ninguna colección en otras categorías que se ajuste perfectamente. La temática es bastante específica y no encaja en las colecciones existentes.",
+      "timestamp": "2025-06-10T05:53:24.722Z"
+    },
+    {
+      "id": "04e0d200-953d-4221-9328-9161ea4e72b2",
+      "name": "Buzzer",
+      "description": "buzzer, black and white, typography, design, question",
+      "tags": [
+        "buzzer",
+        "black and white",
+        "typography",
+        "design",
+        "question"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: El producto describe un 'buzzer' con elementos de diseño y tipografía. Ninguna de las colecciones en 'Música' se relaciona directamente con este concepto. Por lo tanto, no hay una colección adecuada en la categoría actual.",
+      "timestamp": "2025-06-10T06:04:20.561Z"
+    },
+    {
+      "id": "45f9c7b5-85a3-4126-9026-af42e4ad03dd",
+      "name": "Bye Me Fun",
+      "description": "texto, palabras, divertido, estilo, verde",
+      "tags": [
+        "texto",
+        "palabras",
+        "divertido",
+        "estilo",
+        "verde"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: El producto es muy genérico ('texto, palabras, divertido, estilo, verde') y no se relaciona con ninguna de las colecciones musicales. No hay una colección específica que se ajuste al producto.",
+      "timestamp": "2025-06-10T05:52:58.786Z"
+    },
+    {
+      "id": "d6e40a29-531c-44a6-9efe-9a4961c44d7c",
+      "name": "Carta del tarot El Sol",
+      "description": "tarot, sol, arte, ilustracion, misticismo",
+      "tags": [
+        "tarot",
+        "sol",
+        "arte",
+        "ilustracion",
+        "misticismo"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Cosmos\" in category \"Cosmos\" but collection not found",
+      "timestamp": "2025-06-10T06:06:19.658Z"
+    },
+    {
+      "id": "28d5e17f-38eb-42c1-8783-2fe746f4764a",
+      "name": "Chaqueta colorida patchwork",
+      "description": "chaqueta, patchwork, colorido, abstracto, moda",
+      "tags": [
+        "chaqueta",
+        "patchwork",
+        "colorido",
+        "abstracto",
+        "moda"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de la categoría actual (Música) se relaciona con la descripción de la chaqueta. No hay una colección que se ajuste al estilo patchwork, colorido y abstracto de la chaqueta. Por lo tanto, se recomienda no asignar ninguna colección.",
+      "timestamp": "2025-06-10T06:06:59.006Z"
+    },
+    {
+      "id": "0ee3c933-d1d3-41cf-8d60-de4bdbe2e098",
+      "name": "Conejo con mensaje de independencia",
+      "description": "conejo, independencia, mensaje, dibujo, ilustracion",
+      "tags": [
+        "conejo",
+        "independencia",
+        "mensaje",
+        "dibujo",
+        "ilustracion"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones musicales existentes (Harry Styles, Arctic Monkeys, Soda Stereo, Bad Bunny) encaja con la descripción del producto (conejo con mensaje de independencia).",
+      "timestamp": "2025-06-10T05:51:32.187Z"
+    },
+    {
+      "id": "727baa2f-b2f2-45c5-9672-b82f8a3737ca",
+      "name": "Corazón triste con bandera de Perú",
+      "description": "corazon, bandera, peru, triste, cartoon",
+      "tags": [
+        "corazon",
+        "bandera",
+        "peru",
+        "triste",
+        "cartoon"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en la categoría de Música encaja con la descripción del producto. El producto es un diseño con un corazón triste y la bandera de Perú, no está relacionado con ningún artista musical.",
+      "timestamp": "2025-06-10T05:51:55.809Z"
+    },
+    {
+      "id": "dab05f45-0c46-4a84-aba3-b057a2bee185",
+      "name": "Corazón Triste con Flor",
+      "description": "corazón, triste, flor, dibujo, cartoon",
+      "tags": [
+        "corazón",
+        "triste",
+        "flor",
+        "dibujo",
+        "cartoon"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música encaja con la descripción del producto. No obstante, la temática del producto (tristeza, dibujo) no se alinea claramente con ninguna otra categoría, por lo que no se recomienda cambiarla.",
+      "timestamp": "2025-06-10T05:52:28.479Z"
+    },
+    {
+      "id": "9da0b329-6f2b-4c76-946e-ab9da7b1421e",
+      "name": "Corazón triste de dibujos animados",
+      "description": "corazón, triste, dibujos animados, rojo, emoción",
+      "tags": [
+        "corazón",
+        "triste",
+        "dibujos animados",
+        "rojo",
+        "emoción"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música encaja con la descripción de un corazón triste de dibujos animados. No hay ninguna colección en las otras categorías que sean un buen ajuste. Es un concepto visual abstracto.",
+      "timestamp": "2025-06-10T05:51:54.475Z"
+    },
+    {
+      "id": "a7d23d65-7903-44ea-9d2d-6a948661e2f0",
+      "name": "Cuchillo con calavera",
+      "description": "cuchillo, calavera, mano, arte, gótico",
+      "tags": [
+        "cuchillo",
+        "calavera",
+        "mano",
+        "arte",
+        "gótico"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de Música se relaciona con el producto. El producto se relaciona más con el arte gótico y elementos como calaveras, por lo que no hay una colección apropiada.",
+      "timestamp": "2025-06-10T06:03:54.428Z"
+    },
+    {
+      "id": "22ded6c6-3759-43ca-96dc-cb34ae5e96af",
+      "name": "Dos Fantasmas",
+      "description": "fantasma, halloween, cute, diseño, dibujo",
+      "tags": [
+        "fantasma",
+        "halloween",
+        "cute",
+        "diseño",
+        "dibujo"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Halloween\" in category \"Halloween\" but collection not found",
+      "timestamp": "2025-06-10T06:05:44.489Z"
+    },
+    {
+      "id": "8cd8388b-72a9-4a3a-915d-8414b116bfd7",
+      "name": "Ella no quiere una flor",
+      "description": "flor, texto, verde, cita, amor",
+      "tags": [
+        "flor",
+        "texto",
+        "verde",
+        "cita",
+        "amor"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música se relaciona directamente con los tags y la descripción del producto. La descripción parece referirse a una imagen o diseño relacionado con el amor y una cita.",
+      "timestamp": "2025-06-10T05:52:27.076Z"
+    },
+    {
+      "id": "bb0240a6-6b29-48f5-833c-074a870a5440",
+      "name": "Estemos Bien Sticker",
+      "description": "estamos bien, sol, arcoíris, texto, neon",
+      "tags": [
+        "estamos bien",
+        "sol",
+        "arcoíris",
+        "texto",
+        "neon"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: El sticker 'Estamos Bien' no parece estar relacionado con ninguna de las colecciones de música. No hay ninguna relación directa con los artistas listados.",
+      "timestamp": "2025-06-10T05:51:53.186Z"
+    },
+    {
+      "id": "0f4ee443-8a11-4d54-a2f4-e2f8c36f531c",
+      "name": "Flor sonriente colorida",
+      "description": "flor, sonrisa, arcoíris, dibujo, feliz",
+      "tags": [
+        "flor",
+        "sonrisa",
+        "arcoíris",
+        "dibujo",
+        "feliz"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de Música se relaciona con la descripción del producto.",
+      "timestamp": "2025-06-10T05:51:45.315Z"
+    },
+    {
+      "id": "51b2d5b1-0486-46eb-8363-a83b2ab22c0c",
+      "name": "Fluorescent Adolescent Band",
+      "description": "clown, band, music, guitar, cartoon",
+      "tags": [
+        "clown",
+        "band",
+        "music",
+        "guitar",
+        "cartoon"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones existentes en la categoría 'Música' parece encajar bien con la descripción y tags del producto, ya que la banda descrita tiene un estilo cartoon y clown.",
+      "timestamp": "2025-06-10T06:04:37.973Z"
+    },
+    {
+      "id": "71478553-7979-4689-be76-5b8e43d7241b",
+      "name": "Gafas de corazón con texto",
+      "description": "gafas, corazón, ojos, amor, rojo",
+      "tags": [
+        "gafas",
+        "corazón",
+        "ojos",
+        "amor",
+        "rojo"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música existentes se relaciona directamente con gafas de corazón. Este producto es más genérico.",
+      "timestamp": "2025-06-10T05:52:59.999Z"
+    },
+    {
+      "id": "4373cf2f-8680-4f02-8476-1a703266f248",
+      "name": "Get On Your Dancing Shoes",
+      "description": "dance, shoes, typography, colorful, party",
+      "tags": [
+        "dance",
+        "shoes",
+        "typography",
+        "colorful",
+        "party"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: El producto no encaja directamente con ninguna de las colecciones de música existentes. Aunque la temática es musical, no se relaciona con ningún artista específico.",
+      "timestamp": "2025-06-10T06:03:47.563Z"
+    },
+    {
+      "id": "e6de9d91-5ad9-4aa9-93d2-36d14238dfe2",
+      "name": "Girasol Estilizado",
+      "description": "girasol, flor, amarillo, verano, dibujo",
+      "tags": [
+        "girasol",
+        "flor",
+        "amarillo",
+        "verano",
+        "dibujo"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Naturaleza\" in category \"Naturaleza\" but collection not found",
+      "timestamp": "2025-06-10T06:07:03.378Z"
+    },
+    {
+      "id": "08c4a582-d2cf-4195-9e28-134f0ff07502",
+      "name": "Gorila con gafas y texto",
+      "description": "gorila, gafas, humo, hype, diseño",
+      "tags": [
+        "gorila",
+        "gafas",
+        "humo",
+        "hype",
+        "diseño"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Memes\" in category \"Memes\" but collection not found",
+      "timestamp": "2025-06-10T06:03:43.307Z"
+    },
+    {
+      "id": "7345daca-ebf2-4bf5-95f1-731fd5802e94",
+      "name": "Guitarrista en blanco y negro",
+      "description": "guitarra, música, rock, artista, retrato",
+      "tags": [
+        "guitarra",
+        "música",
+        "rock",
+        "artista",
+        "retrato"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones actuales de música (Harry Styles, Arctick Monkeys, Soda Stereo, Bad Bunny) encaja con la descripción de \"Guitarrista en blanco y negro\". No hay una colección específica para artistas o retratos musicales.",
+      "timestamp": "2025-06-10T06:04:34.195Z"
+    },
+    {
+      "id": "c0f1c09f-684f-4a01-8db1-af78200dc5a5",
+      "name": "Guitarrista tocando en blanco y negro",
+      "description": "guitarra, música, blanco y negro, hombre, concierto",
+      "tags": [
+        "guitarra",
+        "música",
+        "blanco y negro",
+        "hombre",
+        "concierto"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones existentes en Música (Harry Styles, Arctick Monkeys, Soda Stereo, Bad Bunny) encaja bien con la descripción de un guitarrista en blanco y negro. No hay suficiente información para deducir un artista específico o estilo musical.",
+      "timestamp": "2025-06-10T05:51:20.303Z"
+    },
+    {
+      "id": "0ea45610-2538-43a7-8698-2508e76f0bae",
+      "name": "Harry Styles como Bailarín de Ballet",
+      "description": "Harry Styles, Ballet, Danza, Dibujo, Ilustración",
+      "tags": [
+        "Harry Styles",
+        "Ballet",
+        "Danza",
+        "Dibujo",
+        "Ilustración"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en la categoría actual (Música) es adecuada. El producto se enfoca en la danza y el arte, no en la música per se.",
+      "timestamp": "2025-06-10T06:05:47.297Z"
+    },
+    {
+      "id": "4a80d390-b190-4dde-94d9-b50ce805b2e7",
+      "name": "Iconos de Verano",
+      "description": "verano, playa, sol, cóctel, isla",
+      "tags": [
+        "verano",
+        "playa",
+        "sol",
+        "cóctel",
+        "isla"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Naturaleza\" in category \"Naturaleza\" but collection not found",
+      "timestamp": "2025-06-10T05:52:57.335Z"
+    },
+    {
+      "id": "e9ef01e9-a5bd-4582-94c9-2dc7fd13d272",
+      "name": "Ilustración de artista con guitarra y simbolismo arcoíris",
+      "description": "música, guitarra, arcoíris, artista, ilustracion",
+      "tags": [
+        "música",
+        "guitarra",
+        "arcoíris",
+        "artista",
+        "ilustracion"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de Música (Harry Styles, Arctic Monkeys, Soda Stereo, Bad Bunny) se relaciona directamente con la ilustración de un artista con guitarra y simbolismo arcoíris.  No hay una colección específica dentro de la categoría actual que encaje.",
+      "timestamp": "2025-06-10T06:06:33.324Z"
+    },
+    {
+      "id": "a15c672d-1eba-4576-b250-955fc03f640f",
+      "name": "Ilustración de cassette retro",
+      "description": "cassette, música, retro, diseño gráfico, vintage",
+      "tags": [
+        "cassette",
+        "música",
+        "retro",
+        "diseño gráfico",
+        "vintage"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones musicales existentes se ajusta directamente a la temática retro de un cassette. La ilustración es genérica y no representa a un artista específico.",
+      "timestamp": "2025-06-10T05:51:49.151Z"
+    },
+    {
+      "id": "14f5f3c3-3979-40b3-8820-5554884e2502",
+      "name": "Ilustración de cereza con texto",
+      "description": "cereza, fruta, rojo, dibujo, amor",
+      "tags": [
+        "cereza",
+        "fruta",
+        "rojo",
+        "dibujo",
+        "amor"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en la categoría actual (Música) es relevante para una ilustración de cerezas. La imagen no está relacionada con ninguno de los artistas mencionados.",
+      "timestamp": "2025-06-10T06:06:47.358Z"
+    },
+    {
+      "id": "bbc32708-a4be-4f01-81ee-e33e2e6430f4",
+      "name": "Ilustración de persona con alas de mariposa",
+      "description": "mariposa, persona, alas, dibujo, arte",
+      "tags": [
+        "mariposa",
+        "persona",
+        "alas",
+        "dibujo",
+        "arte"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones musicales existentes es apropiada para una ilustración de persona con alas de mariposa. No hay una conexión clara.",
+      "timestamp": "2025-06-10T06:07:19.767Z"
+    },
+    {
+      "id": "f11b16e4-5841-4ad1-847d-2f43eef83885",
+      "name": "Ilustración de persona con mochila de pez",
+      "description": "persona, mochila, pez, dibujo, círculo",
+      "tags": [
+        "persona",
+        "mochila",
+        "pez",
+        "dibujo",
+        "círculo"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de la categoría actual (Música) se relaciona con la ilustración de una persona con una mochila de pez. No hay una colección adecuada en ninguna otra categoría tampoco.",
+      "timestamp": "2025-06-10T06:05:37.134Z"
+    },
+    {
+      "id": "ca6fa273-849d-49f8-b569-df0481e283e9",
+      "name": "Ilustración de persona con tatuajes y anillos",
+      "description": "tatuaje, ilustracion, arte, moda, retrato",
+      "tags": [
+        "tatuaje",
+        "ilustracion",
+        "arte",
+        "moda",
+        "retrato"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna colección de la categoría actual (Música) coincide con la descripción de la ilustración (tatuajes, arte, moda, retrato).",
+      "timestamp": "2025-06-10T06:07:22.891Z"
+    },
+    {
+      "id": "ad6de7f4-7d0e-414c-81e1-5b5f5b2c300a",
+      "name": "Ilustración de personaje de dibujos animados con flores",
+      "description": "dibujos animados, personaje, flores, moda, estilo",
+      "tags": [
+        "dibujos animados",
+        "personaje",
+        "flores",
+        "moda",
+        "estilo"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Caricaturas\" in category \"Caricaturas\" but collection not found",
+      "timestamp": "2025-06-10T05:52:43.997Z"
+    },
+    {
+      "id": "e814a0f8-c98c-42e3-b550-090b8f86ace4",
+      "name": "Ilustración de un músico tocando la guitarra",
+      "description": "música, guitarra, músico, ilustración, dibujo",
+      "tags": [
+        "música",
+        "guitarra",
+        "músico",
+        "ilustración",
+        "dibujo"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones actuales en Música (Harry Styles, Arctic Monkeys, Soda Stereo, Bad Bunny) se relaciona directamente con una ilustración genérica de un músico tocando la guitarra.",
+      "timestamp": "2025-06-10T06:03:50.286Z"
+    },
+    {
+      "id": "166446d1-85cd-4cbe-bb2b-042ac00e3579",
+      "name": "Ilustración de una rebanada de sandía",
+      "description": "sandía, fruta, verano, dibujo, comida",
+      "tags": [
+        "sandía",
+        "fruta",
+        "verano",
+        "dibujo",
+        "comida"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Naturaleza\" in category \"Naturaleza\" but collection not found",
+      "timestamp": "2025-06-10T06:05:50.372Z"
+    },
+    {
+      "id": "d5dbeccf-f92f-4185-9e67-2c417cefd86a",
+      "name": "Ilustración minimalista de un cantante",
+      "description": "música, cantante, arte, minimalista, retrato",
+      "tags": [
+        "música",
+        "cantante",
+        "arte",
+        "minimalista",
+        "retrato"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música existentes (Harry Styles, Arctic Monkeys, Soda Stereo, Bad Bunny) encaja directamente con una ilustración minimalista genérica de un cantante. No son lo suficientemente amplias para la temática.",
+      "timestamp": "2025-06-10T06:06:25.446Z"
+    },
+    {
+      "id": "105eb956-3377-4088-b991-2f77d077b3dd",
+      "name": "Knee & Sock",
+      "description": "knee, sock, leg, sport, abstract",
+      "tags": [
+        "knee",
+        "sock",
+        "leg",
+        "sport",
+        "abstract"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música se relaciona con la descripción del producto (rodilla, calcetín, pierna, deporte, abstracto).",
+      "timestamp": "2025-06-10T06:03:33.478Z"
+    },
+    {
+      "id": "7e8815a8-9343-4b36-a04d-9a3dd6bc6d05",
+      "name": "Logo Yo Visto Asi",
+      "description": "logo, texto, azul, diseño, marca",
+      "tags": [
+        "logo",
+        "texto",
+        "azul",
+        "diseño",
+        "marca"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: El logo es genérico y no se relaciona directamente con ninguna de las colecciones musicales existentes. No hay información suficiente para asociarlo a una colección específica.",
+      "timestamp": "2025-06-10T05:52:35.394Z"
+    },
+    {
+      "id": "9de36582-af69-4592-83f2-bf64fe4bd756",
+      "name": "Logotipo Arabella",
+      "description": "logotipo, diseño, marca, nombre, blanco y negro",
+      "tags": [
+        "logotipo",
+        "diseño",
+        "marca",
+        "nombre",
+        "blanco y negro"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: El logotipo 'Arabella' es un diseño genérico y no está directamente relacionado con ninguno de los artistas musicales listados.",
+      "timestamp": "2025-06-10T06:04:31.578Z"
+    },
+    {
+      "id": "59e57fad-a464-445b-85d8-a2157d95eb88",
+      "name": "Logotipo BICHYAL",
+      "description": "logotipo, marca, texto, rojo, blanco",
+      "tags": [
+        "logotipo",
+        "marca",
+        "texto",
+        "rojo",
+        "blanco"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: El logotipo no parece estar relacionado con ninguna de las colecciones existentes de la categoría Música.",
+      "timestamp": "2025-06-10T05:52:25.761Z"
+    },
+    {
+      "id": "1f991a31-b16c-4725-b9ac-ee53f446dffb",
+      "name": "Logotipo de tiburón neón",
+      "description": "tiburón, neón, logo, agua, abstracto",
+      "tags": [
+        "tiburón",
+        "neón",
+        "logo",
+        "agua",
+        "abstracto"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones musicales existentes (Harry Styles, Arctick Monkeys, Soda Stereo, Bad Bunny) encaja con la descripción de un logo de tiburón neón. Se requiere un cambio de categoría.",
+      "timestamp": "2025-06-10T05:52:42.708Z"
+    },
+    {
+      "id": "ae670127-f8f0-44a2-b23c-8908bc29ac64",
+      "name": "Mano con anillo y sandía",
+      "description": "mano, anillo, sandía, verano, dibujo",
+      "tags": [
+        "mano",
+        "anillo",
+        "sandía",
+        "verano",
+        "dibujo"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música encaja con la descripción del producto. El producto describe una imagen con elementos visuales como una mano, un anillo, una sandía y el verano, y no guarda relación con los artistas.",
+      "timestamp": "2025-06-10T06:06:50.377Z"
+    },
+    {
+      "id": "22fd8057-fc4b-47df-b411-7160231760c9",
+      "name": "Manos sosteniendo una rosa",
+      "description": "rosa, manos, amor, flor, tatuajes",
+      "tags": [
+        "rosa",
+        "manos",
+        "amor",
+        "flor",
+        "tatuajes"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música (Harry Styles, Arctick Monkeys, Soda Stereo, Bad Bunny) encaja con la descripción del producto. No hay otras colecciones adecuadas en la lista general.",
+      "timestamp": "2025-06-10T06:05:43.100Z"
+    },
+    {
+      "id": "cdd40a88-f530-4d96-889a-ec0b4f2ac16e",
+      "name": "Mariposa púrpura con diseño de puntos",
+      "description": "mariposa, insecto, púrpura, diseño, blanco",
+      "tags": [
+        "mariposa",
+        "insecto",
+        "púrpura",
+        "diseño",
+        "blanco"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música existentes es apropiada para una mariposa púrpura.",
+      "timestamp": "2025-06-10T06:06:55.527Z"
+    },
+    {
+      "id": "0e208864-b6ea-46ae-865e-d8d7f9516911",
+      "name": "Mochila con un pez",
+      "description": "mochila, pez, acuario, dibujo, cartoon",
+      "tags": [
+        "mochila",
+        "pez",
+        "acuario",
+        "dibujo",
+        "cartoon"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Animales\" in category \"Animales\" but collection not found",
+      "timestamp": "2025-06-10T06:06:35.837Z"
+    },
+    {
+      "id": "0f476067-fee6-4e74-8af6-9af7b59e4a45",
+      "name": "Muse Logo",
+      "description": "muse, banda, logotipo, texto, música",
+      "tags": [
+        "muse",
+        "banda",
+        "logotipo",
+        "texto",
+        "música"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La colección de 'Muse' no está disponible. Aunque la categoría actual es Música, ninguna de las colecciones existentes (Harry Styles, Arctic Monkeys, Soda Stereo, Bad Bunny) son apropiadas. No hay una colección genérica de \"bandas\" en la categoría actual. Por lo tanto, la mejor solución es no asignar el producto a ninguna colección.",
+      "timestamp": "2025-06-10T06:03:29.788Z"
+    },
+    {
+      "id": "d3087091-a99a-42df-b38c-9b2e16fbbbd6",
+      "name": "Niño y Ojo Neon",
+      "description": "niño, neon, ojo, noche, dibujo",
+      "tags": [
+        "niño",
+        "neon",
+        "ojo",
+        "noche",
+        "dibujo"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en Música se relaciona con la descripción del producto.",
+      "timestamp": "2025-06-10T05:51:43.109Z"
+    },
+    {
+      "id": "d6cd12fe-638b-486e-8735-59199fab9071",
+      "name": "Nokia rosa con frase",
+      "description": "nokia, celular, rosa, retro, meme",
+      "tags": [
+        "nokia",
+        "celular",
+        "rosa",
+        "retro",
+        "meme"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Memes\" in category \"Memes\" but collection not found",
+      "timestamp": "2025-06-10T05:51:36.374Z"
+    },
+    {
+      "id": "684bafe6-f17f-41db-8edb-8ae76a35681e",
+      "name": "Oveja con texto 'My Life is Crap'",
+      "description": "oveja, humor, dibujo, texto, rojo",
+      "tags": [
+        "oveja",
+        "humor",
+        "dibujo",
+        "texto",
+        "rojo"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Memes\" in category \"Memes\" but collection not found",
+      "timestamp": "2025-06-10T06:06:00.388Z"
+    },
+    {
+      "id": "62783ea4-28b3-4fdb-abca-b955699baad0",
+      "name": "Payaso adolescente fluorescente",
+      "description": "payaso, adolescente, retrato, colorido, cartoon",
+      "tags": [
+        "payaso",
+        "adolescente",
+        "retrato",
+        "colorido",
+        "cartoon"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música existentes encaja con la descripción del producto. No hay ninguna colección de payasos o caricaturas.",
+      "timestamp": "2025-06-10T06:03:36.152Z"
+    },
+    {
+      "id": "c2e34c10-5415-466a-ba1e-4b4e953fb81d",
+      "name": "Perro con sombrero y arte pop",
+      "description": "perro, sombrero, pop art, ilustración, divertido",
+      "tags": [
+        "perro",
+        "sombrero",
+        "pop art",
+        "ilustración",
+        "divertido"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones musicales encaja con la descripción del producto. No se encuentra una colección específica dentro de la lista total que encaje mejor.",
+      "timestamp": "2025-06-10T05:51:47.923Z"
+    },
+    {
+      "id": "a8f28ec2-62b9-447f-9c6f-2184c44e0725",
+      "name": "Pleasing Rainbow Cartoon",
+      "description": "nubes, arcoiris, cartoon, colorido, arte",
+      "tags": [
+        "nubes",
+        "arcoiris",
+        "cartoon",
+        "colorido",
+        "arte"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en la categoría actual (Música) encaja con la descripción del producto (nubes, arcoíris, cartoon, colorido, arte).",
+      "timestamp": "2025-06-10T06:06:29.028Z"
+    },
+    {
+      "id": "eafb9dd9-ea05-429c-9b4c-3d9e95995623",
+      "name": "Pregunta con efecto glitch",
+      "description": "pregunta, texto, glitch, colores, tipografía",
+      "tags": [
+        "pregunta",
+        "texto",
+        "glitch",
+        "colores",
+        "tipografía"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en la categoría actual (Música) encaja con la descripción de 'pregunta con efecto glitch'.",
+      "timestamp": "2025-06-10T06:06:51.674Z"
+    },
+    {
+      "id": "2a33bbc1-cc58-4a1e-91b9-bb66f8d5b997",
+      "name": "Radio de Coche Cartoon",
+      "description": "radio, vintage, coche, cartoon, morado",
+      "tags": [
+        "radio",
+        "vintage",
+        "coche",
+        "cartoon",
+        "morado"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música se relaciona con la descripción del producto.",
+      "timestamp": "2025-06-10T06:04:25.378Z"
+    },
+    {
+      "id": "2951c69f-e455-44cb-999b-40a775e4e362",
+      "name": "Rana con Manta Colorida",
+      "description": "rana, animal, cartoon, colorido, manta",
+      "tags": [
+        "rana",
+        "animal",
+        "cartoon",
+        "colorido",
+        "manta"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Memes\" in category \"Memes\" but collection not found",
+      "timestamp": "2025-06-10T06:06:43.006Z"
+    },
+    {
+      "id": "119e872a-ee2e-41c0-b81d-c8b7e89db625",
+      "name": "Rana Pleasing",
+      "description": "rana, flor, dibujo, vintage, pleasing",
+      "tags": [
+        "rana",
+        "flor",
+        "dibujo",
+        "vintage",
+        "pleasing"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Memes\" in category \"Memes\" but collection not found",
+      "timestamp": "2025-06-10T06:06:31.844Z"
+    },
+    {
+      "id": "c08518a1-1cec-4e32-bae6-5d4d62b3ce6b",
+      "name": "Reloj despertador digital",
+      "description": "reloj, digital, tiempo, despertador, mañana",
+      "tags": [
+        "reloj",
+        "digital",
+        "tiempo",
+        "despertador",
+        "mañana"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de la categoría actual (Música) es relevante para un reloj despertador digital. No hay ninguna colección en las otras categorías que se relacione directamente con el producto.",
+      "timestamp": "2025-06-10T06:03:40.522Z"
+    },
+    {
+      "id": "c2bb2010-4462-4fc1-8f20-c28f66e24a44",
+      "name": "Retrato de artista en blanco y negro",
+      "description": "retrato, actor, blanco y negro, elegante, vintage",
+      "tags": [
+        "retrato",
+        "actor",
+        "blanco y negro",
+        "elegante",
+        "vintage"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música actuales es apropiada porque son sobre bandas o artistas específicos, y el producto es un retrato genérico.",
+      "timestamp": "2025-06-10T05:50:55.641Z"
+    },
+    {
+      "id": "92a3de32-f381-4242-bb85-e5164ff617e5",
+      "name": "Retrato en blanco y negro",
+      "description": "retrato, persona, blanco y negro, minimalista, gafas de sol",
+      "tags": [
+        "retrato",
+        "persona",
+        "blanco y negro",
+        "minimalista",
+        "gafas de sol"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: El producto es un retrato minimalista en blanco y negro con gafas de sol, que no se relaciona directamente con ninguna de las colecciones de la categoría actual (Música).",
+      "timestamp": "2025-06-10T05:50:50.374Z"
+    },
+    {
+      "id": "6c07a2f5-6fc6-4ab6-92ed-aeebf162b521",
+      "name": "Retrato en blanco y negro",
+      "description": "retrato, hombre, blanco y negro, elegante, firma",
+      "tags": [
+        "retrato",
+        "hombre",
+        "blanco y negro",
+        "elegante",
+        "firma"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música encaja con la descripción de un retrato en blanco y negro. No hay ninguna otra colección en otras categorías que sea ideal, ya que la imagen es muy genérica.",
+      "timestamp": "2025-06-10T05:50:54.394Z"
+    },
+    {
+      "id": "805e7883-181c-486d-b0a1-13d940c1066f",
+      "name": "Retrato en blanco y negro de hombre",
+      "description": "retrato, hombre, blanco y negro, elegante, formal",
+      "tags": [
+        "retrato",
+        "hombre",
+        "blanco y negro",
+        "elegante",
+        "formal"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones musicales existentes es apropiada para un retrato en blanco y negro de un hombre. No hay una colección genérica de retratos en la categoría actual.",
+      "timestamp": "2025-06-10T05:50:52.948Z"
+    },
+    {
+      "id": "23a48543-acb8-441d-b5f3-0fb1f7cbbfb5",
+      "name": "Retrato floral con hombre pensativo",
+      "description": "retrato, flores, hombre, vintage, estilo",
+      "tags": [
+        "retrato",
+        "flores",
+        "hombre",
+        "vintage",
+        "estilo"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en la categoría actual (Música) es relevante para un retrato floral con un hombre pensativo. No hay una conexión lógica.",
+      "timestamp": "2025-06-10T05:51:24.501Z"
+    },
+    {
+      "id": "d07fbbff-92f6-4645-98b7-80c31918a4fc",
+      "name": "Retrato Grunge de un Hombre con Gafas de Sol",
+      "description": "retrato, grunge, rojo, hombre, gafas de sol",
+      "tags": [
+        "retrato",
+        "grunge",
+        "rojo",
+        "hombre",
+        "gafas de sol"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música encaja con la descripción del producto.  El producto es genérico (retrato grunge).",
+      "timestamp": "2025-06-10T05:51:23.184Z"
+    },
+    {
+      "id": "c14add84-3efe-448c-bbcc-8028754423ff",
+      "name": "Retrato Pop Art con Gafas de Sol",
+      "description": "retrato, pop art, gafas de sol, afro, estilo",
+      "tags": [
+        "retrato",
+        "pop art",
+        "gafas de sol",
+        "afro",
+        "estilo"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de la categoría Música encaja con la descripción del producto (retrato Pop Art).",
+      "timestamp": "2025-06-10T05:51:29.378Z"
+    },
+    {
+      "id": "41e36d10-246c-438c-91d8-57017e6160ec",
+      "name": "Retrato Pop Art de un Grupo Musical",
+      "description": "música, banda, retrato, pop art, colorido",
+      "tags": [
+        "música",
+        "banda",
+        "retrato",
+        "pop art",
+        "colorido"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Aunque el producto pertenece a la categoría Música, no hay ninguna colección dentro de la categoría actual que sea apropiada para un retrato Pop Art genérico de un grupo musical. Las colecciones existentes se basan en artistas específicos. No se encontró una colección adecuada en otras categorías.",
+      "timestamp": "2025-06-10T06:03:49.029Z"
+    },
+    {
+      "id": "e3263b5d-a59f-4a8a-9669-13848cabd56d",
+      "name": "RU Mine?",
+      "description": "pregunta, texto, arte, minimalista, blanco y negro",
+      "tags": [
+        "pregunta",
+        "texto",
+        "arte",
+        "minimalista",
+        "blanco y negro"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones musicales existentes (Harry Styles, Arctick Monkeys, Soda Stereo, Bad Bunny) se alinea con la descripción 'pregunta, texto, arte, minimalista, blanco y negro'.",
+      "timestamp": "2025-06-10T06:03:59.061Z"
+    },
+    {
+      "id": "01f2bc5c-8547-45b0-a975-b661316beedf",
+      "name": "Sandía con gafas de sol",
+      "description": "sandía, verano, gafas de sol, fruta, dibujo",
+      "tags": [
+        "sandía",
+        "verano",
+        "gafas de sol",
+        "fruta",
+        "dibujo"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música se relaciona con la descripción del producto (sandía con gafas de sol).",
+      "timestamp": "2025-06-10T06:07:25.314Z"
+    },
+    {
+      "id": "5fa77620-e870-4db5-a707-16a1382db500",
+      "name": "Sandía con Texto",
+      "description": "sandía, verano, fruta, rojo, texto",
+      "tags": [
+        "sandía",
+        "verano",
+        "fruta",
+        "rojo",
+        "texto"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Naturaleza\" in category \"Naturaleza\" but collection not found",
+      "timestamp": "2025-06-10T06:06:44.643Z"
+    },
+    {
+      "id": "d45e3c3d-45eb-4adb-83bf-082139b3b383",
+      "name": "Silueta de mujer reclinada",
+      "description": "mujer, silueta, cuerpo, arte, minimalista",
+      "tags": [
+        "mujer",
+        "silueta",
+        "cuerpo",
+        "arte",
+        "minimalista"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Arte\" in category \"Arte\" but collection not found",
+      "timestamp": "2025-06-10T06:04:29.066Z"
+    },
+    {
+      "id": "3aad1660-e861-4c9c-b902-bf211d3ef8dd",
+      "name": "Silueta de un hombre con gafas de sol",
+      "description": "silueta, hombre, gafas de sol, retrato, negro",
+      "tags": [
+        "silueta",
+        "hombre",
+        "gafas de sol",
+        "retrato",
+        "negro"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en la categoría actual (Música) parece apropiada para una silueta genérica de un hombre con gafas de sol. No hay una conexión directa.",
+      "timestamp": "2025-06-10T05:51:25.687Z"
+    },
+    {
+      "id": "2d9840dd-fb1e-4628-baf7-3c985cc8150a",
+      "name": "Sorry Papi",
+      "description": "frase, español, texto, rosa, divertido",
+      "tags": [
+        "frase",
+        "español",
+        "texto",
+        "rosa",
+        "divertido"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La frase 'Sorry Papi' no está directamente relacionada con ninguna de las bandas musicales existentes. Ninguna otra colección en el resto de categorías parece ser apropiada, ya que la descripción es muy genérica (frase, español, texto, rosa, divertido) y no encaja en ninguna temática.",
+      "timestamp": "2025-06-10T05:52:52.128Z"
+    },
+    {
+      "id": "7f20bdfa-e2d7-4a34-b96a-d36f2c57b1f5",
+      "name": "Suck It See",
+      "description": "lips, text, color, funny, cartoon",
+      "tags": [
+        "lips",
+        "text",
+        "color",
+        "funny",
+        "cartoon"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Memes\" in category \"Memes\" but collection not found",
+      "timestamp": "2025-06-10T06:03:53.021Z"
+    },
+    {
+      "id": "adaf1159-34f4-4b36-b908-1e7bd237c7e2",
+      "name": "Take it easy",
+      "description": "descanso, relajación, dibujo, cartoon, motivación",
+      "tags": [
+        "descanso",
+        "relajación",
+        "dibujo",
+        "cartoon",
+        "motivación"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La descripción y tags no se relacionan directamente con ninguna colección de música existente. Las colecciones en Música se basan en artistas.",
+      "timestamp": "2025-06-10T06:03:39.023Z"
+    },
+    {
+      "id": "0b089de5-792f-42d4-9648-be93a4896bcc",
+      "name": "Texto 'Ella es calladita'",
+      "description": "texto, frase, español, rojo, romance",
+      "tags": [
+        "texto",
+        "frase",
+        "español",
+        "rojo",
+        "romance"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música (Harry Styles, Arctick Monkeys, Soda Stereo, Bad Bunny) encaja con la descripción 'Texto 'Ella es calladita''.  No existe una colección más apropiada en otras categorías.",
+      "timestamp": "2025-06-10T05:52:31.061Z"
+    },
+    {
+      "id": "ab3ce11b-a4e2-4ad1-9c51-8dd800fc8568",
+      "name": "Texto de la canción",
+      "description": "canción, letras, colores, diseño, español",
+      "tags": [
+        "canción",
+        "letras",
+        "colores",
+        "diseño",
+        "español"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La descripción del producto es muy genérica (canción, letras, colores, diseño). Ninguna de las colecciones de música encaja directamente. No hay información suficiente para determinar una colección específica.",
+      "timestamp": "2025-06-10T05:51:50.482Z"
+    },
+    {
+      "id": "a6520ed2-e527-405d-8954-17cb1cca0fe7",
+      "name": "Tiburón rosa con texto",
+      "description": "tiburón, rosa, dibujo, animal, texto",
+      "tags": [
+        "tiburón",
+        "rosa",
+        "dibujo",
+        "animal",
+        "texto"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Animales\" in category \"Animales\" but collection not found",
+      "timestamp": "2025-06-10T05:51:33.794Z"
+    },
+    {
+      "id": "4ebfd3a2-0b94-4dc6-8ecd-039bd960e548",
+      "name": "Toma las cosas con calma",
+      "description": "música, vinilo, relajación, letras, diseño",
+      "tags": [
+        "música",
+        "vinilo",
+        "relajación",
+        "letras",
+        "diseño"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones existentes en Música (Harry Styles, Arctick Monkeys, Soda Stereo, Bad Bunny) encaja con el tema de relajación. Aunque el producto es música, se enfoca en la relajación y el diseño visual, no en un artista específico. Por lo tanto, no hay una colección existente que se ajuste.",
+      "timestamp": "2025-06-10T06:03:57.522Z"
+    },
+    {
+      "id": "84bbdf61-8bf1-4ec7-ae0a-e91f2d2eb518",
+      "name": "Trata a las personas con amabilidad",
+      "description": "amabilidad, positividad, mensaje, tipografía, colores vibrantes",
+      "tags": [
+        "amabilidad",
+        "positividad",
+        "mensaje",
+        "tipografía",
+        "colores vibrantes"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música existentes encaja con la temática de amabilidad y positividad. No se ajusta a la personalidad de los artistas.",
+      "timestamp": "2025-06-10T06:06:46.032Z"
+    },
+    {
+      "id": "934d7b9e-d1d0-4d21-8645-4fa76e2e9014",
+      "name": "Una Bad Bitch Girl de los 90",
+      "description": "90s, bad bitch, girl, typography, pink",
+      "tags": [
+        "90s",
+        "bad bitch",
+        "girl",
+        "typography",
+        "pink"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de música existentes encaja con la descripción del producto. No parece un artista específico.",
+      "timestamp": "2025-06-10T05:52:48.888Z"
+    },
+    {
+      "id": "5e650251-5f4b-4bc6-a407-0c6a69da0ea2",
+      "name": "Vodka gay pride",
+      "description": "vodka, lgbtq+, gay, pride, alcohol",
+      "tags": [
+        "vodka",
+        "lgbtq+",
+        "gay",
+        "pride",
+        "alcohol"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en la categoría 'Música' es apropiada para un producto relacionado con el Orgullo Gay. No hay ninguna otra colección en otras categorías que se relacione directamente.",
+      "timestamp": "2025-06-10T06:07:02.146Z"
+    },
+    {
+      "id": "ee2945d5-39da-48a0-938b-20a23f33354f",
+      "name": "Yo hago lo que me da la gana",
+      "description": "frase, español, tipografía, motivación, texto",
+      "tags": [
+        "frase",
+        "español",
+        "tipografía",
+        "motivación",
+        "texto"
+      ],
+      "category": "Música",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La frase 'Yo hago lo que me da la gana' es genérica y no encaja con ninguna de las colecciones de música existentes. No hay una colección específica que se relacione directamente.",
+      "timestamp": "2025-06-10T05:52:55.983Z"
+    },
+    {
+      "id": "dc5384a4-492b-4901-9299-7619b9279b55",
+      "name": "Abstracta en Blanco y Negro",
+      "description": "abstracto, lineas, minimalista, blanco y negro",
+      "tags": [
+        "abstracto",
+        "lineas",
+        "minimalista",
+        "blanco y negro"
+      ],
+      "category": "Parejas",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La colección 'Dúos' en la categoría actual no es apropiada, ya que el producto es una obra abstracta en blanco y negro. No hay una colección en ninguna otra categoría que se ajuste directamente a las características del producto (abstracto, líneas, minimalista, blanco y negro).",
+      "timestamp": "2025-06-10T05:59:43.266Z"
+    },
+    {
+      "id": "fec54a89-144e-46cf-bcfd-ebc0223febf7",
+      "name": "Abstracto en blanco y negro",
+      "description": "abstracto, blanco y negro, minimalista, forma, geometrico",
+      "tags": [
+        "abstracto",
+        "blanco y negro",
+        "minimalista",
+        "forma",
+        "geometrico"
+      ],
+      "category": "Parejas",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La categoría actual ('Parejas') solo ofrece 'Dúos', que no encaja con la naturaleza abstracta del producto. No hay ninguna colección en otras categorías que sea una buena correspondencia para un diseño abstracto en blanco y negro.",
+      "timestamp": "2025-06-10T05:59:49.938Z"
+    },
+    {
+      "id": "74ed24aa-096e-4f46-8860-859ee9717b82",
+      "name": "Abstracto geométrico negro y blanco",
+      "description": "abstracto, geométrico, líneas, negro, blanco",
+      "tags": [
+        "abstracto",
+        "geométrico",
+        "líneas",
+        "negro",
+        "blanco"
+      ],
+      "category": "Parejas",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La descripción y las etiquetas del producto no se relacionan con la colección \"Dúos\". No hay otra colección en la categoría \"Parejas\" que sea apropiada.",
+      "timestamp": "2025-06-10T06:01:47.463Z"
+    },
+    {
+      "id": "01d29c60-c05f-4674-ac1e-3aea8f1141f3",
+      "name": "Abstracto negro y gris",
+      "description": "abstracto, gris, negro, líneas, diseño",
+      "tags": [
+        "abstracto",
+        "gris",
+        "negro",
+        "líneas",
+        "diseño"
+      ],
+      "category": "Parejas",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La descripción del producto se enfoca en elementos abstractos y de diseño, no en relaciones o parejas. La colección 'Dúos' dentro de la categoría 'Parejas' no es adecuada.",
+      "timestamp": "2025-06-10T05:59:54.333Z"
+    },
+    {
+      "id": "574b54e4-0018-4625-a902-1cbca11e20c3",
+      "name": "Bosque abstracto",
+      "description": "bosque, árboles, negro, blanco, abstracto",
+      "tags": [
+        "bosque",
+        "árboles",
+        "negro",
+        "blanco",
+        "abstracto"
+      ],
+      "category": "Parejas",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La colección 'Dúos' no es relevante para una obra abstracta de un bosque. No hay otra colección en la categoría actual que se ajuste.",
+      "timestamp": "2025-06-10T05:59:57.309Z"
+    },
+    {
+      "id": "cd6db270-662a-4a7c-965c-0bb9f4016e4d",
+      "name": "Bosque abstracto en blanco y negro",
+      "description": "bosque, árboles, abstracto, blanco y negro, minimalista",
+      "tags": [
+        "bosque",
+        "árboles",
+        "abstracto",
+        "blanco y negro",
+        "minimalista"
+      ],
+      "category": "Parejas",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La colección 'Dúos' no es apropiada. No hay colecciones directamente relacionadas con 'bosque', 'árboles', 'abstracto', 'blanco y negro' o 'minimalista' en otras categorías. El producto es muy específico y no encaja bien en ninguna de las colecciones existentes.",
+      "timestamp": "2025-06-10T05:59:52.892Z"
+    },
+    {
+      "id": "ec200057-f11a-444a-8fad-7326d2a9cdd1",
+      "name": "Ciudad abstracta",
+      "description": "ciudad, abstracto, minimalista, negro, blanco",
+      "tags": [
+        "ciudad",
+        "abstracto",
+        "minimalista",
+        "negro",
+        "blanco"
+      ],
+      "category": "Parejas",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones disponibles encaja bien con la descripción de 'Ciudad abstracta'.",
+      "timestamp": "2025-06-10T05:59:47.224Z"
+    },
+    {
+      "id": "b9f62bf8-96a9-4b12-a90a-b289febabb10",
+      "name": "Composición abstracta en blanco y negro",
+      "description": "abstracto, negro, blanco, geometría, líneas",
+      "tags": [
+        "abstracto",
+        "negro",
+        "blanco",
+        "geometría",
+        "líneas"
+      ],
+      "category": "Parejas",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La colección 'Dúos' en 'Parejas' no es relevante para una composición abstracta. No hay otra colección en otras categorías que sea una coincidencia directa para un arte abstracto en blanco y negro con elementos geométricos. ",
+      "timestamp": "2025-06-10T05:59:44.616Z"
+    },
+    {
+      "id": "75f8c166-b9f6-4203-b2c2-68ddca0272e3",
+      "name": "Composición abstracta en blanco y negro",
+      "description": "abstracto, geométrico, minimalista, líneas, formas",
+      "tags": [
+        "abstracto",
+        "geométrico",
+        "minimalista",
+        "líneas",
+        "formas"
+      ],
+      "category": "Parejas",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones existentes se ajusta a la descripción del producto (abstracto, geométrico, minimalista). La categoría 'Parejas' no es relevante.",
+      "timestamp": "2025-06-10T05:59:46.031Z"
+    },
+    {
+      "id": "bf7bde25-c6ae-4da9-947f-cb21f2eac6c2",
+      "name": "Composición abstracta en blanco y negro",
+      "description": "abstracto, blanco y negro, geometría, líneas, minimalista",
+      "tags": [
+        "abstracto",
+        "blanco y negro",
+        "geometría",
+        "líneas",
+        "minimalista"
+      ],
+      "category": "Parejas",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La colección 'Dúos' en la categoría 'Parejas' no es apropiada para una composición abstracta. No existe otra colección en ninguna categoría que se ajuste al estilo abstracto, minimalista y geométrico del producto. Considerar la creación de una nueva categoría para 'Abstracto' o 'Arte Abstracto' sería más apropiado.",
+      "timestamp": "2025-06-10T05:59:56.066Z"
+    },
+    {
+      "id": "73bbb7f7-a290-4447-acb3-3a3e6f475a44",
+      "name": "Composición abstracta geométrica",
+      "description": "abstracto, geométrico, líneas, blanco, negro",
+      "tags": [
+        "abstracto",
+        "geométrico",
+        "líneas",
+        "blanco",
+        "negro"
+      ],
+      "category": "Parejas",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Arte\" in category \"Arte\" but collection not found",
+      "timestamp": "2025-06-10T06:00:00.918Z"
+    },
+    {
+      "id": "197f44f2-1004-4419-8aa8-5be1b8c963a4",
+      "name": "Siluetas de hojas abstractas",
+      "description": "hojas, naturaleza, abstracto, silueta, negro",
+      "tags": [
+        "hojas",
+        "naturaleza",
+        "abstracto",
+        "silueta",
+        "negro"
+      ],
+      "category": "Parejas",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Naturaleza\" in category \"Naturaleza\" but collection not found",
+      "timestamp": "2025-06-10T05:59:58.522Z"
+    },
+    {
+      "id": "b18c30b5-fcb0-4033-8945-04aec0bc349f",
+      "name": "Bloque de construcción y cadena",
+      "description": "bloque, construcción, cadena, conectar, unir",
+      "tags": [
+        "bloque",
+        "construcción",
+        "cadena",
+        "conectar",
+        "unir"
+      ],
+      "category": "Profesiones",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna colección de la categoría actual (Profesiones) se relaciona con bloques de construcción y cadenas. No hay ninguna colección en otras categorías que se ajuste directamente.",
+      "timestamp": "2025-06-10T05:54:25.748Z"
+    },
+    {
+      "id": "67ae0640-a023-4ab0-bf72-9c5189e7e978",
+      "name": "Espía con sombrero y gafas",
+      "description": "espía, sombrero, gafas, secreto, cartoon",
+      "tags": [
+        "espía",
+        "sombrero",
+        "gafas",
+        "secreto",
+        "cartoon"
+      ],
+      "category": "Profesiones",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en la categoría actual (Profesiones) encaja con la descripción de un espía de dibujos animados.",
+      "timestamp": "2025-06-10T05:54:31.607Z"
+    },
+    {
+      "id": "b9b3fba8-d852-44b1-9e48-3f62416859c7",
+      "name": "Navegando la Mente Cósmica",
+      "description": "cerebro, espacio, astronauta, barco, imaginación",
+      "tags": [
+        "cerebro",
+        "espacio",
+        "astronauta",
+        "barco",
+        "imaginación"
+      ],
+      "category": "Profesiones",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Cosmos\" in category \"Cosmos\" but collection not found",
+      "timestamp": "2025-06-10T05:57:55.645Z"
+    },
+    {
+      "id": "05643706-0c2d-45e3-9103-b10951326b4c",
+      "name": "Rata con letrero",
+      "description": "rata, comida, letrero, presionar, dibujo",
+      "tags": [
+        "rata",
+        "comida",
+        "letrero",
+        "presionar",
+        "dibujo"
+      ],
+      "category": "Profesiones",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Memes\" in category \"Memes\" but collection not found",
+      "timestamp": "2025-06-10T05:57:32.114Z"
+    },
+    {
+      "id": "553d40d1-1572-4897-b935-183fe1e096ee",
+      "name": "Retrato lineal de un hombre",
+      "description": "retrato, línea, dibujo, minimalista, hombre",
+      "tags": [
+        "retrato",
+        "línea",
+        "dibujo",
+        "minimalista",
+        "hombre"
+      ],
+      "category": "Profesiones",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en 'Profesiones' es apropiada para un retrato lineal. La descripción es genérica y no se alinea con ninguna de las colecciones disponibles.",
+      "timestamp": "2025-06-10T05:57:40.094Z"
+    },
+    {
+      "id": "3a874697-6f92-4ea7-84e7-33cc4ea91f72",
+      "name": "Be a Dragon",
+      "description": "dragon, texto, frase, negro, gris",
+      "tags": [
+        "dragon",
+        "texto",
+        "frase",
+        "negro",
+        "gris"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: El producto 'Be a Dragon' no parece estar directamente relacionado con ninguna de las colecciones de Series TV.",
+      "timestamp": "2025-06-10T06:02:20.407Z"
+    },
+    {
+      "id": "e6087533-6fb3-4a6c-9808-9f87a72f9534",
+      "name": "Cabeza de dragón",
+      "description": "dragón, fantasía, criatura, mitología, animal",
+      "tags": [
+        "dragón",
+        "fantasía",
+        "criatura",
+        "mitología",
+        "animal"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de Series TV existentes encaja con la temática de un dragón de fantasía. Es probable que el producto no encaje en esta categoría.",
+      "timestamp": "2025-06-10T06:02:39.175Z"
+    },
+    {
+      "id": "6253a466-ad79-4701-b1ee-f771b0c606d9",
+      "name": "Cabeza de dragón",
+      "description": "dragón, fantasia, monstruo, rojo, dientes",
+      "tags": [
+        "dragón",
+        "fantasia",
+        "monstruo",
+        "rojo",
+        "dientes"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de Series TV se relaciona con dragones o fantasía. Consideraría cambiar la categoría para una mejor opción.",
+      "timestamp": "2025-06-10T06:02:47.416Z"
+    },
+    {
+      "id": "6b596b83-a71c-45c2-bbe8-a2c87aaff896",
+      "name": "Cabeza de Dragón con Ojos Ardientes",
+      "description": "dragón, fantasía, criatura, ojos, animal",
+      "tags": [
+        "dragón",
+        "fantasía",
+        "criatura",
+        "ojos",
+        "animal"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en Series TV es apropiada para una cabeza de dragón. No existe ninguna colección que se ajuste correctamente.",
+      "timestamp": "2025-06-10T06:02:26.800Z"
+    },
+    {
+      "id": "dc079314-37ae-4aa0-a5eb-afbb070ed827",
+      "name": "Cabeza de dragón furioso",
+      "description": "dragón, fuego, fantasia, monstruo, rojo",
+      "tags": [
+        "dragón",
+        "fuego",
+        "fantasia",
+        "monstruo",
+        "rojo"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de Series TV (House of the Dragon, Breaking Bad, The Office, Rick and Morty) encaja con la descripción de \"Cabeza de dragón furioso\".",
+      "timestamp": "2025-06-10T06:01:50.145Z"
+    },
+    {
+      "id": "38b4500e-8b54-426f-8429-44e90161bdd6",
+      "name": "Cabeza de dragón realista",
+      "description": "dragón, fantasia, reptil, escamas, criatura",
+      "tags": [
+        "dragón",
+        "fantasia",
+        "reptil",
+        "escamas",
+        "criatura"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones actuales de Series TV es apropiada para una cabeza de dragón.",
+      "timestamp": "2025-06-10T06:02:44.525Z"
+    },
+    {
+      "id": "f1ff6dea-2451-491b-a77d-36654918abdd",
+      "name": "Casco de guerrero oscuro con alas",
+      "description": "casco, guerrero, oscuridad, alas, rojo",
+      "tags": [
+        "casco",
+        "guerrero",
+        "oscuridad",
+        "alas",
+        "rojo"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las series de TV mencionadas se relaciona directamente con un casco de guerrero oscuro con alas. No hay una conexión clara.",
+      "timestamp": "2025-06-10T06:02:25.367Z"
+    },
+    {
+      "id": "c1c2daae-a568-46c8-aac3-fc6933d74257",
+      "name": "Corona de dragón",
+      "description": "corona, dragón, escudo, rey, oro",
+      "tags": [
+        "corona",
+        "dragón",
+        "escudo",
+        "rey",
+        "oro"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en Series TV se relaciona con dragones, reyes o coronas.  Se necesita una colección diferente.",
+      "timestamp": "2025-06-10T06:01:55.669Z"
+    },
+    {
+      "id": "ee381c60-184e-4abd-b201-668ad1d5694a",
+      "name": "Criatura Alada en Rojo y Negro",
+      "description": "criatura, dragón, rojo, negro, gótico",
+      "tags": [
+        "criatura",
+        "dragón",
+        "rojo",
+        "negro",
+        "gótico"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en 'Series TV' se ajusta a la descripción. House of the Dragon podría ser una opción, pero el producto no indica directamente que sea parte de esta serie.",
+      "timestamp": "2025-06-10T06:03:01.717Z"
+    },
+    {
+      "id": "ea37bc86-34a1-4a24-b657-9d435175b4cb",
+      "name": "Dragón alado",
+      "description": "dragón, fantasía, vuelo, criatura, ala",
+      "tags": [
+        "dragón",
+        "fantasía",
+        "vuelo",
+        "criatura",
+        "ala"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en 'Series TV' es apropiada para un dragón alado. No hay ninguna colección que se ajuste a la temática de fantasía.",
+      "timestamp": "2025-06-10T06:02:02.632Z"
+    },
+    {
+      "id": "900bd61a-5f3f-406d-a19c-073b05a5e172",
+      "name": "Dragón alado",
+      "description": "dragón, criatura, mitología, vuelo, fantasia",
+      "tags": [
+        "dragón",
+        "criatura",
+        "mitología",
+        "vuelo",
+        "fantasia"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de Series TV (House Of The Dragon, Breaking Bad, The Office, Rick and Morty) son apropiadas para un dragón alado. Se necesita una categoría diferente.",
+      "timestamp": "2025-06-10T06:02:54.366Z"
+    },
+    {
+      "id": "ea66c593-833d-4255-b109-794115b20c2b",
+      "name": "Dragón alado en vuelo",
+      "description": "dragón, vuelo, criatura, fantasia, alas",
+      "tags": [
+        "dragón",
+        "vuelo",
+        "criatura",
+        "fantasia",
+        "alas"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en Series TV se ajusta a la temática de un dragón alado. Se requiere un cambio de categoría.",
+      "timestamp": "2025-06-10T06:02:43.063Z"
+    },
+    {
+      "id": "bc942624-b438-4d46-a195-f95a7db2d1c9",
+      "name": "Dragón en vuelo",
+      "description": "dragón, vuelo, criatura, fantasía, alas",
+      "tags": [
+        "dragón",
+        "vuelo",
+        "criatura",
+        "fantasía",
+        "alas"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de Series TV son apropiadas para un dragón de fantasía.",
+      "timestamp": "2025-06-10T06:02:58.863Z"
+    },
+    {
+      "id": "3dd9ccf8-3df6-4592-add9-0bbbf933e9cd",
+      "name": "Dragón Rojo",
+      "description": "dragón, rojo, fantasia, criatura, alas",
+      "tags": [
+        "dragón",
+        "rojo",
+        "fantasia",
+        "criatura",
+        "alas"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en Series TV (House Of The Dragon, Breaking Bad, The Office, Rick and Morty) se relaciona con un dragón de fantasía. No hay una colección específica para este tipo de criatura en las otras categorías.",
+      "timestamp": "2025-06-10T06:02:50.185Z"
+    },
+    {
+      "id": "b3c682a5-c64e-4566-ba9b-2cb8db714d6f",
+      "name": "Dragón Rojo",
+      "description": "dragón, rojo, ala, criatura, fantasia",
+      "tags": [
+        "dragón",
+        "rojo",
+        "ala",
+        "criatura",
+        "fantasia"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de Series TV se relaciona con dragones o fantasía.",
+      "timestamp": "2025-06-10T06:02:55.583Z"
+    },
+    {
+      "id": "140d2172-9138-4ca9-a844-b69cb8268685",
+      "name": "Dragón Rojo",
+      "description": "dragón, rojo, criatura, fantasía, ala",
+      "tags": [
+        "dragón",
+        "rojo",
+        "criatura",
+        "fantasía",
+        "ala"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en 'Series TV' es apropiada para un dragón.  No hay una colección perfecta en ninguna otra categoría, pero 'Criaturas prehistoricas' (Dinosaurios) es la más cercana temáticamente, aunque no es una coincidencia directa.",
+      "timestamp": "2025-06-10T06:02:57.622Z"
+    },
+    {
+      "id": "ba8934e2-1126-4979-a86c-196f93085f6f",
+      "name": "Dragón rojo alado",
+      "description": "dragón, rojo, alas, fantasía, criatura",
+      "tags": [
+        "dragón",
+        "rojo",
+        "alas",
+        "fantasía",
+        "criatura"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en Series TV es apropiada. El producto describe un dragón de fantasía.",
+      "timestamp": "2025-06-10T06:03:03.010Z"
+    },
+    {
+      "id": "80dad6c3-065d-45b2-a8c9-10b9c6021ab2",
+      "name": "Dragón rojo con la boca abierta",
+      "description": "dragón, rojo, criatura, fantasia, animal",
+      "tags": [
+        "dragón",
+        "rojo",
+        "criatura",
+        "fantasia",
+        "animal"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de Series TV es apropiada para un dragón.",
+      "timestamp": "2025-06-10T06:02:51.390Z"
+    },
+    {
+      "id": "48c90f1c-349f-435c-b0e3-e4cdacae8b4c",
+      "name": "Dragón Rojo de Dibujos Animados",
+      "description": "dragón, fantasía, rojo, dibujos animados, criatura",
+      "tags": [
+        "dragón",
+        "fantasía",
+        "rojo",
+        "dibujos animados",
+        "criatura"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en Series TV encaja con la descripción de un dragón de dibujos animados. No hay ninguna otra colección en otras categorías que sea una coincidencia perfecta. Podría ser considerado como un elemento de fantasía, pero no existe una colección con esa temática.",
+      "timestamp": "2025-06-10T06:03:23.178Z"
+    },
+    {
+      "id": "3ffca0d4-3942-4d08-8912-e703bcadfadd",
+      "name": "Dragón rojo en vuelo",
+      "description": "dragón, fantasía, rojo, alas, vuelo",
+      "tags": [
+        "dragón",
+        "fantasía",
+        "rojo",
+        "alas",
+        "vuelo"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en Series TV es apropiada para un dragón de fantasía. Dado que no hay una colección de fantasía o dragones, se sugiere no asignar una colección.",
+      "timestamp": "2025-06-10T06:02:53.032Z"
+    },
+    {
+      "id": "499b7c1e-e840-4984-9003-4b4d661c913b",
+      "name": "Dragón rojo en vuelo",
+      "description": "dragón, rojo, fantasia, alas, criatura",
+      "tags": [
+        "dragón",
+        "rojo",
+        "fantasia",
+        "alas",
+        "criatura"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en Series TV encaja con la descripción de un dragón rojo en vuelo. Se necesita un cambio de categoría.",
+      "timestamp": "2025-06-10T06:03:26.702Z"
+    },
+    {
+      "id": "4d85d040-0352-4b81-b1f7-129df24859f3",
+      "name": "Dragón rojo en vuelo",
+      "description": "dragón, rojo, fantasía, alas, criatura",
+      "tags": [
+        "dragón",
+        "rojo",
+        "fantasía",
+        "alas",
+        "criatura"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de Series TV encaja con la descripción de un dragón rojo. La descripción sugiere fantasía y criaturas.",
+      "timestamp": "2025-06-10T06:03:28.154Z"
+    },
+    {
+      "id": "a0c01f9d-ec60-4df9-8ff4-b247cf10d0d8",
+      "name": "Dragón Rojo en Vuelo",
+      "description": "dragón, fantasía, rojo, alas, cielo",
+      "tags": [
+        "dragón",
+        "fantasía",
+        "rojo",
+        "alas",
+        "cielo"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones existentes en 'Series TV' encaja con la temática de un dragón rojo en vuelo. No hay una colección específica relacionada con fantasía o criaturas míticas.",
+      "timestamp": "2025-06-10T06:03:25.474Z"
+    },
+    {
+      "id": "f00274a2-9284-4b6d-8254-ea565a1fcf20",
+      "name": "Dragón Rojo Fantástico",
+      "description": "dragón, fantasia, rojo, criatura, ala",
+      "tags": [
+        "dragón",
+        "fantasia",
+        "rojo",
+        "criatura",
+        "ala"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de Series TV se ajusta al tema de un dragón fantástico.",
+      "timestamp": "2025-06-10T06:02:40.382Z"
+    },
+    {
+      "id": "eb5bb31b-6702-48af-9f6c-614cda716a21",
+      "name": "Dragones y Espada de Fuego",
+      "description": "dragones, espada, fuego, fantasía, mitología",
+      "tags": [
+        "dragones",
+        "espada",
+        "fuego",
+        "fantasía",
+        "mitología"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de Series TV se ajusta al tema de dragones, espadas y fantasía. Podría considerarse House of the Dragon, pero es un universo muy específico y no la engloba.",
+      "timestamp": "2025-06-10T06:01:53.054Z"
+    },
+    {
+      "id": "98affc41-4d6e-430c-a3a7-6b3427f25194",
+      "name": "Dragones Yin Yang",
+      "description": "dragón, fantasía, yin yang, rojo, amarillo",
+      "tags": [
+        "dragón",
+        "fantasía",
+        "yin yang",
+        "rojo",
+        "amarillo"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en 'Series TV' es apropiada para un producto de dragones Yin Yang.",
+      "timestamp": "2025-06-10T06:02:30.792Z"
+    },
+    {
+      "id": "6cade850-3f00-4095-92bd-5e812b240102",
+      "name": "Guerrero con criatura",
+      "description": "guerrero, fantasia, criatura, armadura, estilizado",
+      "tags": [
+        "guerrero",
+        "fantasia",
+        "criatura",
+        "armadura",
+        "estilizado"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de Series TV encaja con la descripción de \"Guerrero con criatura\".",
+      "timestamp": "2025-06-10T06:03:20.261Z"
+    },
+    {
+      "id": "06c3c278-5ce7-41f6-addf-7bdf517fcb93",
+      "name": "Logo Dracarys",
+      "description": "dragon, alas, fantasía, logo, blanco y negro",
+      "tags": [
+        "dragon",
+        "alas",
+        "fantasía",
+        "logo",
+        "blanco y negro"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: El logo de un dragón en blanco y negro, aunque podría estar relacionado con 'House of the Dragon' (dado el tema), es muy genérico. Ninguna de las colecciones en la categoría actual es una coincidencia clara. No hay una colección específica adecuada en otras categorías.",
+      "timestamp": "2025-06-10T06:02:32.227Z"
+    },
+    {
+      "id": "305d9e6d-b0a8-42bd-95cc-0f3e48db2498",
+      "name": "Retrato de Syrrax el Dragón",
+      "description": "dragón, fantasia, criatura, syrrax, fuego",
+      "tags": [
+        "dragón",
+        "fantasia",
+        "criatura",
+        "syrrax",
+        "fuego"
+      ],
+      "category": "Series TV",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en Series TV se ajusta a un retrato de un dragón de fantasía. La mejor opción podría ser crear una colección nueva específica para 'Dragones' o 'Fantasía', pero no existe actualmente.",
+      "timestamp": "2025-06-10T06:02:37.857Z"
+    },
+    {
+      "id": "template-sticker-product",
+      "name": "Custom Sticker Sheet",
+      "description": "Product for the template sticker category",
+      "tags": [],
+      "category": "template-sticker",
+      "reason": "no_collections_available",
+      "details": "Category \"template-sticker\" has no collections",
+      "timestamp": "2025-06-10T05:49:18.048Z"
+    },
+    {
+      "id": "628e1cdc-0613-4d65-8f4c-0045c685b145",
+      "name": "Adorno floral con forma de 'U'",
+      "description": "flores, floral, diseño, ornamento, dibujo",
+      "tags": [
+        "flores",
+        "floral",
+        "diseño",
+        "ornamento",
+        "dibujo"
+      ],
+      "category": "Zodiaco",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones en la categoría Zodiaco o en ninguna otra categoría se relaciona directamente con un adorno floral con forma de 'U'. Las descripciones se enfocan en flores, diseño y ornamentación, no en astrología o signos zodiacales.",
+      "timestamp": "2025-06-10T06:04:44.767Z"
+    },
+    {
+      "id": "e4ed59c5-f817-4d51-9831-fccdfc5950d2",
+      "name": "AQA PIVS Peace Sign",
+      "description": "paz, arcoíris, tipografía, círculo, vintage",
+      "tags": [
+        "paz",
+        "arcoíris",
+        "tipografía",
+        "círculo",
+        "vintage"
+      ],
+      "category": "Zodiaco",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de Zodiaco se relaciona con los temas de paz, arcoíris, tipografía vintage. No se encontró ninguna colección apropiada en ninguna otra categoría.",
+      "timestamp": "2025-06-10T06:05:25.873Z"
+    },
+    {
+      "id": "17b5b34e-997e-4228-a9a2-ee5a6753f4ff",
+      "name": "Arco floral de la letra M",
+      "description": "floral, letra, M, flores, colorido",
+      "tags": [
+        "floral",
+        "letra",
+        "M",
+        "flores",
+        "colorido"
+      ],
+      "category": "Zodiaco",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La descripción y las etiquetas del producto (floral, letra, flores, colorido) no tienen relación directa con las colecciones disponibles en la categoría Zodiaco. No hay una colección que se ajuste a la descripción del producto.",
+      "timestamp": "2025-06-10T06:05:00.526Z"
+    },
+    {
+      "id": "cdda54f6-1d1b-47e8-95d3-68ec0e23a1b3",
+      "name": "Ciervo Estelar",
+      "description": "constelación, ciervo, estrellas, negro, blanco",
+      "tags": [
+        "constelación",
+        "ciervo",
+        "estrellas",
+        "negro",
+        "blanco"
+      ],
+      "category": "Zodiaco",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Aunque la categoría actual es Zodiaco, la descripción 'Ciervo Estelar' no encaja directamente con ninguna de las constelaciones individuales. Dado que ninguna de las colecciones encaja, se sugiere ninguna.",
+      "timestamp": "2025-06-10T06:04:43.212Z"
+    },
+    {
+      "id": "b9aebc21-bd05-4564-8e76-434ef11d3038",
+      "name": "Composición floral en escala de grises",
+      "description": "flores, blanco y negro, naturaleza, arte, minimalista",
+      "tags": [
+        "flores",
+        "blanco y negro",
+        "naturaleza",
+        "arte",
+        "minimalista"
+      ],
+      "category": "Zodiaco",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones del Zodiaco se relaciona con flores, blanco y negro, naturaleza, arte o minimalismo. No se encuentra una colección apropiada en ninguna otra categoría.",
+      "timestamp": "2025-06-10T06:04:40.492Z"
+    },
+    {
+      "id": "ee0e70a4-5085-4220-b7e1-bca337c05220",
+      "name": "Corona floral azul",
+      "description": "flores, azul, corona, floral, dibujo",
+      "tags": [
+        "flores",
+        "azul",
+        "corona",
+        "floral",
+        "dibujo"
+      ],
+      "category": "Zodiaco",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La corona floral azul no se relaciona directamente con ninguna de las constelaciones del zodiaco. No hay una colección más apropiada en otras categorías.",
+      "timestamp": "2025-06-10T06:05:19.782Z"
+    },
+    {
+      "id": "6986a9de-3f97-4381-a928-639a9595ecfc",
+      "name": "Corona floral de dibujos animados",
+      "description": "flores, corona, dibujos animados, floral, primavera",
+      "tags": [
+        "flores",
+        "corona",
+        "dibujos animados",
+        "floral",
+        "primavera"
+      ],
+      "category": "Zodiaco",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones de Zodiaco se relaciona directamente con flores o dibujos animados. No existe una colección específica para este tipo de arte.",
+      "timestamp": "2025-06-10T06:04:57.389Z"
+    },
+    {
+      "id": "6069f6fb-4b1c-477b-973f-983a5fdb349b",
+      "name": "Diseño floral abstracto",
+      "description": "flores, líneas, abstracto, blanco y negro, diseño",
+      "tags": [
+        "flores",
+        "líneas",
+        "abstracto",
+        "blanco y negro",
+        "diseño"
+      ],
+      "category": "Zodiaco",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: El diseño floral abstracto no encaja temáticamente con ninguna de las colecciones del zodiaco. No hay una colección apropiada entre las opciones dadas.",
+      "timestamp": "2025-06-10T06:04:59.068Z"
+    },
+    {
+      "id": "388b66ef-ca4a-47d6-9d47-3efd14fd617b",
+      "name": "Diseño floral minimalista en escala de grises",
+      "description": "floral, dibujo, minimalista, daisies, blanco y negro",
+      "tags": [
+        "floral",
+        "dibujo",
+        "minimalista",
+        "daisies",
+        "blanco y negro"
+      ],
+      "category": "Zodiaco",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: El diseño floral minimalista no encaja con ninguna de las colecciones de Zodiaco. No hay una conexión temática.",
+      "timestamp": "2025-06-10T06:04:55.648Z"
+    },
+    {
+      "id": "bbaa524a-a65b-4a09-9149-2ae950ffdffa",
+      "name": "Floral Letter H",
+      "description": "letra, floral, flores, decorativo, primavera",
+      "tags": [
+        "letra",
+        "floral",
+        "flores",
+        "decorativo",
+        "primavera"
+      ],
+      "category": "Zodiaco",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: La letra floral no encaja bien con ninguna colección de Zodiaco. Ninguna de las otras categorías parecen adecuadas tampoco.",
+      "timestamp": "2025-06-10T06:04:51.484Z"
+    },
+    {
+      "id": "ed4043ee-ef59-43d2-a420-0582ccbbbb43",
+      "name": "Ilustración Art Nouveau de Mujer Celestial",
+      "description": "mujer, art nouveau, celestial, estrella, ornamental",
+      "tags": [
+        "mujer",
+        "art nouveau",
+        "celestial",
+        "estrella",
+        "ornamental"
+      ],
+      "category": "Zodiaco",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Aunque la ilustración contiene elementos 'celestiales' que podrían vincularse al zodiaco, el estilo Art Nouveau y la descripción general no se alinean directamente con ninguna de las colecciones específicas de signos del zodiaco. La colección 'Cosmos' es la más cercana, pero aun así no es la ideal.",
+      "timestamp": "2025-06-10T06:05:27.964Z"
+    },
+    {
+      "id": "ca6b5cf5-a7a8-4604-bd9d-aa0a85457c2d",
+      "name": "Paisaje nocturno con constelación y árboles",
+      "description": "noche, estrellas, constelación, árboles, luna",
+      "tags": [
+        "noche",
+        "estrellas",
+        "constelación",
+        "árboles",
+        "luna"
+      ],
+      "category": "Zodiaco",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Cosmos\" in category \"Cosmos\" but collection not found",
+      "timestamp": "2025-06-10T06:04:48.932Z"
+    },
+    {
+      "id": "794e46b1-b164-449c-be73-f5447f1c30a3",
+      "name": "Patrón de flores dibujadas a mano",
+      "description": "flores, dibujo, blanco y negro, primavera, minimalista",
+      "tags": [
+        "flores",
+        "dibujo",
+        "blanco y negro",
+        "primavera",
+        "minimalista"
+      ],
+      "category": "Zodiaco",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones del Zodiaco son apropiadas para un patrón de flores. No hay ninguna otra categoría que se ajuste perfectamente.",
+      "timestamp": "2025-06-10T06:05:23.031Z"
+    },
+    {
+      "id": "a46722c0-dcbf-4d41-a9ff-88fb9cf16ac1",
+      "name": "Patrón floral en blanco y negro",
+      "description": "floral, flores, dibujo, blanco y negro, minimalista",
+      "tags": [
+        "floral",
+        "flores",
+        "dibujo",
+        "blanco y negro",
+        "minimalista"
+      ],
+      "category": "Zodiaco",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: El patrón floral en blanco y negro no encaja con la temática de ninguna de las colecciones del zodiaco. No hay una relación directa.",
+      "timestamp": "2025-06-10T06:04:47.395Z"
+    },
+    {
+      "id": "ad171daf-7643-4fe3-8273-ac69a68f3964",
+      "name": "Signo de la Paz NAUTS",
+      "description": "paz, símbolo, arte, retro, diseño",
+      "tags": [
+        "paz",
+        "símbolo",
+        "arte",
+        "retro",
+        "diseño"
+      ],
+      "category": "Zodiaco",
+      "reason": "ai_suggested_none",
+      "details": "AI couldn't find appropriate collection in any category. AI reasoning: Ninguna de las colecciones del Zodiaco se ajusta a los tags y la descripción del producto (paz, símbolo, arte, retro, diseño).",
+      "timestamp": "2025-06-10T06:04:46.125Z"
+    },
+    {
+      "id": "6ba2fe1f-798b-4f9f-8e39-0d50e62f0b61",
+      "name": "Sirena en el espacio",
+      "description": "sirena, espacio, estrellas, agua, místico",
+      "tags": [
+        "sirena",
+        "espacio",
+        "estrellas",
+        "agua",
+        "místico"
+      ],
+      "category": "Zodiaco",
+      "reason": "ai_suggested_invalid",
+      "details": "AI suggested \"Cosmos\" in category \"Cosmos\" but collection not found",
+      "timestamp": "2025-06-10T06:05:29.042Z"
+    }
+  ]
+}
