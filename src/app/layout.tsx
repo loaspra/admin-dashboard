@@ -21,11 +21,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="overflow-x-hidden">
-      <body className={`${fontSans.className} min-h-screen overflow-x-hidden relative`} style={{margin: 0, padding: 0}}>
+    <html lang="en" className="h-full overflow-x-hidden">
+      <body className={`${fontSans.className} h-full overflow-x-hidden`} style={{margin: 0, padding: 0}}>
         <AuthProvider>
           <ThemeProvider>
-            <div className="relative min-h-screen">
+            <div className="h-full">
               {children}
             </div>
             <ThemeToggle />

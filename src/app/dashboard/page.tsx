@@ -123,7 +123,7 @@ const GraphPlaceholder = () => {
       className="h-[300px] relative overflow-hidden rounded-xl"
     >
       <EnhancedGlassCard className="h-full" colorMode="pulse" blur="medium">
-        <div className="relative z-10 h-full flex flex-col items-center justify-center">
+        <div className="relative z-10 h-full flex flex-col mt-6 items-center justify-center">
           <Activity className="h-12 w-12 text-white/40 mb-3 animate-pulse" />
           <p className="text-gray-400">Graph data will be displayed here</p>
         </div>
@@ -142,7 +142,7 @@ export default function Dashboard() {
       {/* Background elements */}
       <BackgroundOrbs />
       
-      <div className="container mx-auto p-6 relative z-10 h-full overflow-y-auto pb-20">
+      <div className="container mx-auto p-6 relative z-10 h-full pb-20">
         {/* Page Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}

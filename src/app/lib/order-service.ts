@@ -14,19 +14,9 @@ export async function getRecentOrders(page = 0, pageSize = 10) {
     // Get total count for pagination
     const totalCount = await prisma.order.count();
     
-    // Fetch orders with user information
+    // Fetch orders
     const orders = await prisma.order.findMany({
       include: {
-        User: {
-          select: {
-            id: true,
-            email: true,
-            firstName: true,
-            lastName: true,
-            phone: true,
-            address: true
-          }
-        },
         OrderItem: {
           include: {
             Product: true
@@ -68,11 +58,11 @@ export async function getRecentOrders(page = 0, pageSize = 10) {
           return {
             ...order,
             supabaseUser: {
-              email: userMetadata.email || order.User.email,
-              name: userMetadata.nombre || order.User.firstName,
-              lastName: userMetadata.apellidos || order.User.lastName,
-              phone: userMetadata.telefono || order.User.phone,
-              address: userMetadata.direccion || order.User.address,
+              email: userMetadata.email || userMetadata.email,
+              name: userMetadata.nombre || userMetadata.nombre,
+              lastName: userMetadata.apellidos || userMetadata.apellidos,
+              phone: userMetadata.telefono || userMetadata.telefono,
+              address: userMetadata.direccion || userMetadata.direccion,
               instagramUser: userMetadata.instagramUser || ''
             }
           };
@@ -103,7 +93,7 @@ export async function getOrderById(id: string) {
     const order = await prisma.order.findUnique({
       where: { id },
       include: {
-        User: true,
+        
         OrderItem: {
           include: {
             Product: true,
@@ -142,11 +132,11 @@ export async function getOrderById(id: string) {
         return {
           ...order,
           supabaseUser: {
-            email: userMetadata.email || order.User.email,
-            name: userMetadata.nombre || order.User.firstName,
-            lastName: userMetadata.apellidos || order.User.lastName,
-            phone: userMetadata.telefono || order.User.phone,
-            address: userMetadata.direccion || order.User.address,
+            email: userMetadata.email || userMetadata.email,
+            name: userMetadata.nombre || userMetadata.nombre,
+            lastName: userMetadata.apellidos || userMetadata.apellidos,
+            phone: userMetadata.telefono || userMetadata.telefono,
+            address: userMetadata.direccion || userMetadata.direccion,
             instagramUser: userMetadata.instagramUser || ''
           }
         };

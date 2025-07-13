@@ -20,12 +20,12 @@ export function ManagementCard() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
     >
       {/* Product Management Card */}
-      <EnhancedGlassCard 
+      <EnhancedGlassCard
         className="overflow-hidden relative p-5"
-        colorMode="pulse"
+        colorMode="static"
         glowColors={['#5D4FE8', '#9747FF', '#14B8A6', '#06B6D4']}
       >
         <div className="space-y-4">
@@ -38,28 +38,22 @@ export function ManagementCard() {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-3 w-full">
-            <Button 
-              variant="default" 
+            <Button
+              variant="default"
               onClick={() => setIsCreateModalOpen(true)}
-              className="w-full sm:flex-1 group relative overflow-hidden bg-primary/80 hover:bg-primary backdrop-blur-sm"
+              className="w-full sm:flex-1 bg-primary/20 hover:bg-primary/30 text-white border border-primary/30 hover:border-primary/50 transition-all duration-200"
             >
-              <span className="relative z-10 flex items-center gap-2 text-white">
-                <Plus className="h-4 w-4" />
-                Create New Product
-              </span>
-              <span className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
+              <Plus className="h-4 w-4 mr-2" />
+              Create New Product
             </Button>
             
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={() => setIsEditModalOpen(true)}
-              className="w-full sm:flex-1 group relative overflow-hidden border-white/20 bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm"
+              className="w-full sm:flex-1 border-white/20 bg-white/10 hover:bg-white/20 text-white transition-all duration-200"
             >
-              <span className="relative z-10 flex items-center gap-2">
-                <Edit className="h-4 w-4" />
-                Edit/Delete Products
-              </span>
-              <span className="absolute inset-0 bg-gradient-to-r from-secondary/20 to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <Edit className="h-4 w-4 mr-2" />
+              Edit/Delete Products
             </Button>
           </div>
         </div>

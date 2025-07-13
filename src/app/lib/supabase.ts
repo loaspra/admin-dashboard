@@ -7,6 +7,8 @@ type PrismaModelName = Uncapitalize<Prisma.ModelName>
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
 
+console.log(supabaseUrl, supabaseKey);
+
 // Export the base client for unauthenticated operations
 export const supabase = createClient(supabaseUrl, supabaseKey);
 

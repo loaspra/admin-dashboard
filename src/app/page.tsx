@@ -23,12 +23,12 @@ export default function Home() {
 
   // Simple loading state while determining auth
   return (
-    <AuroraBackground className="min-h-screen">
-      <div className="flex flex-col items-center justify-center h-screen">
-        <div className="text-center">
+    <AuroraBackground className="h-screen overflow-hidden">
+      <div className="flex flex-col items-center justify-center h-full w-full">
+        <div className="text-center px-4">
           <h1 className="text-3xl font-bold mb-4 text-white">Admin Dashboard</h1>
           {isLoading ? (
-            <Button variant="outline" className="bg-white/10 backdrop-blur-sm text-white border-white/20">
+            <Button variant="outline" className="bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white/20 transition-colors">
               Loading...
             </Button>
           ) : (
