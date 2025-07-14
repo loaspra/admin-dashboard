@@ -13,7 +13,9 @@
     "validate-db": "npx tsx scripts/validate-categories-collections.ts",
     "fix-db": "npx tsx scripts/fix-categories-collections.ts",
     "fix-structure": "npx tsx scripts/fix-structural-discrepancies.ts",
-    "assign-collections": "npx tsx scripts/assign-product-collections.ts"
+    "assign-collections": "npx tsx scripts/assign-product-collections.ts",
+    "test-gemini": "npx tsx test-gemini.ts",
+    "test-gemini-js": "node test-gemini.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.0",

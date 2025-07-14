@@ -20,7 +20,6 @@ import { Badge } from "@/components/ui/badge";
 import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { EnhancedGlassCard } from '@/components/ui/enhanced-glass-card';
-import { Portal } from '@/components/ui/portal';
 import { motion } from 'framer-motion';
 import { cn } from '@/app/lib/utils';
 import { ShoppingBag, User, MapPin, Calendar, Instagram } from 'lucide-react';
@@ -222,12 +221,11 @@ export default function OrderCard({ order }: OrderCardProps) {
             </Dialog>
             
             <Dialog open={isOpen} onOpenChange={setIsOpen}>
-              <Portal>
-                <DialogContent className="max-w-md max-h-[80vh] overflow-y-auto bg-black/80 backdrop-blur-xl border border-white/10 text-white z-[1000] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <DialogHeader>
-                    <DialogTitle className="text-xl font-semibold text-white flex items-center gap-2">
-                      <ShoppingBag className="h-5 w-5 text-primary" />
-                      Orden #{order.id.substring(0, 8)}
+              <DialogContent className="max-w-md max-h-[80vh] overflow-y-auto bg-black/80 backdrop-blur-xl border border-white/10 text-white">
+                <DialogHeader>
+                  <DialogTitle className="text-xl font-semibold text-white flex items-center gap-2">
+                    <ShoppingBag className="h-5 w-5 text-primary" />
+                    Orden #{order.id.substring(0, 8)}
                     </DialogTitle>
                     <DialogDescription className="text-gray-400">
                       {new Date(order.orderDate).toLocaleDateString('es-PE', {
@@ -340,7 +338,6 @@ export default function OrderCard({ order }: OrderCardProps) {
                     </EnhancedGlassCard>
                   </div>
                 </DialogContent>
-              </Portal>
             </Dialog>
           </div>
         </div>

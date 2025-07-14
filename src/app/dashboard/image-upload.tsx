@@ -42,9 +42,10 @@ interface Collection {
 interface ImageUploadProps {
   showConfirmation?: (title: string, message: string, action: () => void) => void;
   onSuccess?: () => void;
+  onProductsForReview?: (products: any[]) => void;
 }
 
-export function ImageUpload({ showConfirmation, onSuccess }: ImageUploadProps) {
+export function ImageUpload({ showConfirmation, onSuccess, onProductsForReview }: ImageUploadProps) {
   const [uploading, setUploading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [uploadMode, setUploadMode] = useState<'json' | 'image' | 'folder'>('json');
@@ -56,14 +57,17 @@ export function ImageUpload({ showConfirmation, onSuccess }: ImageUploadProps) {
   const [filteredCollections, setFilteredCollections] = useState<Collection[]>([]);
   const [customCategory, setCustomCategory] = useState('');
   const [customCollection, setCustomCollection] = useState('');
+  const [enableReviewMode, setEnableReviewMode] = useState(true);
 
   // Fetch categories and collections on component mount
   useEffect(() => {
     const fetchCategoriesAndCollections = async () => {
       try {
         const categoriesResponse = await fetch('/api/categories');
+        console.log("Categories response:", categoriesResponse);
         if (categoriesResponse.ok) {
           const categoriesData = await categoriesResponse.json();
+          console.log("Fetched categories:", categoriesData);
           setCategories(categoriesData);
         }
 
@@ -222,7 +226,6 @@ export function ImageUpload({ showConfirmation, onSuccess }: ImageUploadProps) {
   const processUpload = async (useAiInference: boolean) => {
     setUploading(true);
     const formData = new FormData();
-    formData.append('uploadMode', uploadMode);
 
     if (uploadMode === 'image' || uploadMode === 'folder') {
       formData.append('productType', productType);
@@ -256,7 +259,52 @@ export function ImageUpload({ showConfirmation, onSuccess }: ImageUploadProps) {
       }
 
       formData.append('useAiInference', String(useAiInference));
+
+      // Choose endpoint based on review mode
+      const endpoint = enableReviewMode && (uploadMode === 'image' || uploadMode === 'folder') 
+        ? '/api/images/process-for-review' 
+        : '/api/images';
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({ message: 'Upload failed with status: ' + response.status }));
+          throw new Error(errorData.message || 'Upload failed');
+        }
+
+        const data = await response.json();
+
+        if (enableReviewMode && data.productData && onProductsForReview) {
+          // Pass data to review modal
+          onProductsForReview([data.productData]);
+          toast.success('Image processed! Please review the product data.');
+        } else {
+          // Normal flow - direct save
+          toast.success(`Successfully processed ${files.length} image(s).`);
+          if (onSuccess) {
+            onSuccess();
+          }
+        }
+
+        // Reset form
+        setFiles([]);
+        setProductType('');
+        setCategory('');
+        setCollection('');
+        setCustomCategory('');
+        setCustomCollection('');
+
+      } catch (error: any) {
+        console.error('Upload error:', error);
+        toast.error(`Upload failed: ${error.message}`);
+      }
     } else {
+      // JSON upload logic remains the same
+      formData.append('uploadMode', uploadMode);
       const file = files[0];
       const text = await file.text();
       let jsonData;
@@ -268,37 +316,32 @@ export function ImageUpload({ showConfirmation, onSuccess }: ImageUploadProps) {
         setUploading(false);
         return;
       }
-    }
 
-    try {
-      const response = await fetch('/api/images', {
-        method: 'POST',
-        body: formData,
-      });
+      try {
+        const response = await fetch('/api/images', {
+          method: 'POST',
+          body: formData,
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ message: 'Upload failed with status: ' + response.status }));
-        throw new Error(errorData.message || 'Upload failed');
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({ message: 'Upload failed with status: ' + response.status }));
+          throw new Error(errorData.message || 'Upload failed');
+        }
+
+        const data = await response.json();
+        toast.success(`Successfully started processing ${files.length} JSON file.`);
+        setFiles([]);
+        
+        if (onSuccess) {
+          onSuccess();
+        }
+      } catch (error: any) {
+        console.error('Upload error:', error);
+        toast.error(`Upload failed: ${error.message}`);
       }
-
-      const data = await response.json();
-      toast.success(`Successfully started processing ${files.length} ${uploadMode === 'json' ? 'JSON file' : 'image(s)'}.`);
-      setFiles([]);
-      setProductType('');
-      setCategory('');
-      setCollection('');
-      setCustomCategory('');
-      setCustomCollection('');
-      
-      if (onSuccess) {
-        onSuccess();
-      }
-    } catch (error: any) {
-      console.error('Upload error:', error);
-      toast.error(`Upload failed: ${error.message}`);
-    } finally {
-      setUploading(false);
     }
+    
+    setUploading(false);
   };
 
   const removeFile = (index: number) => {
@@ -359,6 +402,22 @@ export function ImageUpload({ showConfirmation, onSuccess }: ImageUploadProps) {
 
         {(uploadMode === 'image' || uploadMode === 'folder') && (
           <>
+            {/* Review Mode Toggle */}
+            <div className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id="reviewMode"
+                  checked={enableReviewMode}
+                  onChange={(e) => setEnableReviewMode(e.target.checked)}
+                  className="rounded"
+                />
+                <Label htmlFor="reviewMode" className="text-white">
+                  Enable review mode (preview before saving)
+                </Label>
+              </div>
+            </div>
+
             <div>
               <Label htmlFor="product-type" className="text-lg font-semibold">Product Type</Label>
               <Select value={productType} onValueChange={setProductType}>

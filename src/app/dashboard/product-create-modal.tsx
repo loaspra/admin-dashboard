@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Button } from "@/components/ui/button";
 import { ImageUpload } from './image-upload';
 import ConfirmationDialog from "@/components/ui/confirmation-dialog";
+import { ProductReviewModal } from './product-review-modal';
 import { cn } from '@/app/lib/utils';
 import { Plus, X } from 'lucide-react';
 
@@ -18,6 +19,8 @@ export function ProductCreateModal({ isOpen, onClose }: ProductCreateModalProps)
   const [confirmationMessage, setConfirmationMessage] = useState("");
   const [confirmationTitle, setConfirmationTitle] = useState("");
   const [confirmationAction, setConfirmationAction] = useState<() => void>(() => {});
+  const [productsForReview, setProductsForReview] = useState<any[]>([]);
+  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
 
   // Prevent body scrolling when modal is open
   useEffect(() => {
@@ -41,6 +44,76 @@ export function ProductCreateModal({ isOpen, onClose }: ProductCreateModalProps)
 
   const handleConfirmAction = () => {
     confirmationAction();
+  };
+
+  const handleProductsForReview = (products: any[]) => {
+    setProductsForReview(products);
+    setCurrentReviewIndex(0);
+  };
+
+  const handleSaveReviewedProduct = async (productData: any) => {
+    try {
+      const response = await fetch('/api/products/review', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ productData }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save product');
+      }
+
+      // Move to next product or close if this was the last one
+      if (currentReviewIndex < productsForReview.length - 1) {
+        setCurrentReviewIndex(currentReviewIndex + 1);
+      } else {
+        // All products reviewed
+        setProductsForReview([]);
+        setCurrentReviewIndex(0);
+        onClose();
+      }
+    } catch (error) {
+      console.error('Error saving product:', error);
+      throw error;
+    }
+  };
+
+  const handleNextProduct = () => {
+    console.log('handleNextProduct called', { 
+      currentIndex: currentReviewIndex, 
+      totalProducts: productsForReview.length 
+    });
+    if (currentReviewIndex < productsForReview.length - 1) {
+      setCurrentReviewIndex(currentReviewIndex + 1);
+    }
+  };
+
+  const handlePreviousProduct = () => {
+    console.log('handlePreviousProduct called', { 
+      currentIndex: currentReviewIndex, 
+      totalProducts: productsForReview.length 
+    });
+    if (currentReviewIndex > 0) {
+      setCurrentReviewIndex(currentReviewIndex - 1);
+    }
+  };
+
+  const handleRejectProduct = () => {
+    // Move to next product or close if this was the last one
+    if (currentReviewIndex < productsForReview.length - 1) {
+      setCurrentReviewIndex(currentReviewIndex + 1);
+    } else {
+      // All products processed
+      setProductsForReview([]);
+      setCurrentReviewIndex(0);
+    }
+  };
+
+  const closeReviewModal = () => {
+    setProductsForReview([]);
+    setCurrentReviewIndex(0);
   };
 
   return (
@@ -67,6 +140,7 @@ export function ProductCreateModal({ isOpen, onClose }: ProductCreateModalProps)
             <ImageUpload
               showConfirmation={showConfirmation}
               onSuccess={() => onClose()}
+              onProductsForReview={handleProductsForReview}
             />
           </div>
             
@@ -81,15 +155,37 @@ export function ProductCreateModal({ isOpen, onClose }: ProductCreateModalProps)
             </Button>
           </DialogFooter>
         </DialogContent>
-      </Dialog>
+      </Dialog>      <ConfirmationDialog
+        isOpen={confirmationOpen}
+        onClose={() => setConfirmationOpen(false)}
+        onConfirm={handleConfirmAction}
+        title={confirmationTitle}
+        description={confirmationMessage}
+      />
 
-        <ConfirmationDialog
-          isOpen={confirmationOpen}
-          onClose={() => setConfirmationOpen(false)}
-          onConfirm={handleConfirmAction}
-          title={confirmationTitle}
-          description={confirmationMessage}
-        />
-      </>
-    );
-} 
+      {/* Product Review Modal */}
+      {productsForReview.length > 0 && (
+        <>
+          {console.log('Rendering ProductReviewModal with:', {
+            currentIndex: currentReviewIndex,
+            totalProducts: productsForReview.length,
+            hasNextFunction: !!handleNextProduct,
+            hasPreviousFunction: !!handlePreviousProduct,
+            productName: productsForReview[currentReviewIndex]?.name
+          })}
+          <ProductReviewModal
+            isOpen={true}
+            onClose={closeReviewModal}
+            productData={productsForReview[currentReviewIndex]}
+            onSave={handleSaveReviewedProduct}
+            onReject={handleRejectProduct}
+            currentIndex={currentReviewIndex}
+            totalProducts={productsForReview.length}
+            onNext={handleNextProduct}
+            onPrevious={handlePreviousProduct}
+          />
+        </>
+      )}
+    </>
+  );
+}
