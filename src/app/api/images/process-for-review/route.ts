@@ -69,24 +69,29 @@ export async function POST(request: NextRequest) {
       categoriesData = await fetchCategoriesAndCollections();
     }
 
-    // Process only the first file for review (you can extend this for multiple files)
-    const file = validImageFiles[0];
-    const buffer = Buffer.from(await file.arrayBuffer());
+    // Process all files for review
+    const allProductsData = [];
+    
+    for (const file of validImageFiles) {
+      const buffer = Buffer.from(await file.arrayBuffer());
 
-    // Process image for review instead of saving directly
-    const productData = await ImageService.processImageForReview(
-      buffer,
-      file.name,
-      productType,
-      categoryId || undefined,
-      collectionId || undefined,
-      categoriesData || undefined,
-    );
+      // Process each image for review
+      const productData = await ImageService.processImageForReview(
+        buffer,
+        file.name,
+        productType,
+        categoryId || undefined,
+        collectionId || undefined,
+        categoriesData || undefined,
+      );
+      
+      allProductsData.push(productData);
+    }
 
     return NextResponse.json({
       success: true,
-      productData: productData,
-      message: "Image processed for review",
+      productsData: allProductsData,
+      message: `${allProductsData.length} images processed for review`,
     });
   } catch (error) {
     console.error("Error processing image for review:", error);

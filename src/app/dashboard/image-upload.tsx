@@ -278,10 +278,16 @@ export function ImageUpload({ showConfirmation, onSuccess, onProductsForReview }
 
         const data = await response.json();
 
-        if (enableReviewMode && data.productData && onProductsForReview) {
-          // Pass data to review modal
-          onProductsForReview([data.productData]);
-          toast.success('Image processed! Please review the product data.');
+        if (enableReviewMode && onProductsForReview) {
+          // Handle both single product (backward compatibility) and multiple products
+          const productsToReview = data.productsData || (data.productData ? [data.productData] : []);
+          
+          if (productsToReview.length > 0) {
+            onProductsForReview(productsToReview);
+            toast.success(`${productsToReview.length} image(s) processed! Please review the product data.`);
+          } else {
+            toast.error('No products were processed for review.');
+          }
         } else {
           // Normal flow - direct save
           toast.success(`Successfully processed ${files.length} image(s).`);

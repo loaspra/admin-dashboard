@@ -190,49 +190,47 @@ export function ProductReviewModal({
                 Review Product Data
               </DialogTitle>
               
-              {/* Navigation Controls - Always show for debugging */}
-              <div className="flex items-center gap-3">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={onPrevious}
-                  disabled={!onPrevious || currentIndex === 0}
-                  className="bg-slate-700/50 border-slate-600 hover:bg-slate-600 text-white disabled:opacity-50"
-                  title="Previous product (←)"
-                >
-                  <ChevronLeft className="h-5 w-5" />
-                  <span className="hidden sm:inline ml-1">Prev</span>
-                </Button>
-                
-                <div className="flex flex-col items-center gap-1 px-2">
-                  <span className="text-sm text-white/90 font-medium">
-                    {currentIndex + 1} of {totalProducts}
-                  </span>
-                  {/* Debug info */}
-                  <span className="text-xs text-yellow-400">
-                    Debug: {onNext ? '✓' : '✗'}Next {onPrevious ? '✓' : '✗'}Prev
-                  </span>
-                  {/* Progress bar */}
-                  <div className="w-20 h-2 bg-slate-700 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-gradient-to-r from-primary to-blue-500 transition-all duration-300"
-                      style={{ width: `${((currentIndex + 1) / totalProducts) * 100}%` }}
-                    />
+              {/* Navigation Controls - Show when multiple products */}
+              {totalProducts > 1 && (
+                <div className="flex items-center gap-3">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={onPrevious}
+                    disabled={!onPrevious || currentIndex === 0}
+                    className="bg-slate-700/50 border-slate-600 hover:bg-slate-600 text-white disabled:opacity-50"
+                    title="Previous product (←)"
+                  >
+                    <ChevronLeft className="h-5 w-5" />
+                    <span className="hidden sm:inline ml-1">Prev</span>
+                  </Button>
+                  
+                  <div className="flex flex-col items-center gap-1 px-2">
+                    <span className="text-sm text-white/90 font-medium">
+                      {currentIndex + 1} of {totalProducts}
+                    </span>
+                    {/* Progress bar */}
+                    <div className="w-20 h-2 bg-slate-700 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-primary to-blue-500 transition-all duration-300"
+                        style={{ width: `${((currentIndex + 1) / totalProducts) * 100}%` }}
+                      />
+                    </div>
                   </div>
+                  
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={onNext}
+                    disabled={!onNext || currentIndex === totalProducts - 1}
+                    className="bg-slate-700/50 border-slate-600 hover:bg-slate-600 text-white disabled:opacity-50"
+                    title="Next product (→)"
+                  >
+                    <span className="hidden sm:inline mr-1">Next</span>
+                    <ChevronRight className="h-5 w-5" />
+                  </Button>
                 </div>
-                
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={onNext}
-                  disabled={!onNext || currentIndex === totalProducts - 1}
-                  className="bg-slate-700/50 border-slate-600 hover:bg-slate-600 text-white disabled:opacity-50"
-                  title="Next product (→)"
-                >
-                  <span className="hidden sm:inline mr-1">Next</span>
-                  <ChevronRight className="h-5 w-5" />
-                </Button>
-              </div>
+              )}
             </div>
           </motion.div>
         </DialogHeader>
@@ -248,7 +246,7 @@ export function ProductReviewModal({
           )}
           
           {/* Image Preview */}
-          <motion.div 
+          <motion.div
             className="space-y-4"
             key={`image-${currentIndex}`}
             initial={{ opacity: 0, x: -20 }}
@@ -256,9 +254,9 @@ export function ProductReviewModal({
             transition={{ duration: 0.2 }}
           >
             <Label className="text-lg font-semibold text-white">Image Preview</Label>
-            <div className="aspect-square bg-slate-800 rounded-lg overflow-hidden">
-              <img 
-                src={editedData.imageUrl} 
+            <div className="aspect-square bg-slate-800 rounded-lg overflow-hidden max-w-xs mx-auto">
+              <img
+                src={editedData.imageUrl}
                 alt={editedData.name}
                 className="w-full h-full object-cover"
               />

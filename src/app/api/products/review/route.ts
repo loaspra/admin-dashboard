@@ -26,43 +26,68 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { productData } = body;
 
+    console.log('Received product data:', JSON.stringify(productData, null, 2));
+
     if (!productData) {
       return NextResponse.json({ error: 'Product data is required' }, { status: 400 });
     }
+
+    // Validate required fields
+    if (!productData.id || !productData.name || !productData.productType) {
+      return NextResponse.json({
+        error: 'Missing required fields: id, name, or productType'
+      }, { status: 400 });
+    }
+
+    console.log('Creating product with ID:', productData.id);
 
     // Save the product to the database
     const product = await prisma.product.create({
       data: {
         id: productData.id,
         name: productData.name,
-        description: productData.description,
-        price: productData.price,
+        description: productData.description || '',
+        price: productData.price || 0,
         images: [productData.imageUrl],
-        stock: productData.stock,
-        tags: productData.tags,
+        stock: productData.stock || 1,
+        tags: productData.tags || [],
         productType: productData.productType,
         createdAt: new Date(),
         updatedAt: new Date(),
-        featured: productData.premium,
+        featured: productData.premium || false,
         isCustomizable: true,
-        categoryId: await getOrCreateCategoryId(productData.category),
-        collectionId: await getOrCreateCollectionId(productData.category, productData.collection),
+        categoryId: await getOrCreateCategoryId(productData.category || 'general'),
+        collectionId: await getOrCreateCollectionId(productData.category || 'general', productData.collection),
       },
     });
+
+    console.log('Product created successfully:', product.id);
 
     // Create the product type specific details
     await createProductTypeDetails(product.id, productData);
 
-    return NextResponse.json({ 
-      success: true, 
+    console.log('Product type details created successfully');
+
+    return NextResponse.json({
+      success: true,
       message: 'Product saved successfully',
-      productId: product.id 
+      productId: product.id
     });
 
   } catch (error) {
     console.error('Error saving reviewed product:', error);
+    
+    // More detailed error logging
+    if (error instanceof Error) {
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
+    }
+    
     return NextResponse.json(
-      { error: 'Failed to save product' },
+      {
+        error: 'Failed to save product',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   }
@@ -75,17 +100,28 @@ async function getOrCreateCategoryId(categoryName: string): Promise<string> {
   });
 
   if (!category) {
-    const categoriesCount = await prisma.category.count();
-    const newCategoryId = `cat_${(categoriesCount + 1).toString().padStart(3, '0')}`;
+    // Use UUID to avoid conflicts
+    const newCategoryId = `cat_${uuidv4().substring(0, 8)}`;
     
-    category = await prisma.category.create({
-      data: {
-        id: newCategoryId,
-        name: categoryName.toLowerCase(),
-        description: `${categoryName} category`,
-        createdAt: new Date()
+    try {
+      category = await prisma.category.create({
+        data: {
+          id: newCategoryId,
+          name: categoryName.toLowerCase(),
+          description: `${categoryName} category`,
+          createdAt: new Date()
+        }
+      });
+    } catch (error) {
+      // If creation fails due to duplicate, try to find it again
+      category = await prisma.category.findFirst({
+        where: { name: categoryName.toLowerCase() }
+      });
+      
+      if (!category) {
+        throw error; // Re-throw if it's not a duplicate issue
       }
-    });
+    }
   }
 
   return category.id;
@@ -97,25 +133,39 @@ async function getOrCreateCollectionId(categoryName: string, collectionName: str
   const categoryId = await getOrCreateCategoryId(categoryName);
   
   let collection = await prisma.collection.findFirst({
-    where: { 
+    where: {
       name: collectionName.toLowerCase(),
       categoryId: categoryId
     }
   });
 
   if (!collection) {
-    const collectionsCount = await prisma.collection.count();
-    const newCollectionId = `col_${(collectionsCount + 1).toString().padStart(3, '0')}`;
+    // Use UUID to avoid conflicts
+    const newCollectionId = `col_${uuidv4().substring(0, 8)}`;
     
-    collection = await prisma.collection.create({
-      data: {
-        id: newCollectionId,
-        name: collectionName.toLowerCase(),
-        description: `${collectionName} collection`,
-        categoryId: categoryId,
-        createdAt: new Date()
+    try {
+      collection = await prisma.collection.create({
+        data: {
+          id: newCollectionId,
+          name: collectionName.toLowerCase(),
+          description: `${collectionName} collection`,
+          categoryId: categoryId,
+          createdAt: new Date()
+        }
+      });
+    } catch (error) {
+      // If creation fails due to duplicate, try to find it again
+      collection = await prisma.collection.findFirst({
+        where: {
+          name: collectionName.toLowerCase(),
+          categoryId: categoryId
+        }
+      });
+      
+      if (!collection) {
+        throw error; // Re-throw if it's not a duplicate issue
       }
-    });
+    }
   }
 
   return collection.id;
@@ -125,6 +175,7 @@ async function createProductTypeDetails(productId: string, productData: ProductR
   const metadata = productData.metadata || {};
   
   switch (productData.productType) {
+    case 'gorra':
     case 'cap':
       await prisma.capDetails.create({
         data: {
@@ -140,6 +191,7 @@ async function createProductTypeDetails(productId: string, productData: ProductR
       });
       break;
       
+    case 'polo':
     case 'poloShirt':
       await prisma.poloShirtDetails.create({
         data: {
@@ -186,6 +238,7 @@ async function createProductTypeDetails(productId: string, productData: ProductR
       });
       break;
       
+    case 'polera':
     case 'sweatshirt':
       await prisma.sweatshirtDetails.create({
         data: {
@@ -202,6 +255,7 @@ async function createProductTypeDetails(productId: string, productData: ProductR
       });
       break;
       
+    case 'termo':
     case 'thermos':
       await prisma.thermosDetails.create({
         data: {
@@ -215,6 +269,11 @@ async function createProductTypeDetails(productId: string, productData: ProductR
           productId: productId,
         }
       });
+      break;
+      
+    default:
+      console.log(`No specific details handler for product type: ${productData.productType}`);
+      // Don't throw error, just continue without creating type-specific details
       break;
   }
 }
