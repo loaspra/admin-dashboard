@@ -6,7 +6,7 @@ import { supabaseAdmin } from './supabase';
 // Initialize Supabase client
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-const supabase = createClient(supabaseUrl, supabaseKey);
+// const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function getRecentOrders(page = 0, pageSize = 10) {
   try {
@@ -37,6 +37,12 @@ export async function getRecentOrders(page = 0, pageSize = 10) {
           // Skip if supabaseAdmin is not available (client-side)
           if (!supabaseAdmin) {
             console.log('supabaseAdmin not available, skipping user data enhancement');
+            return order;
+          }
+
+          // Skip if userId is null or not a string
+          if (!order.userId || typeof order.userId !== 'string') {
+            console.log(`Invalid userId for order: ${order.id}`);
             return order;
           }
 

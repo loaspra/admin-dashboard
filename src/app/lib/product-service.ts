@@ -1,4 +1,3 @@
-import { Prisma } from '@prisma/client';
 import { prisma } from './prisma';
 
 // Use the correct model field names as they appear in the Prisma client
