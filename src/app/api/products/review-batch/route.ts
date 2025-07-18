@@ -23,68 +23,94 @@ interface ProductReviewData {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { productData } = body;
+    const { productsData } = body;
 
-    console.log('Received product data:', JSON.stringify(productData, null, 2));
+    console.log('Received batch products data:', productsData?.length, 'products');
 
-    if (!productData) {
-      return NextResponse.json({ error: 'Product data is required' }, { status: 400 });
+    if (!productsData || !Array.isArray(productsData) || productsData.length === 0) {
+      return NextResponse.json({ error: 'Products data array is required' }, { status: 400 });
     }
 
-    // Validate required fields
-    if (!productData.id || !productData.name || !productData.productType) {
-      return NextResponse.json({
-        error: 'Missing required fields: id, name, or productType'
-      }, { status: 400 });
+    const results = [];
+    const errors = [];
+
+    // Process each product
+    for (let i = 0; i < productsData.length; i++) {
+      const productData = productsData[i];
+      
+      try {
+        // Validate required fields
+        if (!productData.id || !productData.name || !productData.productType) {
+          errors.push({
+            index: i,
+            error: 'Missing required fields: id, name, or productType'
+          });
+          continue;
+        }
+
+        console.log(`Creating product ${i + 1}/${productsData.length} with ID:`, productData.id);
+
+        // Save the product to the database
+        const product = await prisma.product.create({
+          data: {
+            id: productData.id,
+            name: productData.name,
+            description: productData.description || '',
+            price: productData.price || 0,
+            images: [productData.imageUrl],
+            stock: productData.stock || 1,
+            tags: productData.tags || [],
+            productType: productData.productType,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            featured: productData.premium || false,
+            isCustomizable: true,
+            categoryId: await getOrCreateCategoryId(productData.category || 'general'),
+            collectionId: await getOrCreateCollectionId(productData.category || 'general', productData.collection),
+          },
+        });
+
+        // Create the product type specific details
+        await createProductTypeDetails(product.id, productData);
+
+        results.push({
+          index: i,
+          productId: product.id,
+          success: true
+        });
+
+        console.log(`Product ${i + 1}/${productsData.length} created successfully:`, product.id);
+
+      } catch (error) {
+        console.error(`Error saving product ${i + 1}:`, error);
+        errors.push({
+          index: i,
+          error: error instanceof Error ? error.message : 'Unknown error'
+        });
+      }
     }
 
-    console.log('Creating product with ID:', productData.id);
-
-    // Save the product to the database
-    const product = await prisma.product.create({
-      data: {
-        id: productData.id,
-        name: productData.name,
-        description: productData.description || '',
-        price: productData.price || 0,
-        images: [productData.imageUrl],
-        stock: productData.stock || 1,
-        tags: productData.tags || [],
-        productType: productData.productType,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        featured: productData.premium || false,
-        isCustomizable: true,
-        categoryId: await getOrCreateCategoryId(productData.category || 'general'),
-        collectionId: await getOrCreateCollectionId(productData.category || 'general', productData.collection),
-      },
-    });
-
-    console.log('Product created successfully:', product.id);
-
-    // Create the product type specific details
-    await createProductTypeDetails(product.id, productData);
-
-    console.log('Product type details created successfully');
+    const successCount = results.length;
+    const errorCount = errors.length;
 
     return NextResponse.json({
       success: true,
-      message: 'Product saved successfully',
-      productId: product.id
+      message: `Batch save completed: ${successCount} successful, ${errorCount} failed`,
+      results,
+      errors,
+      summary: {
+        total: productsData.length,
+        successful: successCount,
+        failed: errorCount
+      }
     });
 
   } catch (error) {
-    console.error('Error saving reviewed product:', error);
-    
-    // More detailed error logging
-    if (error instanceof Error) {
-      console.error('Error message:', error.message);
-      console.error('Error stack:', error.stack);
-    }
+    console.error('Error in batch save:', error);
     
     return NextResponse.json(
       {
-        error: 'Failed to save product',
+        error: 'Failed to save products batch',
         details: error instanceof Error ? error.message : 'Unknown error'
       },
       { status: 500 }
@@ -92,7 +118,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Helper functions
+// Helper functions (copied from single review route)
 async function getOrCreateCategoryId(categoryName: string): Promise<string> {
   let category = await prisma.category.findFirst({
     where: { name: categoryName.toLowerCase() }

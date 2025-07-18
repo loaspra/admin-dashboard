@@ -286,6 +286,7 @@ export function ImageUpload({ showConfirmation, onSuccess, onProductsForReview }
             onProductsForReview(productsToReview);
             toast.success(`${productsToReview.length} image(s) processed! Please review the product data.`);
           } else {
+            // No products were processed for review.
             toast.error('No products were processed for review.');
           }
         } else {

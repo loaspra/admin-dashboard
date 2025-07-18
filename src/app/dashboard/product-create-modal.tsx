@@ -21,6 +21,8 @@ export function ProductCreateModal({ isOpen, onClose }: ProductCreateModalProps)
   const [confirmationAction, setConfirmationAction] = useState<() => void>(() => {});
   const [productsForReview, setProductsForReview] = useState<any[]>([]);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
+  // Store edited data for each product to maintain changes during navigation
+  const [editedProductsData, setEditedProductsData] = useState<{[key: number]: any}>({});
 
   // Prevent body scrolling when modal is open
   useEffect(() => {
@@ -49,35 +51,48 @@ export function ProductCreateModal({ isOpen, onClose }: ProductCreateModalProps)
   const handleProductsForReview = (products: any[]) => {
     setProductsForReview(products);
     setCurrentReviewIndex(0);
+    // Initialize edited data for each product
+    const initialEditedData: {[key: number]: any} = {};
+    products.forEach((product, index) => {
+      initialEditedData[index] = { ...product };
+    });
+    setEditedProductsData(initialEditedData);
   };
 
-  const handleSaveReviewedProduct = async (productData: any) => {
+  const handleSaveAllProducts = async () => {
     try {
-      const response = await fetch('/api/products/review', {
+      // Save all products at once
+      const allProductsData = Object.values(editedProductsData);
+      
+      const response = await fetch('/api/products/review-batch', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ productData }),
+        body: JSON.stringify({ productsData: allProductsData }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to save product');
+        throw new Error('Failed to save products');
       }
 
-      // Move to next product or close if this was the last one
-      if (currentReviewIndex < productsForReview.length - 1) {
-        setCurrentReviewIndex(currentReviewIndex + 1);
-      } else {
-        // All products reviewed
-        setProductsForReview([]);
-        setCurrentReviewIndex(0);
-        onClose();
-      }
+      // Close modal after saving all
+      setProductsForReview([]);
+      setEditedProductsData({});
+      setCurrentReviewIndex(0);
+      onClose();
     } catch (error) {
-      console.error('Error saving product:', error);
+      console.error('Error saving products:', error);
       throw error;
     }
+  };
+
+  const handleUpdateProductData = (updatedData: any) => {
+    // Update the edited data for the current product without saving
+    setEditedProductsData(prev => ({
+      ...prev,
+      [currentReviewIndex]: updatedData
+    }));
   };
 
   const handleNextProduct = () => {
@@ -101,18 +116,27 @@ export function ProductCreateModal({ isOpen, onClose }: ProductCreateModalProps)
   };
 
   const handleRejectProduct = () => {
+    // Remove the current product from edited data
+    setEditedProductsData(prev => {
+      const newData = { ...prev };
+      delete newData[currentReviewIndex];
+      return newData;
+    });
+
     // Move to next product or close if this was the last one
     if (currentReviewIndex < productsForReview.length - 1) {
       setCurrentReviewIndex(currentReviewIndex + 1);
     } else {
       // All products processed
       setProductsForReview([]);
+      setEditedProductsData({});
       setCurrentReviewIndex(0);
     }
   };
 
   const closeReviewModal = () => {
     setProductsForReview([]);
+    setEditedProductsData({});
     setCurrentReviewIndex(0);
   };
 
@@ -171,18 +195,21 @@ export function ProductCreateModal({ isOpen, onClose }: ProductCreateModalProps)
             totalProducts: productsForReview.length,
             hasNextFunction: !!handleNextProduct,
             hasPreviousFunction: !!handlePreviousProduct,
-            productName: productsForReview[currentReviewIndex]?.name
+            productName: productsForReview[currentReviewIndex]?.name,
+            hasEditedData: !!editedProductsData[currentReviewIndex]
           })}
           <ProductReviewModal
             isOpen={true}
             onClose={closeReviewModal}
-            productData={productsForReview[currentReviewIndex]}
-            onSave={handleSaveReviewedProduct}
+            productData={editedProductsData[currentReviewIndex] || productsForReview[currentReviewIndex]}
+            onSave={handleSaveAllProducts}
+            onUpdate={handleUpdateProductData}
             onReject={handleRejectProduct}
             currentIndex={currentReviewIndex}
             totalProducts={productsForReview.length}
             onNext={handleNextProduct}
             onPrevious={handlePreviousProduct}
+            isBatchMode={true}
           />
         </>
       )}

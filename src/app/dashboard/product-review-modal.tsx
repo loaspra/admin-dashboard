@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/app/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,8 +10,10 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from '@/app/lib/utils';
 import { motion } from 'framer-motion';
-import { Check, X, Edit3, Plus, Trash2, Save, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Edit3, Plus, Trash2, Save, ChevronLeft, ChevronRight } from 'lucide-react';
 import { toast } from 'sonner';
+import { ImageUtils } from '@/app/lib/image-utils';
+import { ConfirmationDialog } from '@/components/ui/confirmation-dialog';
 
 interface ProductData {
   id: string;
@@ -30,17 +32,30 @@ interface ProductData {
   productType: string;
 }
 
+interface Category {
+  id: string;
+  name: string;
+}
+
+interface Collection {
+  id: string;
+  name: string;
+  categoryId: string;
+}
+
 interface ProductReviewModalProps {
   isOpen: boolean;
   onClose: () => void;
   productData: ProductData;
   onSave: (updatedData: ProductData) => Promise<void>;
+  onUpdate?: (updatedData: ProductData) => void; // New prop for real-time updates
   onReject: () => void;
   // New props for navigation
   currentIndex?: number;
   totalProducts?: number;
   onNext?: () => void;
   onPrevious?: () => void;
+  isBatchMode?: boolean; // New prop to indicate batch operations
 }
 
 export function ProductReviewModal({ 
@@ -48,32 +63,52 @@ export function ProductReviewModal({
   onClose, 
   productData, 
   onSave, 
+  onUpdate,
   onReject,
   currentIndex = 0,
   totalProducts = 1,
   onNext,
-  onPrevious
+  onPrevious,
+  isBatchMode = false
 }: ProductReviewModalProps) {
   const [editedData, setEditedData] = useState<ProductData>(productData);
   const [newTag, setNewTag] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
-  // Update edited data when productData changes
+  // Existing categories and collections for validation
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [collections, setCollections] = useState<Collection[]>([]);
+
+  // Update edited data when productData changes (only if not from navigation)
   useEffect(() => {
     console.log('Product data changed:', {
       currentIndex,
       totalProducts,
       hasOnNext: !!onNext,
       hasOnPrevious: !!onPrevious,
-      productName: productData.name
+      productName: productData.name,
+      isBatchMode
     });
-    setIsNavigating(true);
-    setEditedData(productData);
-    // Small delay to show navigation animation
-    const timer = setTimeout(() => setIsNavigating(false), 150);
-    return () => clearTimeout(timer);
-  }, [productData, currentIndex, totalProducts, onNext, onPrevious]);
+    
+    // Only reset editedData if this is the initial load or not in batch mode
+    // In batch mode, we preserve edits during navigation
+    if (!isBatchMode) {
+      setIsNavigating(true);
+      setEditedData(productData);
+      // Small delay to show navigation animation
+      const timer = setTimeout(() => setIsNavigating(false), 150);
+      return () => clearTimeout(timer);
+    } else {
+      // In batch mode, only update if editedData is significantly different
+      // This prevents resetting user edits during navigation
+      setEditedData(productData);
+      setIsNavigating(true);
+      const timer = setTimeout(() => setIsNavigating(false), 150);
+      return () => clearTimeout(timer);
+    }
+  }, [productData, currentIndex, totalProducts, onNext, onPrevious, isBatchMode]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -99,28 +134,79 @@ export function ProductReviewModal({
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, currentIndex, totalProducts, onNext, onPrevious]);
 
+  // Fetch categories and collections once on mount
+  useEffect(() => {
+    const fetchCategoriesAndCollections = async () => {
+      try {
+        const categoriesRes = await fetch('/api/categories');
+        if (categoriesRes.ok) {
+          const catData = await categoriesRes.json();
+          setCategories(catData);
+        }
+        const collectionsRes = await fetch('/api/collections');
+        if (collectionsRes.ok) {
+          const colData = await collectionsRes.json();
+          setCollections(colData);
+        }
+      } catch (err) {
+        console.error('Failed to fetch categories/collections', err);
+      }
+    };
+
+    fetchCategoriesAndCollections();
+  }, []);
+
+  // Determine validation flags for highlighting
+  const isExistingCategory = useMemo(
+    () => categories.some(cat => cat.name.toLowerCase() === editedData.category.toLowerCase()),
+    [categories, editedData.category]
+  );
+
+  const isExistingCollection = useMemo(
+    () => collections.some(col => col.name.toLowerCase() === editedData.collection.toLowerCase()),
+    [collections, editedData.collection]
+  );
+
   const handleInputChange = (field: keyof ProductData, value: any) => {
-    setEditedData(prev => ({
-      ...prev,
+    const updatedData = {
+      ...editedData,
       [field]: value
-    }));
+    };
+    setEditedData(updatedData);
+    
+    // Call onUpdate to persist changes in batch mode
+    if (onUpdate) {
+      onUpdate(updatedData);
+    }
   };
 
   const addTag = () => {
     if (newTag.trim() && !editedData.tags.includes(newTag.trim())) {
-      setEditedData(prev => ({
-        ...prev,
-        tags: [...prev.tags, newTag.trim()]
-      }));
+      const updatedData = {
+        ...editedData,
+        tags: [...editedData.tags, newTag.trim()]
+      };
+      setEditedData(updatedData);
       setNewTag('');
+      
+      // Call onUpdate to persist changes in batch mode
+      if (onUpdate) {
+        onUpdate(updatedData);
+      }
     }
   };
 
   const removeTag = (tagToRemove: string) => {
-    setEditedData(prev => ({
-      ...prev,
-      tags: prev.tags.filter(tag => tag !== tagToRemove)
-    }));
+    const updatedData = {
+      ...editedData,
+      tags: editedData.tags.filter(tag => tag !== tagToRemove)
+    };
+    setEditedData(updatedData);
+    
+    // Call onUpdate to persist changes in batch mode
+    if (onUpdate) {
+      onUpdate(updatedData);
+    }
   };
 
   const handleSave = async () => {
@@ -137,19 +223,38 @@ export function ProductReviewModal({
     }
   };
 
+  const handleSaveClick = () => {
+    // Show confirmation dialog only for batch mode (COMMIT CHANGES)
+    if (isBatchMode) {
+      setShowConfirmDialog(true);
+    } else {
+      handleSave();
+    }
+  };
+
+  const handleConfirmSave = () => {
+    setShowConfirmDialog(false);
+    handleSave();
+  };
+
   const handleReject = () => {
     onReject();
     onClose();
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className={cn(
-        "max-w-4xl max-h-[90vh]",
-        "backdrop-blur-xl border-none rounded-xl shadow-xl",
-        "bg-slate-900/95 dark:bg-slate-950/95 text-white",
-        "relative z-[95] flex flex-col overflow-hidden"
-      )}>
+    <>
+      <Dialog open={isOpen} onOpenChange={onClose} modal={true}>
+        <DialogContent 
+          className={cn(
+            "sm:max-w-4xl h-[90vh] p-0 overflow-hidden",
+            "backdrop-blur-xl border-none rounded-xl shadow-xl",
+            "bg-black/60 dark:bg-black/70 text-white",
+            "flex flex-col"
+          )}
+          onEscapeKeyDown={onClose}
+          onPointerDownOutside={onClose}
+        >
         {/* Large Navigation Arrows - Left */}
         {totalProducts > 1 && onPrevious && (
           <Button
@@ -256,7 +361,7 @@ export function ProductReviewModal({
             <Label className="text-lg font-semibold text-white">Image Preview</Label>
             <div className="aspect-square bg-slate-800 rounded-lg overflow-hidden max-w-xs mx-auto">
               <img
-                src={editedData.imageUrl}
+                src={ImageUtils.getPublicUrlFromStoragePath(editedData.imageUrl)}
                 alt={editedData.name}
                 className="w-full h-full object-cover"
               />
@@ -274,13 +379,12 @@ export function ProductReviewModal({
             {/* Product Name */}
             <div>
               <Label htmlFor="name" className="text-white">Product Name</Label>
-              <Input
-                id="name"
-                value={editedData.name}
-                onChange={(e) => handleInputChange('name', e.target.value)}
-                className="bg-slate-800/50 border-slate-600 text-white"
-              />
-            </div>
+                <Input
+                  id="name"
+                  value={editedData.name}
+                  onChange={(e) => handleInputChange('name', e.target.value)}
+                  className="bg-slate-800/50 text-white border-slate-600"
+                />            </div>
 
             {/* Description */}
             <div>
@@ -303,7 +407,7 @@ export function ProductReviewModal({
                   step="0.01"
                   value={editedData.price}
                   onChange={(e) => handleInputChange('price', parseFloat(e.target.value))}
-                  className="bg-slate-800/50 border-slate-600 text-white"
+                  className="bg-slate-800/50 text-white border-slate-600"
                 />
               </div>
               <div>
@@ -313,7 +417,7 @@ export function ProductReviewModal({
                   type="number"
                   value={editedData.stock}
                   onChange={(e) => handleInputChange('stock', parseInt(e.target.value))}
-                  className="bg-slate-800/50 border-slate-600 text-white"
+                  className="bg-slate-800/50 text-white border-slate-600"
                 />
               </div>
             </div>
@@ -326,7 +430,7 @@ export function ProductReviewModal({
                   id="category"
                   value={editedData.category}
                   onChange={(e) => handleInputChange('category', e.target.value)}
-                  className="bg-slate-800/50 border-slate-600 text-white"
+                  className={cn("bg-slate-800/50 text-white border-2", isExistingCategory ? "border-green-500" : "border-yellow-500")}
                 />
               </div>
               <div>
@@ -335,7 +439,7 @@ export function ProductReviewModal({
                   id="collection"
                   value={editedData.collection}
                   onChange={(e) => handleInputChange('collection', e.target.value)}
-                  className="bg-slate-800/50 border-slate-600 text-white"
+                  className={cn("bg-slate-800/50 text-white border-2", isExistingCollection ? "border-green-500" : "border-yellow-500")}
                 />
               </div>
             </div>
@@ -345,7 +449,7 @@ export function ProductReviewModal({
               <div>
                 <Label htmlFor="style" className="text-white">Style</Label>
                 <Select value={editedData.style} onValueChange={(value) => handleInputChange('style', value)}>
-                  <SelectTrigger className="bg-slate-800/50 border-slate-600 text-white">
+                  <SelectTrigger className="bg-slate-800/50 text-white border-slate-600">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -359,7 +463,7 @@ export function ProductReviewModal({
               <div>
                 <Label htmlFor="orientation" className="text-white">Orientation</Label>
                 <Select value={editedData.orientation} onValueChange={(value) => handleInputChange('orientation', value)}>
-                  <SelectTrigger className="bg-slate-800/50 border-slate-600 text-white">
+                  <SelectTrigger className="bg-slate-800/50 text-white border-slate-600">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -375,7 +479,7 @@ export function ProductReviewModal({
                   id="color"
                   value={editedData.color}
                   onChange={(e) => handleInputChange('color', e.target.value)}
-                  className="bg-slate-800/50 border-slate-600 text-white"
+                  className="bg-slate-800/50 text-white border-slate-600"
                 />
               </div>
             </div>
@@ -415,7 +519,7 @@ export function ProductReviewModal({
               value={newTag}
               onChange={(e) => setNewTag(e.target.value)}
               placeholder="Add new tag"
-              className="bg-slate-800/50 border-slate-600 text-white"
+              className="bg-slate-800/50 text-white border-slate-600"
               onKeyPress={(e) => e.key === 'Enter' && addTag()}
             />
             <Button
@@ -458,18 +562,30 @@ export function ProductReviewModal({
               </span>
             </Button>
             <Button
-              onClick={handleSave}
+              onClick={handleSaveClick}
               disabled={isLoading}
               className="relative overflow-hidden group bg-green-600 hover:bg-green-500 text-white"
             >
               <span className="relative z-10 flex items-center gap-2">
                 <Save className="h-4 w-4" />
-                {isLoading ? 'Saving...' : 'Save Product'}
+                {isLoading ? 'Saving...' : (isBatchMode ? 'COMMIT CHANGES' : 'Save Product')}
               </span>
             </Button>
           </div>
         </DialogFooter>
       </DialogContent>
     </Dialog>
+
+    <ConfirmationDialog
+      isOpen={showConfirmDialog}
+      onClose={() => setShowConfirmDialog(false)}
+      onConfirm={handleConfirmSave}
+      title="Commit All Changes?"
+      description={`You are about to commit changes for ${totalProducts} product${totalProducts > 1 ? 's' : ''}. This action cannot be undone. Are you sure you want to proceed?`}
+      confirmText="Commit Changes"
+      cancelText="Cancel"
+      variant="warning"
+    />
+    </>
   );
 }

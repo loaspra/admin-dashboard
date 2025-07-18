@@ -27,12 +27,11 @@ export async function uploadImage(
 
     if (error) throw error;
 
-    const {
-      data: { publicUrl },
-    } = supabaseAdmin.storage.from("images").getPublicUrl(storagePath);
-
-    // Return the actual Supabase public URL instead of custom format
-    return publicUrl;
+    // Generate custom format: /storage/products/productType/filename.ext
+    // Instead of full Supabase URL
+    const customUrl = `/storage/${storagePath}`;
+    
+    return customUrl;
   } catch (error) {
     console.error("Error uploading to Supabase:", error);
     throw error;

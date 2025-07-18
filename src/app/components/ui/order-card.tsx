@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/app/components/ui/card";
-import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -22,7 +14,8 @@ import { es } from 'date-fns/locale';
 import { EnhancedGlassCard } from '@/components/ui/enhanced-glass-card';
 import { motion } from 'framer-motion';
 import { cn } from '@/app/lib/utils';
-import { ShoppingBag, User, MapPin, Calendar, Instagram } from 'lucide-react';
+import { ShoppingBag, User, MapPin, Instagram } from 'lucide-react';
+import { ImageUtils } from '@/app/lib/image-utils';
 
 type OrderCardProps = {
   order: any;
@@ -53,28 +46,9 @@ const getStatusColor = (status: string) => {
 };
 
 // Helper function to fix image paths
+// Helper function to fix image paths
 const fixImagePath = (imagePath: string) => {
-  if (!imagePath) return '';
-  
-  // Check if the imagePath already includes the full URL
-  if (imagePath.startsWith('http')) {
-    return imagePath;
-  }
-  
-  // If path starts with /storage directly
-  if (imagePath.startsWith('/storage/')) {
-    return `http://localhost:8000/storage/v1/object/public/images${imagePath.replace('/storage', '')}`;
-  }
-  
-  // If path is for products/sticker path specifically (based on example)
-  if (imagePath.includes('products/sticker/')) {
-    // Handle case where path might or might not start with a slash
-    const normalizedPath = imagePath.startsWith('/') ? imagePath : `/${imagePath}`;
-    return `http://localhost:8000/storage/v1/object/public/images${normalizedPath.replace('/storage', '')}`;
-  }
-  
-  // General case - just append the full path prefix
-  return `http://localhost:8000/storage/v1/object/public/images/${imagePath}`;
+  return ImageUtils.getPublicUrlFromStoragePath(imagePath);
 };
 
 // Helper function to get the appropriate image for an order item

@@ -24,6 +24,17 @@ async function fetchCategoriesAndCollections(): Promise<
   return categoriesMap;
 }
 
+// Helper function to get category name by ID
+async function getCategoryNameById(categoryId: string): Promise<string> {
+  const { prisma } = await import("@/app/lib/prisma");
+  
+  const category = await prisma.category.findUnique({
+    where: { id: categoryId },
+  });
+  
+  return category?.name || "unknown";
+}
+
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
@@ -32,6 +43,8 @@ export async function POST(request: NextRequest) {
     const productType = formData.get("productType") as string | null;
     const categoryId = formData.get("categoryId") as string | null;
     const collectionId = formData.get("collectionId") as string | null;
+    const customCategory = formData.get("customCategory") as string | null;
+    const customCollection = formData.get("customCollection") as string | null;
     const useAiInference = formData.get("useAiInference") === "true";
 
     if (!productType) {
@@ -69,6 +82,23 @@ export async function POST(request: NextRequest) {
       categoriesData = await fetchCategoriesAndCollections();
     }
 
+    // Handle custom category/collection creation
+    let finalCategoryId = categoryId;
+    let finalCollectionId = collectionId;
+
+    if (customCategory && !useAiInference) {
+      // Create or get the custom category
+      finalCategoryId = await ImageService.getOrCreateCategoryId(customCategory);
+    }
+
+    if (customCollection && !useAiInference && finalCategoryId) {
+      // Create or get the custom collection
+      finalCollectionId = await ImageService.getOrCreateCollectionId(
+        customCategory || (await getCategoryNameById(finalCategoryId)),
+        customCollection
+      );
+    }
+
     // Process all files for review
     const allProductsData = [];
     
@@ -80,8 +110,8 @@ export async function POST(request: NextRequest) {
         buffer,
         file.name,
         productType,
-        categoryId || undefined,
-        collectionId || undefined,
+        finalCategoryId || undefined,
+        finalCollectionId || undefined,
         categoriesData || undefined,
       );
       

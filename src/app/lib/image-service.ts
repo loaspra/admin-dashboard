@@ -1,4 +1,3 @@
-import { createClient } from "@supabase/supabase-js";
 import { v4 as uuidv4 } from "uuid";
 import sharp from "sharp";
 import { GoogleGenerativeAI } from "@google/generative-ai";
@@ -34,11 +33,6 @@ function isValidProductType(type: string): type is ProductType {
     "thermos",
   ].includes(type);
 }
-
-// Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
 // Initialize Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!);
@@ -210,8 +204,8 @@ export class ImageService {
       // Determine what kind of categorization prompt to use
       let categorizationPrompt = "";
 
-      if (!providedCategoryId && !providedCollectionId) {
-        // Neither category nor collection provided - ask AI to choose from available categories
+      if (!providedCategoryId && !providedCollectionId && !isFromJson) {
+        // Neither category nor collection provided and not from JSON - ask AI to choose from available categories
         if (categoriesData) {
           categorizationPrompt = `
 - categoria: una de la categoria, debe de estar en el JSON de abajo
@@ -275,23 +269,40 @@ A continuación, se muestran las categorías disponibles, cada una tiene una lis
 ${JSON.stringify(Object.keys(categorias))}
 `;
         }
-      } else if (providedCategoryId && !providedCollectionId) {
-        // Category provided but not collection - ask AI to suggest only a collection
-        if (categoriesData && categoriesData[providedCategoryId]) {
-          categorizationPrompt = `
-- coleccion: una colección que pertenezca a la categoría "${providedCategoryId}". Puedes sugerir una de las siguientes o crear una nueva si ninguna es apropiada:
-${JSON.stringify(categoriesData[providedCategoryId].collections)}
+      } else if (providedCategoryId && !providedCollectionId && !isFromJson) {
+        /*
+          Se proporcionó una categoría pero no una colección.
+          Solo pediremos una colección al modelo Gemini si la categoría ya
+          tiene colecciones registradas. Esto evita solicitar inferencia
+          cuando el usuario acaba de crear una categoría nueva (por ejemplo
+          durante la subida de carpetas) que todavía no tiene colecciones y
+          asume que, en ese caso, el backend se encargará de asignar la
+          colección adecuada o dejarla vacía.
+        */
+        try {
+          // Buscar la categoría junto con sus colecciones existentes
+          const categoryRecord = await prisma.category.findUnique({
+            where: { id: providedCategoryId },
+            include: { Collection: true },
+          });
+
+          if (categoryRecord && categoryRecord.Collection.length > 0) {
+            const existingCollections = categoryRecord.Collection.map((c) => c.name);
+            categorizationPrompt = `
+- coleccion: una colección que pertenezca a la categoría "${categoryRecord.name}". Puedes sugerir una de las siguientes o crear una nueva si ninguna es apropiada:
+${JSON.stringify(existingCollections)}
 `;
-        } else {
-          categorizationPrompt = `
-- coleccion: una colección apropiada para la categoría "${providedCategoryId}". Sé creativo pero relevante.
-`;
+          } else {
+            // Categoría nueva o sin colecciones: no pedir inferencia
+            categorizationPrompt = "";
+          }
+        } catch (err) {
+          // En caso de error al consultar la BD, no pedimos inferencia para evitar comportamientos inesperados
+          console.error("Error obteniendo colecciones de la categoría:", err);
+          categorizationPrompt = "";
         }
-      } else if (isFromJson) {
-        // For JSON files, we already have the categorization from the JSON
-        categorizationPrompt = "";
       } else {
-        // Both category and collection provided or it's from JSON - don't ask for categorization
+        // Category and/or collection provided, or it's from JSON - don't ask for categorization
         categorizationPrompt = "";
       }
 
@@ -653,6 +664,37 @@ Mas contexto: las imagenes son planchas de stickers, pueden tener diferentes tem
       // Generate product ID
       const productId = uuidv4();
 
+      // Resolve category and collection names
+      let categoryName = metadata.categoria || "objetos";
+      let collectionName = metadata.coleccion || "";
+
+      // If user provided categoryId or collectionId, get their names instead of AI-inferred ones
+      if (categoryId) {
+        try {
+          const category = await prisma.category.findUnique({
+            where: { id: categoryId },
+          });
+          if (category) {
+            categoryName = category.name;
+          }
+        } catch (error) {
+          console.error("Error fetching category name:", error);
+        }
+      }
+
+      if (collectionId) {
+        try {
+          const collection = await prisma.collection.findUnique({
+            where: { id: collectionId },
+          });
+          if (collection) {
+            collectionName = collection.name;
+          }
+        } catch (error) {
+          console.error("Error fetching collection name:", error);
+        }
+      }
+
       // Return product data for review instead of saving
       return {
         id: productId,
@@ -660,8 +702,8 @@ Mas contexto: las imagenes son planchas de stickers, pueden tener diferentes tem
         description: metadata.tags?.join(", ") || "No description",
         price: metadata.premium ? 9.99 : 4.99,
         tags: metadata.tags || [],
-        category: metadata.categoria || "objetos",
-        collection: metadata.coleccion || "",
+        category: categoryName,
+        collection: collectionName,
         color: metadata.color || "various",
         style: metadata.estilo || "realista",
         orientation: metadata.orientacion || "horizontal",
@@ -717,7 +759,7 @@ Mas contexto: las imagenes son planchas de stickers, pueden tener diferentes tem
     );
   }
 
-  private static async getOrCreateCategoryId(
+  static async getOrCreateCategoryId(
     categoryName: string,
   ): Promise<string> {
     if (!categoryName) return "misc"; // Default category if none provided
@@ -835,7 +877,7 @@ Mas contexto: las imagenes son planchas de stickers, pueden tener diferentes tem
     return results;
   }
 
-  private static async getOrCreateCollectionId(
+  static async getOrCreateCollectionId(
     categoryName: string,
     collectionName: string,
   ): Promise<string | null> {
