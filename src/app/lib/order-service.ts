@@ -125,7 +125,7 @@ export async function getOrderById(id: string) {
 
     // Using Supabase Auth Admin API to get user data
     try {
-      const { data: userData, error } = await supabaseAdmin.auth.admin.getUserById(order.userId);
+      const { data: userData, error } = await supabaseAdmin.auth.admin.getUserById(order.userId as string);
 
       if (!error && userData && userData.user) {
         // Extract user metadata directly from the user object
